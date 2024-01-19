@@ -29,8 +29,6 @@ public class SwerveModule {
     private final boolean absoluteEncoderReversed;
     private final double absoluteEncoderOffsetRad;
 
-    
-
     private int encId;
 
 
@@ -68,7 +66,7 @@ public class SwerveModule {
 
 
 
-        //NEW CODE - Commented out configs. No longer needed(?)  instead you  use rotations  and do unit conversions where needed
+        //NEW CODE - Commented out configs. No longer needed(?)  instead you use rotations  and do unit conversions where needed
 
         // CANcoderConfiguration config = new CANcoderConfiguration();
         // // set units of the CANCoder to radians, with velocity being radians per second

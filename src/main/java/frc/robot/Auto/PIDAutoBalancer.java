@@ -36,6 +36,7 @@ public class PIDAutoBalancer extends Command {
 
     @Override
     public void execute() {
+
         double val = -MathUtil.clamp(
                 pidController.calculate(
                         drivetrainSubsystem.getPitchAsRotation2d().getDegrees(), 0), -.6, .6);
@@ -44,6 +45,7 @@ public class PIDAutoBalancer extends Command {
             val = -val;
             SmartDashboard.putNumber("Auto Val", val);
         }
+
         drivetrainSubsystem.drive(DriveConstants.kDriveKinematics.toSwerveModuleStates(
                 ChassisSpeeds.fromFieldRelativeSpeeds(-val, 0.0, 0.0, drivetrainSubsystem.getPose().getRotation())));
 
