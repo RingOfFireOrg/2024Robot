@@ -48,7 +48,8 @@ public class RobotContainer {
 
 
 
-    ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem));
+    ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient"));
+    //ledSubsystem.
 
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
@@ -96,20 +97,22 @@ public class RobotContainer {
     //return new PathPlannerAuto("Example Auto");
 
     
-    return new PPAutoBuilder2
-    (    
-      swerveSubsystem,
-      "meter1",
-      1,
-      1   
-    );
+    // return new PPAutoBuilder2
+    // (    
+    //   swerveSubsystem,
+    //   "1meter",
+    //   1,
+    //   1   
+    // );
+
+    return new PathPlannerAuto("Rotation");
 
 
     //return autoChooser.getSelected();  <- Selectable Auto Command
 
 
     // return new SequentialCommandGroup 
-    // (
+    // ( 
     //   //new HighCubeDrop(armSubsystem, outtakeTransferSubsystem, pistonIntakeSubsystem, swerveSubsystem)
     //   //new FollowTrajectoryPathPlanner(swerveSubsystem, "3meter7", true,1,1,false),
     //   //new FollowTrajectoryPathPlanner(swerveSubsystem, "PIDTesting5", false,1,1,false),

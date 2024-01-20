@@ -1,10 +1,17 @@
 package frc.robot;
 
+import java.util.Optional;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.TeleopCommands.LEDCommand;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class Robot extends TimedRobot {
@@ -13,7 +20,12 @@ public class Robot extends TimedRobot {
   private static SendableChooser<AutoModes> autoChooser;
   private AutoModes previousSelectedAuto;
   SwerveSubsystem swerveSubsystem;
+  //Alliance queuedAlliance;
+  //Alliance red = DriverStation.Alliance.Blue;
 
+  Optional<Alliance> alliance = DriverStation.getAlliance();
+  Alliance queuedAlliance = null;
+  //private DriverStation.Alliance queuedAlliance = DriverStation.Alliance.Blue;
 
   public enum AutoModes {
     AUTO1, AUTO2, AUTO3, AUTO4, AUTO5, AUTO6
@@ -88,11 +100,37 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+    // if (alliance.get() == Alliance.Blue) {
+    //     new LEDCommand("blueGradient");
+    // } 
+    // else if (alliance.get() == Alliance.Red) {
+    //   new LEDCommand("redGradient");
+    // }
+    // else {
+    //   new LEDCommand("rainbow");
+    // }
 
   }
 
   @Override
   public void disabledPeriodic() {
+
+   // SmartDashboard.putString("Alliance Colors", alliance.get().toString());
+    // if (queuedAlliance != alliance.get()) {
+    //   queuedAlliance = alliance.get();
+    //   if (queuedAlliance == Alliance.Blue) {
+    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"blueGradient"));
+    //   } 
+    //   else if (queuedAlliance == Alliance.Red) {
+    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"redChase"));
+    //   }
+    //   else {
+    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"rainbow"));
+    //   }
+    // }
+    
+
+
 
   }
 
@@ -127,6 +165,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    //m_robotContainer.ledSubsystem.removeDefaultCommand();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
