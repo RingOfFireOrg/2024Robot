@@ -3,68 +3,73 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.9554131415955147,
-        "y": 7.063813197393838
+        "x": 1.2945574370576298,
+        "y": 5.580559282764361
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0554131415955146,
-        "y": 7.063813197393838
+        "x": 2.4125914258075247,
+        "y": 5.580559282764361
       },
       "isLocked": false,
-      "linkedName": "MiddleRing"
+      "linkedName": "MiddleStart"
     },
     {
       "anchor": {
-        "x": 3.6898422887754827,
-        "y": 5.531946336619947
+        "x": 2.4400406582566303,
+        "y": 5.580559282764361
       },
       "prevControl": {
-        "x": 3.689010208506476,
-        "y": 5.522654773615986
+        "x": 1.1597233251849968,
+        "y": 5.580559282764361
       },
       "nextControl": {
-        "x": 3.6987618185303957,
-        "y": 5.631547752217072
+        "x": 3.720357991328264,
+        "y": 5.580559282764361
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleRingFront"
     },
     {
       "anchor": {
-        "x": 2.9248851224975176,
-        "y": 7.061860669175885
+        "x": 2.909982492594682,
+        "y": 6.60855704537885
       },
       "prevControl": {
-        "x": 2.9248851224975176,
-        "y": 6.7536578659133975
+        "x": 2.909982492594682,
+        "y": 5.613445448855294
       },
       "nextControl": {
-        "x": 2.9248851224975176,
-        "y": 7.370063472438372
+        "x": 2.909982492594682,
+        "y": 7.603668641902407
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TopRingSide"
     },
     {
       "anchor": {
-        "x": 2.057311750987138,
-        "y": 7.061860669175885
+        "x": 7.73,
+        "y": 7.445640937793504
       },
       "prevControl": {
-        "x": 2.057311750987138,
-        "y": 6.665347246453154
+        "x": 6.209309367425446,
+        "y": 7.445640937793504
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Center1"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.0,
-      "rotationDegrees": 0.0,
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
       "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.9,
+      "rotationDegrees": 90.0,
+      "rotateFast": true
     }
   ],
   "constraintZones": [],

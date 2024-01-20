@@ -75,6 +75,7 @@ public class SwerveSubsystem extends SubsystemBase {
     private final PIDController thetaController = new PIDController(AutoConstants.kPThetaController,0.0, 0.0);
 
     public SwerveSubsystem() {
+
         new Thread(() -> {
             try {
                 Thread.sleep(1000);
@@ -82,8 +83,6 @@ public class SwerveSubsystem extends SubsystemBase {
             } catch (Exception e) {
             }
         }).start();
-
-        
 
         AutoBuilder.configureHolonomic(
         this::getPose, // Robot pose supplier
@@ -103,12 +102,14 @@ public class SwerveSubsystem extends SubsystemBase {
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
             var alliance = DriverStation.getAlliance();
-            if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-            }
+                if (alliance.isPresent()) {
+                    return alliance.get() == DriverStation.Alliance.Red;
+                }
             return false;
         },
         this // Reference to this subsystem to set requirements
+
+    
     );
 
     }
@@ -303,7 +304,10 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
         SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        //setModuleStates(moduleStates);
+        //return moduleStates;
         setModuleStates(moduleStates);
+
     }
 
     //// NEW CODE

@@ -10,10 +10,12 @@ import frc.robot.subsystems.LEDSubsystem;
 public class LEDCommand extends Command {
   /** Creates a new LEDCommand. */
   LEDSubsystem ledSubsystem;
+  String pattern;
 
-  public LEDCommand(LEDSubsystem ledSubsystem) {
+  public LEDCommand(LEDSubsystem ledSubsystem, String pattern) {
     addRequirements(ledSubsystem);
     this.ledSubsystem = ledSubsystem;
+    this.pattern = pattern;
   }
 
   // Called when the command is initially scheduled.
@@ -23,7 +25,7 @@ public class LEDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.redChase();
+    ledSubsystem.setLed(pattern);
   }
 
   // Called once the command ends or is interrupted.
@@ -35,4 +37,10 @@ public class LEDCommand extends Command {
   public boolean isFinished() {
     return false;
   } 
+
+  @Override
+  public boolean runsWhenDisabled()
+  {
+    return true;
+  }
 }
