@@ -4,13 +4,7 @@ package frc.robot;
 import frc.robot.commands.TeleopCommands.LEDCommand;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Auto.PPAutoBuilder2;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -86,6 +80,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //new JoystickButton(driverController, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
+    
 
   }
 
@@ -105,7 +100,9 @@ public class RobotContainer {
     //   1   
     // );
 
-    return new PathPlannerAuto("Rotation");
+    //return new PathPlannerAuto("Rotation");
+    
+    return new InstantCommand();
 
 
     //return autoChooser.getSelected();  <- Selectable Auto Command

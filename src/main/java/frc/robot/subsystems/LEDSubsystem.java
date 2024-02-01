@@ -42,7 +42,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   
 
-  public void setLed(String pattern) {
+  public void setLed(String pattern) {  //TODO: Replace this with switch & case
     if (pattern == "rainbow") {
       rainbow();
     }
@@ -56,6 +56,53 @@ public class LEDSubsystem extends SubsystemBase {
       blueGradient();
     }
   }
+
+  public enum ledModes {
+    rainbow,
+    redGradient,
+    redChase,
+    blueGradient
+  }
+
+  public void setLedCase(ledModes ledMode) {
+    switch (ledMode) {
+      case rainbow:
+        rainbow();
+        break;
+      case redGradient:
+        redGradient();
+        break;
+      case redChase:
+        redChase();
+        break;
+      case blueGradient:
+        blueGradient();
+        break;
+    }
+  }
+
+
+
+  public void setLEDRGB(int red, int blue, int green) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setRGB(i, red, blue, green);
+    }    
+    m_led.setData(m_ledBuffer);
+  }
+
+
+  public void setLEDHSV(int h, int s, int v) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setHSV(i, h, s, v);
+    }    
+    m_led.setData(m_ledBuffer);
+  }
+
+
+
+
+
+
 
   public void rainbow() {
     // For every pixel
@@ -173,49 +220,6 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   public void random1() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -226,8 +230,6 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue %= 180;
     m_led.setData(m_ledBuffer);
   }  
-
-
 
   public void whiteChase() {
     // For every pixel
