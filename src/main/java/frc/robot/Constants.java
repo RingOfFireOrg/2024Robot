@@ -1,6 +1,4 @@
 package frc.robot;
-
-
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -67,13 +65,13 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (0); //offset in radians - CanCoder 9
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (-1.721126444007689 ); //offset in radians - CanCoder 9
 
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (0); //offset in radians - CanCoder 10
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (0 - 1.768679848432144+ Math.PI); //offset in radians - CanCoder 10
 
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0); //offset in radians - CanCoder 11
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0 - -2.531068300011308+ Math.PI); //offset in radians - CanCoder 11
         
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (0); //offset in radians - CanCoder 12
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (0 - 0.490873852123405); //offset in radians - CanCoder 12
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 4.267;
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
@@ -131,10 +129,7 @@ public final class Constants {
 
 
 
-
         // ------Above are new for this season-----
-
-
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
 
