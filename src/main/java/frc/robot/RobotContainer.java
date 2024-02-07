@@ -10,6 +10,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 
@@ -79,10 +80,12 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    //new JoystickButton(driverController, 2).whenPressed(() -> swerveSubsystem.zeroHeading());
-    
+    new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+
 
   }
+    //.whenPressed(() -> swerveSubsystem.zeroHeading());
+  
 
 
   public Command getAutonomousCommand() {

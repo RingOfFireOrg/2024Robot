@@ -22,7 +22,7 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kTrackWidth =  Units.inchesToMeters(28); //TODO: Update with new chassis
+        public static final double kTrackWidth =  Units.inchesToMeters(28); //TODO: Update with new chassis get actual trackwidth and base
         // Distance between right and left wheels
         public static final double kWheelBase = Units.inchesToMeters(28); //TODO: Update with new chassis
         // Distance between front and back wheels
@@ -100,8 +100,6 @@ public final class Constants {
 
     public static final class OIConstants {
 
-        // we shoudl actually update the code to use all these 💀
-
         public static final int driverControllerPort = 0;
         public static final int operatorControllerPort = 1;
         public static final int operatorSpareControllerPort = 2; //If we ever need a Second Operator Controler, use this
@@ -126,6 +124,21 @@ public final class Constants {
 
         public static final int backButton = 7;
         public static final int startButton = 8;
+
+        //Dpad ID and Angles
+
+        public static final int DPadId = 0; //Controllers only have one POV
+        
+        public static final int dPadUp = 0;
+        public static final int dPadUpRight = 45;
+        public static final int dPadRight = 90;
+        public static final int dPadDownRight = 135;
+        public static final int dPadDown = 180;
+        public static final int dPadDownLeft = 225;
+        public static final int dPadLeft = 270;        
+        public static final int dPadUpLeft = 315;
+
+
 
 
 

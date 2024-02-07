@@ -92,7 +92,6 @@ public class SwerveModule {
     }
     
     public double getDrivePosition() { //math is for manual conversion factor because TalonFX controllers do not have ConversionFactor functions
-       //return ((driveEncoder.getPosition() / ModuleConstants.kEncoderCPR) * ModuleConstants.kDriveEncoderRot2Meter);
        return (driveEncoder.getPosition()* ModuleConstants.kDriveMotorGearRatio) * Math.PI * ModuleConstants.kWheelDiameterMeters;
     }
 
