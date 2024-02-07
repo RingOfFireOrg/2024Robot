@@ -156,7 +156,6 @@ public class SwerveJoystickCommand extends Command {
 
             // 4. Construct desired chassis speeds
             ChassisSpeeds chassisSpeeds;
-            SmartDashboard.putNumber("Rotation 2d Number", swerveSubsystem.getRotation2dButaDouble());
             
             
             // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds (
@@ -208,7 +207,6 @@ public class SwerveJoystickCommand extends Command {
 
             // 4. Construct desired chassis speeds
             ChassisSpeeds chassisSpeeds;
-            SmartDashboard.putNumber("Rotation 2d Number", swerveSubsystem.getRotation2dButaDouble());
 
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
 
@@ -241,7 +239,6 @@ public class SwerveJoystickCommand extends Command {
 
             // 4. Construct desired chassis speeds
             ChassisSpeeds chassisSpeeds;
-            SmartDashboard.putNumber("Rotation 2d Number", swerveSubsystem.getRotation2dButaDouble());
 
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
 

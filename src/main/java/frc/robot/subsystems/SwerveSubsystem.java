@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 
@@ -262,6 +263,27 @@ public class SwerveSubsystem extends SubsystemBase {
             new SwerveModulePosition(backRight.getDrivePosition(), new Rotation2d(backRight.getTurningPosition())),
         };
     }
+
+
+    public SwerveModuleState[] getModuleStates() {
+        return new SwerveModuleState[] {
+            frontLeft.getState(),
+            frontRight.getState(),
+            backLeft.getState(),
+            backRight.getState()
+
+        };
+
+
+        // return new SwerveModuleState[] {
+        //     new SwerveModuleState(frontLeft.getDrivePosition(), null),
+        //     new SwerveModuleState(frontRight.getDrivePosition(), new Rotation2d(frontRight.getTurningPosition())),
+        //     new SwerveModuleState(backLeft.getDrivePosition(), new Rotation2d(backLeft.getTurningPosition())),
+        //     new SwerveModuleState(backRight.getDrivePosition(), new Rotation2d(backRight.getTurningPosition())),
+        // };
+    }    
+
+
     public void driveForward(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
@@ -303,19 +325,18 @@ public class SwerveSubsystem extends SubsystemBase {
     
 
 
-
-    //--
     
     //// NEW CODE
 
     public ChassisSpeeds getRobotRelativeSpeeds(){
-        return ChassisSpeeds.fromFieldRelativeSpeeds(0, 0.0, 0.0, getPose().getRotation());
+       // return ChassisSpeeds.fromFieldRelativeSpeeds(0, 0.0, 0.0, getPose().getRotation());
+        return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+        //Swerve.swerveKinematics.toChassisSpeeds(getModuleStates()); 
     }
 
     public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-        //setModuleStates(moduleStates);
-        //return moduleStates;
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
         setModuleStates(moduleStates);
 
     }

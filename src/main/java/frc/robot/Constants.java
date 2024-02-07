@@ -165,6 +165,20 @@ public final class Constants {
         public static final double kDeadband = 0.05;
     }
 
+    public static final class LEDConstants {
+        //Put any colors that are relevant
+
+        int ledLength = 60;
+
+        int[] colorSet1 = {};
+        int[] noteColor = {}; //Find a suitable orange
+        int[] pyrotechRed = {}; //Find a suitable color
+        int[] pyrotechOrange = {}; //Find a suitable color
+
+        int[] loadingRed = {}; 
+        int[] readyGreen = {}; 
+    }
+
     public enum ModulePosition {
         FRONT_LEFT,
         FRONT_RIGHT,

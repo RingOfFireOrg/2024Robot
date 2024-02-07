@@ -43,7 +43,7 @@ public class PIDAutoBalancer extends Command {
 
         if (Math.abs(drivetrainSubsystem.getPose().getRotation().getDegrees()) >= 90.0) {
             val = -val;
-            SmartDashboard.putNumber("Auto Val", val);
+            //SmartDashboard.putNumber("Auto Val", val);
         }
 
         drivetrainSubsystem.drive(DriveConstants.kDriveKinematics.toSwerveModuleStates(
