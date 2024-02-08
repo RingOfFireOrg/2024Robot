@@ -24,8 +24,8 @@ public class RobotContainer {
   //public LimeLight limeLightSubsystem = new LimeLight();
 
 
-  private final XboxController driverController = new XboxController(OIConstants.driverControllerPort);
-  private final XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
+  public final XboxController driverController = new XboxController(OIConstants.driverControllerPort);
+  public final XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
 
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
   //private final SendableChooser<Command> autoChooser;

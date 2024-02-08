@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
 public class LEDSubsystem extends SubsystemBase {
 
@@ -21,8 +22,11 @@ public class LEDSubsystem extends SubsystemBase {
   private int hue;
   private int hue2;
 
+  ShooterSubsystemStatus shooterSubsystemStatus;
 
-  public LEDSubsystem() {
+
+  public LEDSubsystem(ShooterSubsystemStatus shooterSubsystemStatus) {
+
     m_led = new AddressableLED(8);
 
     m_ledBuffer = new AddressableLEDBuffer(60);
@@ -54,6 +58,12 @@ public class LEDSubsystem extends SubsystemBase {
     }
     else if (pattern == "blueGradient" ) {
       blueGradient();
+    }
+  }
+
+  public void ledMasterset() {
+    if (shooterSubsystemStatus == ShooterSubsystem.ShooterSubsystemStatus.IDLE) {
+
     }
   }
 
