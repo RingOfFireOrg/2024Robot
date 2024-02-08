@@ -1,12 +1,18 @@
 package frc.robot;
 
 
+import frc.robot.commands.TeleopCommands.IntakeTeleop;
 import frc.robot.commands.TeleopCommands.LEDCommand;
+import frc.robot.commands.TeleopCommands.PivotTeleop;
+import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -21,6 +27,13 @@ public class RobotContainer {
   LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  public PivotSubsystem pivotSubsystem = new PivotSubsystem();
+  public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+
+
+
+
   //public LimeLight limeLightSubsystem = new LimeLight();
 
 
@@ -74,7 +87,25 @@ public class RobotContainer {
       () -> driverController.getRawButton(OIConstants.kAlignWithTargetButton),
       () -> driverController.getRawButton(OIConstants.kResetDirectionButton)
     ));
+
+    shooterSubsystem.setDefaultCommand(new ShooterTeleop(
+      shooterSubsystem, 
+      0 //TODO: make a controller layout
+    ));
+
+    pivotSubsystem.setDefaultCommand(new PivotTeleop(
+      pivotSubsystem, 
+      0)
+    );
+
+    intakeSubsystem.setDefaultCommand(new IntakeTeleop(
+      intakeSubsystem, 
+      0, 
+      0)
+    );
      
+
+
     configureButtonBindings();
 
   }

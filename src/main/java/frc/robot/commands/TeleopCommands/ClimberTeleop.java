@@ -5,19 +5,18 @@
 package frc.robot.commands.TeleopCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
-public class ShooterTeleop extends Command {
-
-  ShooterSubsystem shooterSubsystem;
+public class ClimberTeleop extends Command {
   
+  ClimberSubsystem climberSubsystem;
   double speed;
-  public ShooterTeleop(ShooterSubsystem shooterSubsystem, double speed) {
-    addRequirements(shooterSubsystem);
-    this.shooterSubsystem = shooterSubsystem;
-    this.speed = speed;
-    // Use addRequirements() here to declare subsystem dependencies.
+  
+  
+  public ClimberTeleop(ClimberSubsystem climberSubsystem, double speed) {
+    addRequirements(climberSubsystem);
+    this.climberSubsystem = climberSubsystem;
+
   }
 
   // Called when the command is initially scheduled.
@@ -27,7 +26,7 @@ public class ShooterTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setMotor(speed);
+    climberSubsystem.setMotor(speed);
   }
 
   // Called once the command ends or is interrupted.

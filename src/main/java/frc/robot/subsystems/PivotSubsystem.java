@@ -4,12 +4,14 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class PivotSubsystem extends SubsystemBase {
 
   private TalonFX pivotMotor;
-  private CANcoder pivotCANcoder; //we need to look into if we have spares absolute encoders, I think relative encoders will be problamtic
+  private DutyCycleEncoder pivotEncoder; //we need to look into if we have spares absolute encoders, I think relative encoders will be problamtic
 
   public enum PivotAngleStatus {
     HOME,
@@ -25,8 +27,8 @@ public class PivotSubsystem extends SubsystemBase {
   PivotSubsystemStatus pivotSubsystemStatus;
 
   public PivotSubsystem() {
-    pivotMotor = new TalonFX(0);
-    pivotCANcoder = new CANcoder(0);
+    pivotMotor = new TalonFX(Constants.IDConstants.shooterPivotMotorID);
+    pivotEncoder = new DutyCycleEncoder(0);
   }
 
   @Override

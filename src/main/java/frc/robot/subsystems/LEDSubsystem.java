@@ -22,7 +22,6 @@ public class LEDSubsystem extends SubsystemBase {
   private int hue;
   private int hue2;
 
-  ShooterSubsystemStatus shooterSubsystemStatus;
 
 
   public LEDSubsystem() {
@@ -63,7 +62,10 @@ public class LEDSubsystem extends SubsystemBase {
 
   public void ledMasterset(ShooterSubsystemStatus shooterSubsystemStatus) {
     if (shooterSubsystemStatus == ShooterSubsystem.ShooterSubsystemStatus.IDLE) {
-
+      rainbow();
+    }
+    if (shooterSubsystemStatus == ShooterSubsystem.ShooterSubsystemStatus.REVING) {
+      redGradient();
     }
   }
 

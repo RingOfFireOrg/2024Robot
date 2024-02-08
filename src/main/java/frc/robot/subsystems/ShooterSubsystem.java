@@ -1,24 +1,31 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
-  private TalonFX shooterMotor; //falcon i would assume?
+  private CANSparkMax shooterMotorTop; 
+  private CANSparkMax shooterMotorBottom;
 
   public enum ShooterSubsystemStatus {
     READY,
     REVING,
     IDLE
   }
-  ShooterSubsystemStatus shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
+
+  public ShooterSubsystemStatus shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
 
   public ShooterSubsystem() {
-    shooterMotor = new TalonFX(0);
+    shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
+    shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
+
   }
 
   @Override
@@ -31,16 +38,25 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
 
+
+  public ShooterSubsystemStatus getStatus() {
+    return this.shooterSubsystemStatus;
+  }
+
   public void setMotor(double speed) {
-    shooterMotor.set(speed);
+    shooterMotorTop.set(speed);
+    shooterMotorBottom.set(-speed);
   }
   public void setCoast(){
-    shooterMotor.setNeutralMode(NeutralModeValue.Coast);
+    shooterMotorTop.setIdleMode(IdleMode.kCoast);
+    shooterMotorBottom.setIdleMode(IdleMode.kCoast);
   }
-  public void setBreak(){
-    shooterMotor.setNeutralMode(NeutralModeValue.Coast);
+  public void setBrake(){
+    shooterMotorTop.setIdleMode(IdleMode.kBrake);
+    shooterMotorBottom.setIdleMode(IdleMode.kBrake);
   }
   public void setMotorStop() {
-    shooterMotor.stopMotor();
+    shooterMotorTop.stopMotor();
+    shooterMotorBottom.stopMotor();
   }
 }

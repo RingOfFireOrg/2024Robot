@@ -169,6 +169,11 @@ public final class Constants {
         //Put any colors that are relevant
 
         int ledLength = 60;
+        int ledSegment1Start = 0;
+        int ledSegment2Start = 0;
+        int ledSegment3Start = 0;
+
+
 
         int[] colorSet1 = {};
         int[] noteColor = {}; //Find a suitable orange
@@ -177,6 +182,27 @@ public final class Constants {
 
         int[] loadingRed = {}; 
         int[] readyGreen = {}; 
+    }
+
+    public static final class IDConstants {
+
+        public static final int intakeWheelMotorID = 21;
+        public static final int intakePivotMotorID = 22;
+        public static final int shooterPivotMotorID = 23;
+        public static final int shooterTopMotorID = 24;
+        public static final int shooterBottomMotorID = 25;
+        public static final int leftClimberMotorID = 26;
+        public static final int rightClimberMotorID = 27;
+        
+
+
+        // 21 - Intake Wheels
+        // 22 - Intake Pivot
+        // 23 - Shooter Pivot 
+        // 24 - Shooter Wheel 1
+        // 25 - Shooter Wheel 2
+        // 26 - Left Climber
+        // 27 - Right Climber
     }
 
     public enum ModulePosition {
