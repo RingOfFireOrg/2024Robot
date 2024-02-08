@@ -25,7 +25,7 @@ public class LEDSubsystem extends SubsystemBase {
   ShooterSubsystemStatus shooterSubsystemStatus;
 
 
-  public LEDSubsystem(ShooterSubsystemStatus shooterSubsystemStatus) {
+  public LEDSubsystem() {
 
     m_led = new AddressableLED(8);
 
@@ -61,7 +61,7 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  public void ledMasterset() {
+  public void ledMasterset(ShooterSubsystemStatus shooterSubsystemStatus) {
     if (shooterSubsystemStatus == ShooterSubsystem.ShooterSubsystemStatus.IDLE) {
 
     }

@@ -11,9 +11,11 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShooterTeleop extends Command {
 
   ShooterSubsystem shooterSubsystem;
-  public ShooterTeleop(ShooterSubsystem shooterSubsystem) {
+  double speed;
+  public ShooterTeleop(ShooterSubsystem shooterSubsystem, double speed) {
     addRequirements(shooterSubsystem);
     this.shooterSubsystem = shooterSubsystem;
+    this.speed = speed;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -24,7 +26,7 @@ public class ShooterTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setMotor();
+    shooterSubsystem.setMotor(speed);
   }
 
   // Called once the command ends or is interrupted.
