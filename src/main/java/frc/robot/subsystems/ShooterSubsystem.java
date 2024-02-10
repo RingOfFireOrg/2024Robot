@@ -1,10 +1,10 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -13,6 +13,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private CANSparkMax shooterMotorTop; 
   private CANSparkMax shooterMotorBottom;
+  private SparkPIDController shooterMotorTopPIDController; //do we want to shorten this....
+  private SparkPIDController shooterMotorBottomPIDController; 
+  private SparkPIDController shooterMotorPIDController; 
+
+  double speedTarget;
+
 
   public enum ShooterSubsystemStatus {
     READY,
@@ -25,12 +31,23 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
     shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
+    shooterMotorBottom.follow(shooterMotorTop);
+
+    shooterMotorPIDController = shooterMotorTop.getPIDController();
+    //shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
+
+    shooterMotorPIDController.setP(0.5);
+    shooterMotorPIDController.setI(0);
+    shooterMotorPIDController.setD(0.1);
+
 
   }
 
   @Override
   public void periodic() {
+
     // This method will be called once per scheduler run
+
   }
 
 
@@ -43,9 +60,14 @@ public class ShooterSubsystem extends SubsystemBase {
     return this.shooterSubsystemStatus;
   }
 
+  public void setRefrence(double speed){
+    speedTarget = speed;
+    shooterMotorPIDController.setReference(speed, ControlType.kVelocity); // Spin up the flywheel to the target speed.
+  }
+
   public void setMotor(double speed) {
     shooterMotorTop.set(speed);
-    shooterMotorBottom.set(-speed);
+    shooterMotorBottom.set(speed);
   }
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);
