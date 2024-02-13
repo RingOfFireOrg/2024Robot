@@ -1,6 +1,7 @@
 package frc.robot;
 
 
+import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
 import frc.robot.commands.TeleopCommands.LEDCommand;
 import frc.robot.commands.TeleopCommands.PivotTeleop;
@@ -9,9 +10,10 @@ import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,9 +29,10 @@ public class RobotContainer {
   LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  public PivotSubsystem pivotSubsystem = new PivotSubsystem();
+  public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem();
   public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
 
 
@@ -103,6 +106,11 @@ public class RobotContainer {
       0, 
       0)
     );
+
+    climberSubsystem.setDefaultCommand(new ClimberTeleop(
+      climberSubsystem, 
+      0)
+    );
      
 
 
@@ -114,10 +122,9 @@ public class RobotContainer {
     new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
 
-  }
+  } 
     //.whenPressed(() -> swerveSubsystem.zeroHeading());
   
-
 
   public Command getAutonomousCommand() {
 

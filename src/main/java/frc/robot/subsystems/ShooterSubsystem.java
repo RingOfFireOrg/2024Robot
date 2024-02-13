@@ -13,8 +13,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private CANSparkMax shooterMotorTop; 
   private CANSparkMax shooterMotorBottom;
-  private SparkPIDController shooterMotorTopPIDController; //do we want to shorten this....
-  private SparkPIDController shooterMotorBottomPIDController; 
+  private SparkPIDController shooterMotorTopPIDController;    // Delete if follow works
+  private SparkPIDController shooterMotorBottomPIDController; // Delete if follow works
   private SparkPIDController shooterMotorPIDController; 
 
   double speedTarget;
@@ -31,7 +31,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
     shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
-    shooterMotorBottom.follow(shooterMotorTop);
+    
+    shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
 
     shooterMotorPIDController = shooterMotorTop.getPIDController();
     //shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
@@ -60,9 +61,13 @@ public class ShooterSubsystem extends SubsystemBase {
     return this.shooterSubsystemStatus;
   }
 
+  public void setStatus(ShooterSubsystemStatus shooterSubsystemStatusSet) {
+    shooterSubsystemStatus = shooterSubsystemStatusSet;
+  }
+
   public void setRefrence(double speed){
     speedTarget = speed;
-    shooterMotorPIDController.setReference(speed, ControlType.kVelocity); // Spin up the flywheel to the target speed.
+    shooterMotorPIDController.setReference(speed, ControlType.kVelocity); 
   }
 
   public void setMotor(double speed) {

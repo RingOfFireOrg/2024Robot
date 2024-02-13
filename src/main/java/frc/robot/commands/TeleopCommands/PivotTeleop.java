@@ -5,15 +5,15 @@
 package frc.robot.commands.TeleopCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.PivotSubsystem;
+import frc.robot.subsystems.PivotShooterSubsystem;
 
 public class PivotTeleop extends Command {
 
 
-  PivotSubsystem pivotSubsystem;
+  PivotShooterSubsystem pivotSubsystem;
   double speed;
   
-  public PivotTeleop(PivotSubsystem pivotSubsystem, double speed) {
+  public PivotTeleop(PivotShooterSubsystem pivotSubsystem, double speed) {
     addRequirements(pivotSubsystem);
     this.pivotSubsystem = pivotSubsystem;
     this.speed = speed;

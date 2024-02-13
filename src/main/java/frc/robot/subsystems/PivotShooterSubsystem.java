@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class PivotSubsystem extends SubsystemBase {
+public class PivotShooterSubsystem extends SubsystemBase {
 
   private TalonFX pivotMotor;
-  private DutyCycleEncoder pivotEncoder; //we need to look into if we have spares absolute encoders, I think relative encoders will be problamtic
+  private DutyCycleEncoder pivotEncoder; 
 
   public enum PivotAngleStatus {
     HOME,
@@ -26,7 +26,7 @@ public class PivotSubsystem extends SubsystemBase {
   PivotAngleStatus pivotAngleStatus;
   PivotSubsystemStatus pivotSubsystemStatus;
 
-  public PivotSubsystem() {
+  public PivotShooterSubsystem() {
     pivotMotor = new TalonFX(Constants.IDConstants.shooterPivotMotorID);
     pivotEncoder = new DutyCycleEncoder(0);
   }

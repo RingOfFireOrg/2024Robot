@@ -169,7 +169,6 @@ public class Robot extends TimedRobot {
     }
   }
 
-  //PEEPEEPOOPOO
 
   /** This function is called periodically during operator control. */
   @Override
