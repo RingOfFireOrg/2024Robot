@@ -93,38 +93,10 @@ public class RobotContainer {
     // NEW CODE - to run an auto, run it like this, however a builder may be required to run commands inside of it, 
     // alternative is to make a sequential group, which might be a  lil iffy
     //return new PathPlannerAuto("Example Auto");
-
-    
-    // return new PPAutoBuilder2
-    // (    
-    //   swerveSubsystem,
-    //   "1meter",
-    //   1,
-    //   1   
-    // );
-
-    //return new PathPlannerAuto("Rotation");
     
     return new InstantCommand();
 
-
     //return autoChooser.getSelected();  <- Selectable Auto Command
 
-
-    // return new SequentialCommandGroup 
-    // ( 
-    //   //new HighCubeDrop(armSubsystem, outtakeTransferSubsystem, pistonIntakeSubsystem, swerveSubsystem)
-    //   //new FollowTrajectoryPathPlanner(swerveSubsystem, "3meter7", true,1,1,false),
-    //   //new FollowTrajectoryPathPlanner(swerveSubsystem, "PIDTesting5", false,1,1,false),
-    //   //new FollowTrajectoryPathPlanner(swerveSubsystem, "PIDTesting6", false,1,1,false),
-    //   //new PPSwerveAutoBuilder(swerveSubsystem, armSubsystem, outtakeTransferSubsystem, pistonIntakeSubsystem, "THORAUTO1", 0, 0)
-      
-    //   new PIDAutoBalancer(swerveSubsystem)
-    //   //new ReversePIDAutoBalancer(swerveSubsystem)
-    //   //new newBalance(swerveSubsystem)
-    //   //new HighCubeDrop(armSubsystem, outtakeTransferSubsystem, pistonIntakeSubsystem, swerveSubsystem)
-
-    // );
-   
   }
 }

@@ -149,6 +149,40 @@ public class SwerveSubsystem extends SubsystemBase {
 
     }
 
+
+
+    // ---------------------------------------------------------------------------------------------------------------
+    public Pose2d getPose() {
+        SmartDashboard.putString( "  Get Pose meters ", odometer.getPoseMeters().toString()); //ij, +2
+        return odometer.getPoseMeters();
+    }
+
+    public void resetPose(Pose2d pose) {
+        //odometer.resetPosition(getRotation2d(),getSwerveModulePosition(),pose);
+        odometer.resetPosition(new Rotation2d(Math.toRadians(gyro.getYaw())),getSwerveModulePosition(),pose); //ij
+        
+    }
+
+    public ChassisSpeeds getRobotRelativeSpeeds(){
+       // return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
+        return  DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()); // ij + 2
+    }
+
+    public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
+        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
+        setModuleStates(moduleStates);
+    }
+
+    public void driveRobotRelative2(ChassisSpeeds speeds) { 
+        var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        setModuleStates(swerveModuleStates);
+
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+
     // public double gyroangle() {
     //     while(gyro.isMoving()) {
     //         return gyro.getAngle() % 360;
@@ -185,10 +219,7 @@ public class SwerveSubsystem extends SubsystemBase {
         return getHeading();
     }
 
-    public Pose2d getPose() {
-        SmartDashboard.putString( "  Get Pose meters ", odometer.getPoseMeters().toString());
-        return odometer.getPoseMeters();
-    }
+
 
     void setModuleStates2(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
@@ -198,9 +229,7 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDesiredState(desiredStates[3]);
     }
   
-    public void resetPose(Pose2d pose) {
-        odometer.resetPosition(getRotation2d(),getSwerveModulePosition(),pose);
-    }
+
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(),getSwerveModulePosition(),pose);
     }
@@ -265,7 +294,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
-    public SwerveModuleState[] getModuleStates() {
+    public SwerveModuleState[] getModuleStates() { //ij
         return new SwerveModuleState[] {
             frontLeft.getState(),
             frontRight.getState(),
@@ -325,23 +354,7 @@ public class SwerveSubsystem extends SubsystemBase {
     
 
 
-    
-    //// NEW CODE
 
-    public ChassisSpeeds getRobotRelativeSpeeds(){
-       // return ChassisSpeeds.fromFieldRelativeSpeeds(0, 0.0, 0.0, getPose().getRotation());
-        return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
-        //Swerve.swerveKinematics.toChassisSpeeds(getModuleStates()); 
-    }
-
-    public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
-        ChassisSpeeds targetSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(targetSpeeds);
-        setModuleStates(moduleStates);
-
-    }
-
-    //// NEW CODE
 
 }
     
