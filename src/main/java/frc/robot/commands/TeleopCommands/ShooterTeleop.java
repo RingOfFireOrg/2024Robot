@@ -24,13 +24,13 @@ public class ShooterTeleop extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooterSubsystem.setStatus(ShooterSubsystemStatus.REVING);
+    //shooterSubsystem.setStatus(ShooterSubsystemStatus.REVING);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setMotor(speed);
+    shooterSubsystem.setMotor();
   }
 
   // Called once the command ends or is interrupted.

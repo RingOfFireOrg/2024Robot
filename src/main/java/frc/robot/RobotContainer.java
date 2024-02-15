@@ -9,6 +9,7 @@ import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -28,11 +29,11 @@ public class RobotContainer {
 
   LEDSubsystem ledSubsystem = new LEDSubsystem();
 
-  public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem();
+  //public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
+  //public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem();
   public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
-  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+ // public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
 
 
@@ -40,8 +41,8 @@ public class RobotContainer {
   //public LimeLight limeLightSubsystem = new LimeLight();
 
 
-  public final XboxController driverController = new XboxController(OIConstants.driverControllerPort);
-  public final XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
+  XboxController driverController = new XboxController(OIConstants.driverControllerPort);
+  XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
 
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
   //private final SendableChooser<Command> autoChooser;
@@ -63,54 +64,57 @@ public class RobotContainer {
     //ledSubsystem.
 
 
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
-      swerveSubsystem,
-      // Left Joystick Field Oriented
-      () -> -driverController.getRawAxis(OIConstants.leftStickY),
-      () -> driverController.getRawAxis(OIConstants.leftStickX),
+    // swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
+    //   swerveSubsystem,
+    //   // Left Joystick Field Oriented
+    //   () -> -driverController.getRawAxis(OIConstants.leftStickY),
+    //   () -> driverController.getRawAxis(OIConstants.leftStickX),
 
-      //Right Joystick For Robot Centic
-      () -> -driverController.getRawAxis(OIConstants.rightStickY),
-      () -> driverController.getRawAxis(OIConstants.rightStickX),
+    //   //Right Joystick For Robot Centic
+    //   () -> -driverController.getRawAxis(OIConstants.rightStickY),
+    //   () -> driverController.getRawAxis(OIConstants.rightStickX),
 
-      // Triggers for turning
-      () -> driverController.getRawAxis(OIConstants.rightTrigger),
-      () -> driverController.getRawAxis(OIConstants.leftTrigger),
+    //   // Triggers for turning
+    //   () -> driverController.getRawAxis(OIConstants.rightTrigger),
+    //   () -> driverController.getRawAxis(OIConstants.leftTrigger),
 
-      //Varied Assortment of Buttons to click
-      () -> !driverController.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+    //   //Varied Assortment of Buttons to click
+    //   () -> !driverController.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
 
-      // Speed Buttons
-      () -> driverController.getRawButton(OIConstants.aButton),
-      () -> driverController.getRawButton(OIConstants.bButton),
-      () -> driverController.getRawButton(OIConstants.xButton),
-      () -> driverController.getRawButton(OIConstants.yButton),
+    //   // Speed Buttons
+    //   () -> driverController.getRawButton(OIConstants.aButton),
+    //   () -> driverController.getRawButton(OIConstants.bButton),
+    //   () -> driverController.getRawButton(OIConstants.xButton),
+    //   () -> driverController.getRawButton(OIConstants.yButton),
 
 
-      () -> driverController.getRawButton(OIConstants.kAlignWithTargetButton),
-      () -> driverController.getRawButton(OIConstants.kResetDirectionButton)
-    ));
+    //   () -> driverController.getRawButton(OIConstants.kAlignWithTargetButton),
+    //   () -> driverController.getRawButton(OIConstants.kResetDirectionButton)
+    // ));
 
     shooterSubsystem.setDefaultCommand(new ShooterTeleop(
       shooterSubsystem, 
       0 //TODO: make a controller layout
     ));
 
-    pivotSubsystem.setDefaultCommand(new PivotTeleop(
-      pivotSubsystem, 
-      0)
-    );
+    // pivotSubsystem.setDefaultCommand(new PivotTeleop(
+    //   pivotSubsystem, 
+    //   0)
+    // );
 
     intakeSubsystem.setDefaultCommand(new IntakeTeleop(
       intakeSubsystem, 
-      0, 
-      0)
-    );
+      operatorController.getRightY()
 
-    climberSubsystem.setDefaultCommand(new ClimberTeleop(
-      climberSubsystem, 
-      0)
+    )
     );
+    //SmartDashboard.putNumber("WHEEEEL Input", Constants.OIConstants.leftStickY);
+
+
+    // climberSubsystem.setDefaultCommand(new ClimberTeleop(
+    //   climberSubsystem, 
+    //   0)
+    // );
      
 
 
@@ -119,7 +123,7 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    //new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
 
   } 

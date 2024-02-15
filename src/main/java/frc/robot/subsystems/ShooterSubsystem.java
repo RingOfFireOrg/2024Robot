@@ -6,6 +6,7 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -16,6 +17,8 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkPIDController shooterMotorTopPIDController;    // Delete if follow works
   private SparkPIDController shooterMotorBottomPIDController; // Delete if follow works
   private SparkPIDController shooterMotorPIDController; 
+
+  XboxController opcontrolly = new XboxController(1);
 
   double speedTarget;
 
@@ -48,6 +51,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
 
     // This method will be called once per scheduler run
+    
 
   }
 
@@ -70,9 +74,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorPIDController.setReference(speed, ControlType.kVelocity); 
   }
 
-  public void setMotor(double speed) {
-    shooterMotorTop.set(speed);
-    shooterMotorBottom.set(speed);
+  public void setMotor() {
+    shooterMotorTop.set(opcontrolly.getRightTriggerAxis() - opcontrolly.getLeftTriggerAxis());
+    
+    shooterMotorBottom.set(opcontrolly.getRightTriggerAxis() - opcontrolly.getLeftTriggerAxis());
   }
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);
