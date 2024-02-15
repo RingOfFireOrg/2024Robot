@@ -4,19 +4,22 @@
 
 package frc.robot.commands.TeleopCommands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.PivotShooterSubsystem;
 
-public class PivotTeleop extends Command {
+public class PivotShooterTeleop extends Command {
 
 
   PivotShooterSubsystem pivotSubsystem;
-  double speed;
+  Supplier<Double> pivotMovement;
+
   
-  public PivotTeleop(PivotShooterSubsystem pivotSubsystem, double speed) {
+  public PivotShooterTeleop(PivotShooterSubsystem pivotSubsystem, Supplier<Double> pivotMovement) {
     addRequirements(pivotSubsystem);
     this.pivotSubsystem = pivotSubsystem;
-    this.speed = speed;
+    this.pivotMovement = pivotMovement;
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +29,7 @@ public class PivotTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pivotSubsystem.setMotor(speed);
+    pivotSubsystem.setMotor(pivotMovement.get());
   }
 
   // Called once the command ends or is interrupted.

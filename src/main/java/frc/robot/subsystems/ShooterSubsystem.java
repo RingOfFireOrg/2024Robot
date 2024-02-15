@@ -74,10 +74,10 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorPIDController.setReference(speed, ControlType.kVelocity); 
   }
 
-  public void setMotor() {
-    shooterMotorTop.set(opcontrolly.getRightTriggerAxis() - opcontrolly.getLeftTriggerAxis());
+  public void setMotor(double shooterSpeed) {
+    shooterMotorTop.set(shooterSpeed);
     
-    shooterMotorBottom.set(opcontrolly.getRightTriggerAxis() - opcontrolly.getLeftTriggerAxis());
+    shooterMotorBottom.set(shooterSpeed);
   }
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);

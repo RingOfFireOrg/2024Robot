@@ -4,7 +4,7 @@ package frc.robot;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
 import frc.robot.commands.TeleopCommands.LEDCommand;
-import frc.robot.commands.TeleopCommands.PivotTeleop;
+import frc.robot.commands.TeleopCommands.PivotShooterTeleop;
 import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 
@@ -94,7 +94,7 @@ public class RobotContainer {
 
     shooterSubsystem.setDefaultCommand(new ShooterTeleop(
       shooterSubsystem, 
-      0 //TODO: make a controller layout
+      () -> (operatorController.getLeftTriggerAxis() - operatorController.getRightTriggerAxis()) 
     ));
 
     // pivotSubsystem.setDefaultCommand(new PivotTeleop(
@@ -104,10 +104,8 @@ public class RobotContainer {
 
     intakeSubsystem.setDefaultCommand(new IntakeTeleop(
       intakeSubsystem, 
-      operatorController.getRightY()
-
-    )
-    );
+      () -> operatorController.getRightY()
+    ));
     //SmartDashboard.putNumber("WHEEEEL Input", Constants.OIConstants.leftStickY);
 
 

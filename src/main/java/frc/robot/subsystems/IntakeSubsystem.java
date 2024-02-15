@@ -15,7 +15,6 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private CANSparkMax intakePivot; 
   private CANSparkMax intakeWheels;
   private DutyCycleEncoder pivotEncoder; 
 
@@ -34,7 +33,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public IntakeSubsystem() {
-    intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
     intakeWheels = new CANSparkMax(Constants.IDConstants.intakeWheelMotorID,MotorType.kBrushless);
     pivotEncoder = new DutyCycleEncoder(0); //Put in Constants
 
@@ -46,10 +44,8 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
 
-  public void setMotors(double pivotSpeed, double wheelSpeed) {
-    intakePivot.set(pivotSpeed);
+  public void setMotor(double wheelSpeed) {
     intakeWheels.set(wheelSpeed);
-
   }
 
 
@@ -59,9 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
 
-  public CANSparkMax returnIntakePivot() {
-    return intakePivot;
-  }
+
 
   public CANSparkMax returnIntakeWheels() {
     return intakeWheels;
@@ -72,21 +66,9 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
 
-  public void setPivotMotor(double speed) {
-    intakePivot.set(speed);
-  }
-  public void setPivotCoast(){
-    intakePivot.setIdleMode(IdleMode.kCoast);
-  }
-  public void setPivotBrake(){
-    intakePivot.setIdleMode(IdleMode.kBrake);
-  }
-  public void setPivotMotorStop() {
-    intakePivot.stopMotor();
-  }
+
   public void setWheelMotor(double speed) {
     intakeWheels.set(speed);
-    SmartDashboard.putNumber(" WHEEEEL SPEEED", speed);
   }
   public void setWheelCoast(){
     intakeWheels.setIdleMode(IdleMode.kCoast);

@@ -4,6 +4,8 @@
 
 package frc.robot.commands.TeleopCommands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
@@ -12,12 +14,12 @@ import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 public class ShooterTeleop extends Command {
 
   ShooterSubsystem shooterSubsystem;
-  
-  double speed;
-  public ShooterTeleop(ShooterSubsystem shooterSubsystem, double speed) {
+  Supplier<Double> shooterSpeed;
+
+  public ShooterTeleop(ShooterSubsystem shooterSubsystem, Supplier<Double> shooterSpeed) {
     addRequirements(shooterSubsystem);
     this.shooterSubsystem = shooterSubsystem;
-    this.speed = speed;
+    this.shooterSpeed = shooterSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -30,7 +32,7 @@ public class ShooterTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setMotor();
+    shooterSubsystem.setMotor(shooterSpeed.get());
   }
 
   // Called once the command ends or is interrupted.
