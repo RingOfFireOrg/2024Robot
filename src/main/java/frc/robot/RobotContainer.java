@@ -4,6 +4,8 @@ package frc.robot;
 import frc.robot.commands.TeleopCommands.LEDCommand;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.LEDSubsystem;
@@ -92,9 +94,9 @@ public class RobotContainer {
 
     // NEW CODE - to run an auto, run it like this, however a builder may be required to run commands inside of it, 
     // alternative is to make a sequential group, which might be a  lil iffy
-    //return new PathPlannerAuto("Example Auto");
+    return new PathPlannerAuto("test");
     
-    return new InstantCommand();
+    //return new InstantCommand();
 
     //return autoChooser.getSelected();  <- Selectable Auto Command
 
