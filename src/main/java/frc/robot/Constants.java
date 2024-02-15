@@ -22,9 +22,9 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kTrackWidth =  Units.inchesToMeters(28); //TODO: Update with new chassis get actual trackwidth and base
+        public static final double kTrackWidth =  Units.inchesToMeters(23); //TODO: Update with new chassis get actual trackwidth and base
         // Distance between right and left wheels
-        public static final double kWheelBase = Units.inchesToMeters(28); //TODO: Update with new chassis
+        public static final double kWheelBase = Units.inchesToMeters(23); //TODO: Update with new chassis
         // Distance between front and back wheels
 
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
