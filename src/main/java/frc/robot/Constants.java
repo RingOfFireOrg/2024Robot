@@ -168,15 +168,67 @@ public final class Constants {
     public static final class LEDConstants {
         //Put any colors that are relevant
 
-        int ledLength = 60;
+        int ledLengthBar = 60;
+        int ledSegment1Start = 0; // Left bar
+        int ledSegment2Start = 0; // top Bar
+        int ledSegment3Start = 0; // Right Bar
+        
+        int ledLegnthBoard = 0;
+
+
 
         int[] colorSet1 = {};
         int[] noteColor = {}; //Find a suitable orange
+        
         int[] pyrotechRed = {}; //Find a suitable color
         int[] pyrotechOrange = {}; //Find a suitable color
 
+        int[] cryoTechBlue = {}; //Find a suitable color - // for blue alliance
+        int[] cryotechTeal = {}; //Find a suitable color - // for blue alliance
+
         int[] loadingRed = {}; 
         int[] readyGreen = {}; 
+
+        int[] boardColors = {};
+    }
+
+    public static final class IDConstants {
+        //Swerve IDs
+            // Not used, but here for consistancy 
+        public static final int frontLeftDriveMotor = 1;
+        public static final int frontLeftTurnMotor = 2;
+        public static final int frontLeftCANcoder = 9;
+
+        public static final int frontRightDriveMotor = 3;
+        public static final int frontRightTurnMotor = 4;
+        public static final int frontRightCANcoder = 10;
+
+        public static final int backLeftDriveMotor = 5;
+        public static final int backLeftDTurnMotor = 6;
+        public static final int backLeftCANcoder = 11;
+
+        public static final int backRightDriveMotor = 7;
+        public static final int backRightTurnMotor = 8;
+        public static final int backRightCANcoder = 12;
+
+        // Attachment IDs
+        public static final int intakeWheelMotorID = 21;  // Neo
+        public static final int intakePivotMotorID = 22;  // ?
+        public static final int shooterPivotMotorID = 23; // Talon
+        public static final int shooterTopMotorID = 24;   // Neo
+        public static final int shooterBottomMotorID = 25; // Neo
+        public static final int leftClimberMotorID = 26; // Neo
+        public static final int rightClimberMotorID = 27; //Neo
+        
+
+
+        // 21 - Intake Wheels
+        // 22 - Intake Pivot
+        // 23 - Shooter Pivot 
+        // 24 - Shooter Wheel 1
+        // 25 - Shooter Wheel 2
+        // 26 - Left Climber
+        // 27 - Right Climber
     }
 
     public enum ModulePosition {
@@ -185,6 +237,4 @@ public final class Constants {
         BACK_LEFT,
         BACK_RIGHT
     }
-    public static final int LimitSwitchDIO = 1;
-    public static final int WheeliePWM = 0;
 }
