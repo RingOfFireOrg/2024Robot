@@ -71,6 +71,7 @@ public class SwerveSubsystem extends SubsystemBase {
     );
     
     private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    double driveSpeed;
 
 
 
@@ -126,6 +127,8 @@ public class SwerveSubsystem extends SubsystemBase {
     public void zeroHeading() {
         gyro.reset();
     }
+
+
 
     // public double getHeading() {
     //     if(gyro.isMoving() == true) {
@@ -349,6 +352,13 @@ public class SwerveSubsystem extends SubsystemBase {
         frontRight.setDesiredState(desiredStates[1]);
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
+    }
+
+    public void driveSpeedSet(double newSpeed) {
+        driveSpeed = newSpeed;
+    }
+    public double driveSpeedReturn() {
+        return driveSpeed;
     }
 
     

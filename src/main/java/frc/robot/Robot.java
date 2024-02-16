@@ -92,42 +92,17 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();    
-    //SmartDashboard.putString( "  Get Pose meters ",swerveSubsystem.getPose().toString());
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    // if (alliance.get() == Alliance.Blue) {
-    //     new LEDCommand("blueGradient");
-    // } 
-    // else if (alliance.get() == Alliance.Red) {
-    //   new LEDCommand("redGradient");
-    // }
-    // else {
-    //   new LEDCommand("rainbow");
-    // }
 
   }
 
   @Override
   public void disabledPeriodic() {
-
-   // SmartDashboard.putString("Alliance Colors", alliance.get().toString());
-    // if (queuedAlliance != alliance.get()) {
-    //   queuedAlliance = alliance.get();
-    //   if (queuedAlliance == Alliance.Blue) {
-    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"blueGradient"));
-    //   } 
-    //   else if (queuedAlliance == Alliance.Red) {
-    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"redChase"));
-    //   }
-    //   else {
-    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"rainbow"));
-    //   }
-    // }
-    
-
 
 
   }
@@ -136,18 +111,9 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
-
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }  
-    // AutoBuilder autoBuilder = new AutoBuilder();
-    // autoBuilder.setRobotContainer(m_robotContainer);
-    // autoBuilder.setAutoMode(autoChooser.getSelected());
-    // if (m_autonomousCommand != null) {
-    //     m_autonomousCommand.schedule();
-    // }
-
-    // m_autonomousCommand = autoBuilder.build();
 
   }
 
