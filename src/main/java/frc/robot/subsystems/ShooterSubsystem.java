@@ -35,7 +35,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
     shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
     
-    shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
+    //shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
 
     shooterMotorPIDController = shooterMotorTop.getPIDController();
     //shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
@@ -75,9 +75,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setMotor(double shooterSpeed) {
-    shooterMotorTop.set(shooterSpeed);
+    shooterMotorTop.set(shooterSpeed/1.5);
     
-    shooterMotorBottom.set(shooterSpeed);
+    shooterMotorBottom.set(shooterSpeed/1.5);
   }
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);

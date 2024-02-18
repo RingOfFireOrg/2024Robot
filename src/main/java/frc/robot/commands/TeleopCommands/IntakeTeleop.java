@@ -16,11 +16,13 @@ public class IntakeTeleop extends Command {
   IntakeSubsystem intakeSubsystem;
   Supplier<Double> intakeSpeed;
 
+
   public IntakeTeleop(IntakeSubsystem intakeSubsystem, Supplier<Double> intakeSpeed) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
     this.intakeSpeed = intakeSpeed;
+
   }
 
   // Called when the command is initially scheduled.
@@ -31,8 +33,7 @@ public class IntakeTeleop extends Command {
   @Override
   public void execute() {
     
-    //intakeSubsystem.setMotors(pivotSpeed, wheelSpeed);
-    intakeSubsystem.setWheelMotor(intakeSpeed.get());
+    intakeSubsystem.setMotor(intakeSpeed.get());
   }
 
   // Called once the command ends or is interrupted.

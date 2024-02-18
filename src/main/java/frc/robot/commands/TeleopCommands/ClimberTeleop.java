@@ -4,6 +4,7 @@
 
 package frc.robot.commands.TeleopCommands;
 
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ClimberSubsystem;
 
@@ -11,6 +12,7 @@ public class ClimberTeleop extends Command {
   
   ClimberSubsystem climberSubsystem;
   double speed;
+  XboxController oppyController = new XboxController(1);
   
   
   public ClimberTeleop(ClimberSubsystem climberSubsystem, double speed) {
@@ -26,7 +28,7 @@ public class ClimberTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberSubsystem.setMotor(speed);
+    climberSubsystem.setMotor(oppyController.getLeftY());
   }
 
   // Called once the command ends or is interrupted.

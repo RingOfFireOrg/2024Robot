@@ -16,6 +16,7 @@ import frc.robot.Constants;
 public class IntakeSubsystem extends SubsystemBase {
 
   private CANSparkMax intakeWheels;
+
   private DutyCycleEncoder pivotEncoder; 
 
   
