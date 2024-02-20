@@ -39,7 +39,7 @@ public class RobotContainer {
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
 
-  // public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
 
 
@@ -105,7 +105,7 @@ public class RobotContainer {
 
     pivotIntakeSubsystem.setDefaultCommand(new IntakePivotTeleop(
       pivotIntakeSubsystem, 
-      () -> operatorController.getRightY())
+      () -> operatorController.getLeftX())
     );
 
     intakeSubsystem.setDefaultCommand(new IntakeTeleop(
@@ -114,10 +114,10 @@ public class RobotContainer {
     ));
 
 
-    // climberSubsystem.setDefaultCommand(new ClimberTeleop(
-    //   climberSubsystem, 
-    //   0)
-    // );
+    climberSubsystem.setDefaultCommand(new ClimberTeleop(
+      climberSubsystem, 
+      () -> operatorController.getRightY())
+    );
      
 
 
@@ -127,11 +127,13 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    // new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    // new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
+    //.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
 
 
   } 
-    //.whenPressed(() -> swerveSubsystem.zeroHeading());
-  
+
 
   public Command getAutonomousCommand() {
 

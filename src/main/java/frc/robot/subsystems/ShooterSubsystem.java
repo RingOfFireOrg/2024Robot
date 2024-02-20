@@ -79,6 +79,13 @@ public class ShooterSubsystem extends SubsystemBase {
     
     shooterMotorBottom.set(shooterSpeed/1.5);
   }
+
+  public void ampSpeeds() {
+    shooterMotorTop.setVoltage(speedTarget);
+    
+    shooterMotorBottom.setVoltage(speedTarget);
+  }
+
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);
     shooterMotorBottom.setIdleMode(IdleMode.kCoast);
