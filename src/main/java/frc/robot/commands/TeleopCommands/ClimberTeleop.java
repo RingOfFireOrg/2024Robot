@@ -13,15 +13,19 @@ import frc.robot.subsystems.ClimberSubsystem;
 public class ClimberTeleop extends Command {
   
   ClimberSubsystem climberSubsystem;
-  Supplier<Double> speed;
+  Supplier<Double> Leftspeed;
+  Supplier<Double> Rightspeed;
   XboxController oppyController = new XboxController(1);
   
   
-  public ClimberTeleop(ClimberSubsystem climberSubsystem, Supplier<Double> speed) {
+  public ClimberTeleop(ClimberSubsystem climberSubsystem, Supplier<Double> Leftspeed, Supplier<Double> Rightspeed) {
     addRequirements(climberSubsystem);
+    this.Leftspeed = Leftspeed;              
+    this.Rightspeed = Rightspeed;                                         
     this.climberSubsystem = climberSubsystem;
 
   }
+
 
   // Called when the command is initially scheduled.
   @Override
@@ -30,7 +34,8 @@ public class ClimberTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberSubsystem.setMotor(speed.get()/1.4);
+    climberSubsystem.setLeftMotor(Leftspeed.get()/1.4);
+    climberSubsystem.setRightMotor(Rightspeed.get()/1.4);
   }
 
   // Called once the command ends or is interrupted.

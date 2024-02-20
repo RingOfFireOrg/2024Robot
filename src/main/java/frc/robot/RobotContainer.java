@@ -110,14 +110,15 @@ public class RobotContainer {
 
     intakeSubsystem.setDefaultCommand(new IntakeTeleop(
       intakeSubsystem, 
-      () -> operatorController.getLeftY()
+      () -> operatorController.getRightTriggerAxis()
     ));
 
 
     climberSubsystem.setDefaultCommand(new ClimberTeleop(
       climberSubsystem, 
-      () -> operatorController.getRightY())
-    );
+      () -> operatorController.getLeftY(),
+      () -> operatorController.getRightY()
+      ));
      
 
 

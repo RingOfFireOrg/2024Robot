@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -43,6 +44,14 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public void setMotor(double speed) {
     leftClimber.set(speed);
+    rightClimber.set(speed);
+  }
+   public void setLeftMotor(double speed) {
+    leftClimber.set(speed);
+    // rightClimber.set(speed);
+  }
+   public void setRightMotor(double speed) {
+    // leftClimber.set(speed);
     rightClimber.set(speed);
   }
   public void setCoast(){
