@@ -110,8 +110,8 @@ public final class Constants {
         public static final int rightStickX = 4;
         public static final int rightStickY = 5;
 
-        public static final int leftTrigger = 2;  //Returns Double
-        public static final int rightTrigger = 3; //Returns Double
+        public static final int leftTrigger = 2;  
+        public static final int rightTrigger = 3; 
 
         // Buttons
         public static final int aButton = 1;
@@ -168,10 +168,10 @@ public final class Constants {
     public static final class LEDConstants {
         //Put any colors that are relevant
 
-        int ledLengthBar = 60;
+        int ledLengthBar = 16+15+15;
         int ledSegment1Start = 0; // Left bar
-        int ledSegment2Start = 0; // top Bar
-        int ledSegment3Start = 0; // Right Bar
+        int ledSegment2Start = 16; // top Bar
+        int ledSegment3Start = 16+15; // Right Bar
         
         int ledLegnthBoard = 0;
 

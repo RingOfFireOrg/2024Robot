@@ -3,7 +3,8 @@
   "robotLength": 0.7874,
   "holonomicMode": true,
   "pathFolders": [
-    "New Folder",
+    "Middle4pPaths",
+    "Concept",
     "Positions",
     "Testing Paths"
   ],

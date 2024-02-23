@@ -60,14 +60,7 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  public void ledMasterset(ShooterSubsystemStatus shooterSubsystemStatus) {
-    if (shooterSubsystemStatus == ShooterSubsystem.ShooterSubsystemStatus.IDLE) {
-      rainbow();
-    }
-    if (shooterSubsystemStatus == ShooterSubsystem.ShooterSubsystemStatus.REVING) {
-      redGradient();
-    }
-  }
+
 
   public enum ledModes {
     rainbow,
@@ -94,6 +87,7 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
+  
 
   public void setLEDRGB(int red, int blue, int green) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -109,9 +103,6 @@ public class LEDSubsystem extends SubsystemBase {
     }    
     m_led.setData(m_ledBuffer);
   }
-
-
-
 
 
 

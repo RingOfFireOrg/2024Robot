@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,15 +22,19 @@ public class ShooterSubsystem extends SubsystemBase {
   XboxController opcontrolly = new XboxController(1);
 
   double speedTarget;
+  double getSpeedTop;
+  double getSpeedBottom;
+
 
 
   public enum ShooterSubsystemStatus {
     READY,
     REVING,
+    REVERSE,
     IDLE
   }
 
-  public ShooterSubsystemStatus shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
+  ShooterSubsystemStatus shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
 
   public ShooterSubsystem() {
     shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
@@ -49,10 +54,22 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
-    // This method will be called once per scheduler run
+    //getSpeedTop = shooterMotorTop.get();
+    getSpeedBottom = shooterMotorBottom.getBusVoltage() * shooterMotorBottom.getAppliedOutput();
+    SmartDashboard.putNumber("BottomMotorSpeed", getSpeedBottom);
+    if (getSpeedBottom >= 6.5 ) {
+      shooterSubsystemStatus = ShooterSubsystemStatus.READY;
+    }
+    else if (getSpeedBottom >= 1) {
+      shooterSubsystemStatus = ShooterSubsystemStatus.REVING;
+    }
+    else if (getSpeedBottom <= -0.01) {
+      shooterSubsystemStatus = ShooterSubsystemStatus.REVERSE;
+    }
+    else {  
+      shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
+    }
     
-
   }
 
 
@@ -76,14 +93,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setMotor(double shooterSpeed) {
     shooterMotorTop.set(shooterSpeed/1.5);
-    
     shooterMotorBottom.set(shooterSpeed/1.5);
+
   }
 
   public void ampSpeeds() {
-    shooterMotorTop.setVoltage(speedTarget);
+    // shooterMotorTop.setVoltage(0.5);
     
-    shooterMotorBottom.setVoltage(speedTarget);
+    // shooterMotorBottom.setVoltage(0.45);
+
+    shooterMotorTop.set(0.15);
+    shooterMotorBottom.set(0.2);
+
   }
 
   public void setCoast(){

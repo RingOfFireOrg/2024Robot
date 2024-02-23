@@ -1,29 +1,29 @@
 package frc.robot;
 
 
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AmpSpeeds;
+import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
 import frc.robot.commands.TeleopCommands.LEDCommand;
-import frc.robot.commands.TeleopCommands.PivotShooterTeleop;
 import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
-
-import com.pathplanner.lib.commands.PathPlannerAuto;
-
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
-import frc.robot.subsystems.PivotShooterSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 
 
@@ -49,6 +49,7 @@ public class RobotContainer {
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
+  XboxController climberController = new XboxController(2);
 
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
   //private final SendableChooser<Command> autoChooser;
@@ -66,7 +67,8 @@ public class RobotContainer {
 
 
 
-    ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient"));
+    //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient"));
+    ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus()));
     //ledSubsystem.
 
 
@@ -105,20 +107,20 @@ public class RobotContainer {
 
     pivotIntakeSubsystem.setDefaultCommand(new IntakePivotTeleop(
       pivotIntakeSubsystem, 
-      () -> operatorController.getLeftX())
+      () -> operatorController.getLeftY())
     );
 
     intakeSubsystem.setDefaultCommand(new IntakeTeleop(
       intakeSubsystem, 
-      () -> operatorController.getRightTriggerAxis()
+      () -> operatorController.getRightY()
     ));
 
 
     climberSubsystem.setDefaultCommand(new ClimberTeleop(
       climberSubsystem, 
-      () -> operatorController.getLeftY(),
-      () -> operatorController.getRightY()
-      ));
+      () -> climberController.getLeftY(),
+      () -> climberController.getRightY()
+    ));
      
 
 
@@ -127,10 +129,18 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    //new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    // //new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
     // new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    // new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
-    //.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    // JoystickButton hi = new JoystickButton(operatorController, Constants.OIConstants.aButton);
+    // hi.whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
+    // //.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
+    // driverController.getBackButton().whileTrue();
+
+    new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeeds(shooterSubsystem));
+    new JoystickButton(driverController, Constants.OIConstants.backButton).whileTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
+
+
+    //operatorController.getAButton().whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
 
 
   } 

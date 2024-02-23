@@ -15,32 +15,16 @@ public class LimeLight extends SubsystemBase {
 
 
 
-
-
-
-
-
-
-
-// MAKE NEW LIMELIGHT SUBSYSTEM
-
-
-
-
-
-
-
-
-
-
-
   public LimeLight( ) {
 
 
   } 
+
+
+
   public double[] getVisionVals() {
     // https://docs.limelightvision.io/en/latest/networktables_api.html
-    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+    NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight")   ;
 
     // Horizontal Offset From Crosshair To Target (-29.8 to 29.8deg)
     double x = table.getEntry("tx").getDouble(0.0);
