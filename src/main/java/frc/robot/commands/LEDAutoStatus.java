@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
@@ -34,16 +35,16 @@ public class LEDAutoStatus extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putString("pattern current", shooterStatus.get().toString());
     if (shooterStatus.get() == ShooterSubsystemStatus.READY) {
-      ledSubsystem.setLEDRGB(0, 255, 0);;
+      ledSubsystem.setLEDRGB(0, 255, 0);
     }
     else if (shooterStatus.get() == ShooterSubsystemStatus.REVING) {
       ledSubsystem.setLed("redChase");
     }
     else {
       if (allianceRed) {
-        ledSubsystem.setLed("rainbow");
+        ledSubsystem.setLed("redGradient");
+        ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
         ledSubsystem.setLed("blueGradient");

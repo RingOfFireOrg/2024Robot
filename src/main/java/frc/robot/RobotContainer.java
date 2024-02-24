@@ -129,15 +129,9 @@ public class RobotContainer {
   }
 
   private void configureButtonBindings() {
-    // //new JoystickButton(driverController, 4).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    // new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    // JoystickButton hi = new JoystickButton(operatorController, Constants.OIConstants.aButton);
-    // hi.whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
-    // //.onTrue(new InstantCommand(() -> swerveSubsystem.zeroHeading()));
-    // driverController.getBackButton().whileTrue();
 
+    new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
     new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeeds(shooterSubsystem));
-    new JoystickButton(driverController, Constants.OIConstants.backButton).whileTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
 
 
     //operatorController.getAButton().whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));

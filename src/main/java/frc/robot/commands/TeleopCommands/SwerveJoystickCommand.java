@@ -105,11 +105,6 @@ public class SwerveJoystickCommand extends Command {
     public void execute() {
 
 
-
-        // if(driveController.getRawButton(7) == true) {
-        //     swerveSubsystem.fieldCentricReset();
-        // }
-
         if(aButton.get() == true) {
             speedDivide = 2;
         }

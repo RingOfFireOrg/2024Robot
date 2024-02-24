@@ -54,9 +54,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //getSpeedTop = shooterMotorTop.get();
     getSpeedBottom = shooterMotorBottom.getBusVoltage() * shooterMotorBottom.getAppliedOutput();
-    SmartDashboard.putNumber("BottomMotorSpeed", getSpeedBottom);
+    SmartDashboard.putNumber("Shooter Motor Voltage", getSpeedBottom);
+    SmartDashboard.putString("Shooter Status", shooterSubsystemStatus.toString());
+
     if (getSpeedBottom >= 6.5 ) {
       shooterSubsystemStatus = ShooterSubsystemStatus.READY;
     }
@@ -99,7 +100,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void ampSpeeds() {
     // shooterMotorTop.setVoltage(0.5);
-    
     // shooterMotorBottom.setVoltage(0.45);
 
     shooterMotorTop.set(0.15);

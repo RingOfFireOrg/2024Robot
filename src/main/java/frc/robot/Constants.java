@@ -168,20 +168,20 @@ public final class Constants {
     public static final class LEDConstants {
         //Put any colors that are relevant
 
-        int ledLengthBar = 16+15+15;
-        int ledSegment1Start = 0; // Left bar
-        int ledSegment2Start = 16; // top Bar
-        int ledSegment3Start = 16+15; // Right Bar
+        public int ledLengthBar = 16+15+15;
+        public int ledSegment1Start = 0; // Left bar
+        public int ledSegment2Start = 16; // top Bar
+        public int ledSegment3Start = 16+15; // Right Bar
         
-        int ledLegnthBoard = 0;
+        public int ledLegnthBoard = 0;
 
 
 
-        int[] colorSet1 = {};
-        int[] noteColor = {}; //Find a suitable orange
+        public static int[] colorSet1 = {};
+        public static int[] noteColor = {}; //Find a suitable orange
         
-        int[] pyrotechRed = {}; //Find a suitable color
-        int[] pyrotechOrange = {}; //Find a suitable color
+        public static int[] pyrotechRed = {}; //Find a suitable color
+        public static int[] pyrotechOrange = {0,0,0}; //Find a suitable color
 
         int[] cryoTechBlue = {}; //Find a suitable color - // for blue alliance
         int[] cryotechTeal = {}; //Find a suitable color - // for blue alliance
@@ -190,6 +190,8 @@ public final class Constants {
         int[] readyGreen = {}; 
 
         int[] boardColors = {};
+
+
     }
 
     public static final class IDConstants {
