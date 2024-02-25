@@ -18,6 +18,8 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   private CANSparkMax intakePivot; 
   private DutyCycleEncoder pivotEncoder;
 
+  PivotSubsystemStatus pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
+
   public enum PivotSubsystemStatus {
     INTAKE_UP,
     INTAKE_DOWN,
@@ -33,7 +35,12 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Intake Position", pivotEncoder.getAbsolutePosition());
+    double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
+    SmartDashboard.putNumber("Intake Position", pivotEncoderPos);
+    if (pivotEncoderPos <= 0.5 && pivotEncoderPos >= -0.5) {
+      pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
+    }
+    // TODO: Find # for intake down
   }
 
 
@@ -50,9 +57,13 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
   
 
-  public CANSparkMax returnIntakePivot() {
+  public CANSparkMax returnIntakePivotMotor() {
     return intakePivot;
   }
+  public DutyCycleEncoder returnIntakePivotEncoder() {
+    return pivotEncoder;
+  }
+  
   public void setPivotMotor(double speed) {
     intakePivot.set(speed);
   }

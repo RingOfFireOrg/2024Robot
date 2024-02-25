@@ -138,7 +138,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // }
     public double getHeading() {
         //double temp = Math.IEEEremainder(gyro.getAngle(), 360);
-        SmartDashboard.putNumber("Robot Angle in get heading", gyro.getAngle());
+        SmartDashboard.putNumber("Direct Get Angle", gyro.getAngle());
 
         double temp = (gyro.getAngle() % 360);
         if(temp < 0) {

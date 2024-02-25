@@ -1,6 +1,5 @@
 package frc.robot;
 
-
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -12,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AmpSpeeds;
 import frc.robot.commands.LEDAutoStatus;
+import frc.robot.commands.TurnToClimb;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
@@ -31,15 +31,14 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class RobotContainer {
   //private final SendableChooser<Command> autoChooser;
 
-  LEDSubsystem ledSubsystem = new LEDSubsystem();
+  public LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  //public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem();
-  public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
-
-  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  //public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem(); // removed until shooter can pivot
+  public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
 
 
 
@@ -49,7 +48,7 @@ public class RobotContainer {
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
-  XboxController climberController = new XboxController(2);
+  XboxController climberController = new XboxController(2); //TODO: remove?
 
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
   //private final SendableChooser<Command> autoChooser;
@@ -67,9 +66,9 @@ public class RobotContainer {
 
 
 
-    //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient"));
-    ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus()));
-    //ledSubsystem.
+    //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient")); <- Nonchaning led command
+    ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus())); // <- Changes with status updates from attachemnts
+    // TODO: add status enums from intakepivot and intake wheels and climber
 
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
@@ -131,9 +130,10 @@ public class RobotContainer {
   private void configureButtonBindings() {
 
     new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
+    new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
+
+
     new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeeds(shooterSubsystem));
-
-
     //operatorController.getAButton().whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
 
 
@@ -142,8 +142,6 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
 
-    // NEW CODE - to run an auto, run it like this, however a builder may be required to run commands inside of it, 
-    // alternative is to make a sequential group, which might be a  lil iffy
     return new PathPlannerAuto("test");
     
     //return new InstantCommand();

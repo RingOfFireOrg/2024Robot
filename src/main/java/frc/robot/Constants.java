@@ -22,9 +22,9 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kTrackWidth =  Units.inchesToMeters(23); //TODO: Update with new chassis get actual trackwidth and base
+        public static final double kTrackWidth =  Units.inchesToMeters(23); 
         // Distance between right and left wheels
-        public static final double kWheelBase = Units.inchesToMeters(23); //TODO: Update with new chassis
+        public static final double kWheelBase = Units.inchesToMeters(23); 
         // Distance between front and back wheels
 
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
@@ -66,11 +66,8 @@ public final class Constants {
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
 
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (-1.721126444007689 ); //offset in radians - CanCoder 9
-
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (0 - 1.768679848432144+ Math.PI); //offset in radians - CanCoder 10
-
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0 - -2.531068300011308+ Math.PI); //offset in radians - CanCoder 11
-        
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (0 - 0.490873852123405); //offset in radians - CanCoder 12
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = 4.267;
@@ -141,6 +138,7 @@ public final class Constants {
 
 
 
+        
 
         // ------Above are new for this season-----
         public static final int kDriverControllerPort = 0;
