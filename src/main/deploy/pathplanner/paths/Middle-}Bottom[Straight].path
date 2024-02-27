@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2945574370576298,
-        "y": 5.580559282764361
+        "x": 1.3203408224998268,
+        "y": 5.503960098829289
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4854713072574635,
-        "y": 5.28684563630308
+        "x": 1.5112546926996604,
+        "y": 5.210246452368008
       },
       "isLocked": false,
       "linkedName": "MiddleStart"
@@ -20,8 +20,8 @@
         "y": 4.111991050457951
       },
       "prevControl": {
-        "x": 1.2651860724115016,
-        "y": 4.053248321165694
+        "x": 1.1623862961500528,
+        "y": 4.009191274196502
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.2,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Middle4pPaths",
+  "folder": "xMiddle4pPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

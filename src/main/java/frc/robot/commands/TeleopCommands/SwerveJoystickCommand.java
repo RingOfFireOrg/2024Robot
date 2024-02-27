@@ -103,7 +103,9 @@ public class SwerveJoystickCommand extends Command {
 
     @Override
     public void execute() {
-
+        if(driveController.getRawButton(7) == true) {
+            swerveSubsystem.fieldCentricReset();
+        }
 
         if(aButton.get() == true) {
             speedDivide = 2;
@@ -159,6 +161,7 @@ public class SwerveJoystickCommand extends Command {
 
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
                         xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+            
 
 
             // 5. Convert chassis speeds to individual module states

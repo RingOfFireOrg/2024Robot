@@ -11,7 +11,7 @@ import frc.robot.Constants;
 public class PivotShooterSubsystem extends SubsystemBase {
 
   private TalonFX pivotMotor;
-  private DutyCycleEncoder pivotEncoder; 
+ // private DutyCycleEncoder pivotEncoder; 
 
   public enum PivotAngleStatus {
     HOME,
@@ -28,7 +28,7 @@ public class PivotShooterSubsystem extends SubsystemBase {
 
   public PivotShooterSubsystem() {
     pivotMotor = new TalonFX(Constants.IDConstants.shooterPivotMotorID);
-    pivotEncoder = new DutyCycleEncoder(0);
+   // pivotEncoder = new DutyCycleEncoder(0);
   }
 
   @Override

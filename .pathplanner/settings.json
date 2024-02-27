@@ -1,17 +1,23 @@
 {
-  "robotWidth": 0.7874,
-  "robotLength": 0.7874,
+  "robotWidth": 0.889,
+  "robotLength": 0.889,
   "holonomicMode": true,
   "pathFolders": [
-    "Middle4pPaths",
+    "xBottom3pPaths",
     "Concept",
+    "xMiddle4pPaths",
+    "xTop3pPaths",
+    "PathFinding",
     "Positions",
     "Testing Paths"
   ],
-  "autoFolders": [],
-  "defaultMaxVel": 3.0,
+  "autoFolders": [
+    "FullPaths",
+    "TestFullPaths"
+  ],
+  "defaultMaxVel": 4.2,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 4.5
+  "maxModuleSpeed": 4.2
 }

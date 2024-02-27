@@ -40,8 +40,9 @@ public class LEDAutoStatus extends Command {
     }
     else {
       if (allianceRed) {
-        ledSubsystem.setLed("redGradient");
-        ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
+        ledSubsystem.setLEDRGB(255, 0, 0);
+        //ledSubsystem.setLed("redGradient");
+        //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
         ledSubsystem.setLed("blueGradient");

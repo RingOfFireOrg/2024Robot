@@ -28,7 +28,7 @@ public class LEDSubsystem extends SubsystemBase {
 
     m_led = new AddressableLED(8);
 
-    m_ledBuffer = new AddressableLEDBuffer(60);
+    m_ledBuffer = new AddressableLEDBuffer(45);
     m_led.setLength(m_ledBuffer.getLength());
 
     // Set the data

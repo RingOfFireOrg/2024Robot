@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.3372408819951813,
-        "y": 6.990384785778517
+        "x": 2.22,
+        "y": 7.0050704681015805
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2358147077653734,
-        "y": 6.872899327194004
+        "x": 1.1185738257701923,
+        "y": 6.887585009517068
       },
       "isLocked": false,
       "linkedName": "kTopRing"
     },
     {
       "anchor": {
-        "x": 1.2945574370576298,
-        "y": 5.580559282764361
+        "x": 1.3203408224998268,
+        "y": 5.503960098829289
       },
       "prevControl": {
-        "x": 1.4854713072574635,
-        "y": 6.065186799425477
+        "x": 1.5112546926996604,
+        "y": 5.988587615490404
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,7 +32,7 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
+    "maxVelocity": 4.2,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Middle4pPaths",
+  "folder": "xMiddle4pPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

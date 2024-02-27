@@ -1,21 +1,21 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AmpSpeeds;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.TurnToClimb;
+import frc.robot.commands.AutoCommands.ShootCMD;
+import frc.robot.commands.AutoCommands.TransferCMD;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
-import frc.robot.commands.TeleopCommands.LEDCommand;
 import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -56,7 +56,17 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-    // NamedCommands.registerCommand("command1", new InstantCommand());
+    NamedCommands.registerCommand("Shoot", new ShootCMD(shooterSubsystem));
+    NamedCommands.registerCommand("Transfer", new TransferCMD(intakeSubsystem));
+
+    NamedCommands.registerCommand("ShootOn", new InstantCommand( () -> shooterSubsystem.setMotor(0.6), shooterSubsystem));
+    NamedCommands.registerCommand("ShootIdle", new InstantCommand( () -> shooterSubsystem.setMotor(0.5), shooterSubsystem));
+    NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> shooterSubsystem.setMotor(0), shooterSubsystem));
+
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(0.5), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-0.5), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
+
     // NamedCommands.registerCommand("command2", new InstantCommand());
     // NamedCommands.registerCommand("command3", new InstantCommand());
 
@@ -129,7 +139,10 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
+    // This no longer works(?) -> new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
+    // new JoystickButton()
+    // driveStick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+
     new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
 
 
@@ -141,11 +154,8 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-
-    return new PathPlannerAuto("test");
-    
+    return new PathPlannerAuto("4pMid[Shoot]"); //IntakeTransferTest
     //return new InstantCommand();
-
     //return autoChooser.getSelected();  <- Selectable Auto Command
 
   }

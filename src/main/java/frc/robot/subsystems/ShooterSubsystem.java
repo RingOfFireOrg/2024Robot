@@ -48,23 +48,30 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorPIDController.setP(0.5);
     shooterMotorPIDController.setI(0);
     shooterMotorPIDController.setD(0.1);
+    shooterMotorPIDController.setOutputRange(-1, 1);
 
 
   }
 
   @Override
   public void periodic() {
-    getSpeedBottom = shooterMotorBottom.getBusVoltage() * shooterMotorBottom.getAppliedOutput();
+
+
+
+
+
+    // --------------------------------------------//
+    getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
     SmartDashboard.putNumber("Shooter Motor Voltage", getSpeedBottom);
     SmartDashboard.putString("Shooter Status", shooterSubsystemStatus.toString());
 
-    if (getSpeedBottom >= 6.5 ) {
+    if (getSpeedBottom >= 7 ) {
       shooterSubsystemStatus = ShooterSubsystemStatus.READY;
     }
     else if (getSpeedBottom >= 1) {
       shooterSubsystemStatus = ShooterSubsystemStatus.REVING;
     }
-    else if (getSpeedBottom <= -0.01) {
+    else if (getSpeedBottom <= -0.09) {
       shooterSubsystemStatus = ShooterSubsystemStatus.REVERSE;
     }
     else {  
@@ -88,8 +95,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setRefrence(double speed){
-    speedTarget = speed;
-    shooterMotorPIDController.setReference(speed, ControlType.kVelocity); 
+    shooterMotorPIDController.setReference(speed*5676 , ControlType.kVelocity); 
+    SmartDashboard.putNumber("SetPoint", speed*5676 );
+    //SmartDashboard.putNumber("ProcessVariable", m_encoder.getVelocity());
   }
 
   public void setMotor(double shooterSpeed) {
@@ -102,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // shooterMotorTop.setVoltage(0.5);
     // shooterMotorBottom.setVoltage(0.45);
 
-    shooterMotorTop.set(0.15);
+    shooterMotorTop.set(0.2);
     shooterMotorBottom.set(0.2);
 
   }

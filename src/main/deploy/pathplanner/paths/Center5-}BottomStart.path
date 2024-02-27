@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.278498152702925,
-        "y": 5.580559282764361
+        "x": 7.624086518298261,
+        "y": 0.7636554807993345
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2784981527029249,
-        "y": 5.580559282764361
+        "x": 3.805809114302794,
+        "y": 0.38182774039931205
       },
       "isLocked": false,
-      "linkedName": "kMiddleRing"
+      "linkedName": "kCenter5"
     },
     {
       "anchor": {
-        "x": 1.3203408224998268,
-        "y": 5.503960098829289
+        "x": 0.7218158264581296,
+        "y": 4.420390379242297
       },
       "prevControl": {
-        "x": 1.951995903057105,
-        "y": 5.503960098829289
+        "x": 1.9113560946275236,
+        "y": 3.0252505585508507
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": "BottomStart"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.3,
+      "rotationDegrees": -60.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,11 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -60.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "xMiddle4pPaths",
+  "folder": "xBottom3pPaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
