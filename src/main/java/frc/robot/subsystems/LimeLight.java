@@ -52,6 +52,7 @@ public class LimeLight extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+  
   public void limeLightDashboardVals() {
     // https://docs.limelightvision.io/en/latest/networktables_api.html
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");

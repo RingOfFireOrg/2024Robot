@@ -16,19 +16,19 @@
     },
     {
       "anchor": {
-        "x": 2.572211799164207,
-        "y": 5.580559282764361
+        "x": 2.278498152702925,
+        "y": 5.58
       },
       "prevControl": {
-        "x": 1.572211799164207,
-        "y": 5.580559282764361
+        "x": 2.378498152702925,
+        "y": 5.58
       },
       "nextControl": {
-        "x": 3.572211799164207,
-        "y": 5.580559282764361
+        "x": 2.178498152702925,
+        "y": 5.58
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "kMiddleRing"
     },
     {
       "anchor": {
@@ -36,31 +36,31 @@
         "y": 5.477759506502913
       },
       "prevControl": {
-        "x": 1.170415938327406,
-        "y": 5.463073824179848
+        "x": 1.3740894989006616,
+        "y": 5.496769481795591
       },
       "nextControl": {
-        "x": 1.5361843943723679,
-        "y": 5.492445188825978
+        "x": 1.3325108337991132,
+        "y": 5.458749531210235
       },
       "isLocked": false,
       "linkedName": "MiddleStart"
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 6.740728186286426
+        "x": 2.3372408819951813,
+        "y": 4.111991050457951
       },
       "prevControl": {
-        "x": 2.296312778350406,
-        "y": 6.347343706888111
+        "x": 3.5372407417914395,
+        "y": 3.571991113549636
       },
       "nextControl": {
-        "x": 3.083081737147035,
-        "y": 7.134112665684741
+        "x": 2.043527235533899,
+        "y": 4.244162191365528
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "kBottomRing"
     },
     {
       "anchor": {
@@ -68,31 +68,47 @@
         "y": 5.477759506502913
       },
       "prevControl": {
-        "x": 2.2181909517484613,
-        "y": 5.615709016909814
+        "x": 1.4303165571691385,
+        "y": 1.2808251344263306
+      },
+      "nextControl": {
+        "x": 1.3334477466054835,
+        "y": 6.559598085380461
+      },
+      "isLocked": false,
+      "linkedName": "MiddleStart"
+    },
+    {
+      "anchor": {
+        "x": 2.22,
+        "y": 7.0050704681015805
+      },
+      "prevControl": {
+        "x": 3.149937108253695,
+        "y": 7.711587342544663
+      },
+      "nextControl": {
+        "x": 1.4854713072574635,
+        "y": 6.447014539825145
+      },
+      "isLocked": false,
+      "linkedName": "kTopRing"
+    },
+    {
+      "anchor": {
+        "x": 1.3533001663498863,
+        "y": 5.477759506502913
+      },
+      "prevControl": {
+        "x": 2.3533001663498867,
+        "y": 5.477759506502913
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "MiddleStart"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 2.0999999999999996,
-      "rotationDegrees": 0,
-      "rotateFast": true
-    },
-    {
-      "waypointRelativePos": 2.35,
-      "rotationDegrees": 45.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 3.5,
-      "rotationDegrees": 45.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -103,11 +119,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Concept",
+  "folder": "kFullpaths",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

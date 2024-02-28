@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,12 +19,17 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkPIDController shooterMotorTopPIDController;    // Delete if follow works
   private SparkPIDController shooterMotorBottomPIDController; // Delete if follow works
   private SparkPIDController shooterMotorPIDController; 
+  private RelativeEncoder shooterTopEncoder;
 
   XboxController opcontrolly = new XboxController(1);
 
   double speedTarget;
   double getSpeedTop;
   double getSpeedBottom;
+
+
+  double ampSpeedTop = 0.2;
+  double ampSpeedBottom = 0.2;
 
 
 
@@ -43,11 +49,13 @@ public class ShooterSubsystem extends SubsystemBase {
     //shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
 
     shooterMotorPIDController = shooterMotorTop.getPIDController();
+    shooterTopEncoder = shooterMotorTop.getEncoder();
     //shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
 
     shooterMotorPIDController.setP(0.5);
     shooterMotorPIDController.setI(0);
     shooterMotorPIDController.setD(0.1);
+    shooterMotorPIDController.setFF(0.0017);
     shooterMotorPIDController.setOutputRange(-1, 1);
 
 
@@ -55,7 +63,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    double topSpeed = SmartDashboard.getNumber("Shooter Top Speed", 0.2);
+    double bottomSpeed = SmartDashboard.getNumber("Shooter Bottom Speed", 0.2);
+    if((ampSpeedTop != topSpeed)) { 
+      ampSpeedTop = topSpeed; 
+    }
+    if((ampSpeedBottom != bottomSpeed)) { 
+      ampSpeedBottom = bottomSpeed; 
+    }
 
 
 
@@ -63,7 +78,9 @@ public class ShooterSubsystem extends SubsystemBase {
     // --------------------------------------------//
     getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
     SmartDashboard.putNumber("Shooter Motor Voltage", getSpeedBottom);
+    SmartDashboard.putNumber("Shooter Applied Output", shooterMotorTop.getAppliedOutput());
     SmartDashboard.putString("Shooter Status", shooterSubsystemStatus.toString());
+    SmartDashboard.putNumber("Shooter Velocity", shooterTopEncoder.getVelocity());
 
     if (getSpeedBottom >= 7 ) {
       shooterSubsystemStatus = ShooterSubsystemStatus.READY;
@@ -97,6 +114,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setRefrence(double speed){
     shooterMotorPIDController.setReference(speed*5676 , ControlType.kVelocity); 
     SmartDashboard.putNumber("SetPoint", speed*5676 );
+
     //SmartDashboard.putNumber("ProcessVariable", m_encoder.getVelocity());
   }
 
@@ -110,8 +128,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // shooterMotorTop.setVoltage(0.5);
     // shooterMotorBottom.setVoltage(0.45);
 
-    shooterMotorTop.set(0.2);
-    shooterMotorBottom.set(0.2);
+    shooterMotorTop.set(ampSpeedTop);
+    shooterMotorBottom.set(ampSpeedBottom);
 
   }
 

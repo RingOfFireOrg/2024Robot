@@ -17,9 +17,7 @@ import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
 
-  private PWMSparkMax intakeWheels;
-
-  private DutyCycleEncoder pivotEncoder; 
+  private VictorSP intakeWheels;
 
   
 
@@ -29,22 +27,16 @@ public class IntakeSubsystem extends SubsystemBase {
     IDLE
   }
 
-  public enum IntakeSubsystemLocation {
-    TRANSFER,
-    INTAKEDOWN,
-    BETWEEN
-  }
 
   public IntakeSubsystem() {
     //intakeWheels = new CANSparkMax(Constants.IDConstants.intakeWheelMotorID,MotorType.kBrushless);
-    intakeWheels = new PWMSparkMax(1);
-    pivotEncoder = new DutyCycleEncoder(0); //Put in Constants
+    intakeWheels = new VictorSP(1);
 
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 
 
@@ -52,24 +44,9 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeWheels.set(wheelSpeed);
   }
 
-
-
-
-
-
-
-
-
-
-  public PWMSparkMax returnIntakeWheels() {
-    return intakeWheels;
-  }
-
-  public DutyCycleEncoder returnPivotEncoder() {
-    return pivotEncoder;
-  }
-
-
+  // public PWMSparkMax returnIntakeWheels() {
+  //   return intakeWheels;
+  // }
 
   public void setWheelMotor(double speed) {
     intakeWheels.set(speed/2);

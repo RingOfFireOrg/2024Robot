@@ -11,7 +11,7 @@ public final class Constants {
         public static final double kEncoderCPR = 2048;
 
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
-        public static final double kDriveMotorGearRatio = 1 / 6.75; //L1
+        public static final double kDriveMotorGearRatio = 1 / 6.75; //L2
         public static final double kTurningMotorGearRatio = 1 / (150/7);
         public static final double kDriveEncoderRot2Meter = kDriveMotorGearRatio * Math.PI * kWheelDiameterMeters;
         public static final double kTurningEncoderRot2Rad = kTurningMotorGearRatio * 2 * Math.PI;
@@ -22,11 +22,13 @@ public final class Constants {
 
     public static final class DriveConstants {
 
-        public static final double kTrackWidth =  Units.inchesToMeters(23); 
+        public static final double kTrackWidth =  Units.inchesToMeters(22.75); 
         // Distance between right and left wheels
-        public static final double kWheelBase = Units.inchesToMeters(23); 
+        public static final double kWheelBase = Units.inchesToMeters(22.75); 
         // Distance between front and back wheels
 
+
+        //TODO: wrong order?
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -70,7 +72,7 @@ public final class Constants {
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0 - -2.531068300011308+ Math.PI); //offset in radians - CanCoder 11
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (0 - 0.490873852123405); //offset in radians - CanCoder 12
 
-        public static final double kPhysicalMaxSpeedMetersPerSecond = 4.267;
+        public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(15.1);
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
 
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond ; //change denomenator

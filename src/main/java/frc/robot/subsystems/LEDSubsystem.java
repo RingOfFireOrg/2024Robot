@@ -7,7 +7,6 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
 public class LEDSubsystem extends SubsystemBase {
 
@@ -89,9 +88,9 @@ public class LEDSubsystem extends SubsystemBase {
 
   
 
-  public void setLEDRGB(int red, int blue, int green) {
+  public void setLEDRGB(int red, int green, int blue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, red, blue, green);
+      m_ledBuffer.setRGB(i, red, green, blue);
     }    
     m_led.setData(m_ledBuffer);
   }

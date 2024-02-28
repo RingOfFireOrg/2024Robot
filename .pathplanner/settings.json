@@ -3,13 +3,14 @@
   "robotLength": 0.889,
   "holonomicMode": true,
   "pathFolders": [
-    "xBottom3pPaths",
     "Concept",
-    "xMiddle4pPaths",
-    "xTop3pPaths",
+    "kFullpaths",
     "PathFinding",
     "Positions",
-    "Testing Paths"
+    "Testing Paths",
+    "xBottom3pPaths",
+    "xMiddle4pPaths",
+    "xTop3pPaths"
   ],
   "autoFolders": [
     "FullPaths",

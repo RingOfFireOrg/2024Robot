@@ -4,15 +4,10 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
-
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class PivotIntakeSubsystem extends SubsystemBase {
   
@@ -26,13 +21,13 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     INTAKE_UP,
     INTAKE_DOWN,
     INTAKE_MIDAIR
-//
   }
 
   public PivotIntakeSubsystem() {
     //intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
-    intakePivotCim = new VictorSP(0);
-    pivotEncoder = new DutyCycleEncoder(1);
+    intakePivotCim = new VictorSP(0); //PWM
+    pivotEncoder = new DutyCycleEncoder(1); //DIO
+    
     
 
   }
@@ -40,27 +35,23 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
-    SmartDashboard.putNumber("Intake Position", pivotEncoder.getAbsolutePosition());
-    // if (pivotEncoderPos <= 0.5 && pivotEncoderPos >= -0.5) {
-    //   pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
-    // }
-    // TODO: Find # for intake down
+    double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
+    SmartDashboard.putNumber("Intake Position", pivotEncoderPos);
+    SmartDashboard.putString("Intake Status", pivotSubsystemStatus.toString());
+    if (pivotEncoderPos <= 0.3 && pivotEncoderPos >= 0) {
+      pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
+    }
+    else if (pivotEncoderPos <= 1 && pivotEncoderPos >= 0.7) {
+      pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_DOWN;
+    }
+    else {
+      pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_MIDAIR;
+    }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-  
+  public PivotSubsystemStatus getIntakeStatus() {
+    return pivotSubsystemStatus;
+  }
 
   // public CANSparkMax returnIntakePivotMotor() {
   //   return intakePivot;

@@ -4,8 +4,8 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
 public class LEDAutoStatus extends Command {
@@ -13,11 +13,13 @@ public class LEDAutoStatus extends Command {
   String pattern;
   Boolean allianceRed = true;
   Supplier<ShooterSubsystemStatus> shooterStatus;
+  Supplier<PivotSubsystemStatus> pivotIntakeStatus;
 
-  public LEDAutoStatus(LEDSubsystem ledSubsystem,  Supplier<ShooterSubsystemStatus> shooterStatus) {
+  public LEDAutoStatus(LEDSubsystem ledSubsystem,  Supplier<ShooterSubsystemStatus> shooterStatus, Supplier<PivotSubsystemStatus> pivotIntakeStatus) {
     addRequirements(ledSubsystem);
     this.ledSubsystem = ledSubsystem;
     this.shooterStatus = shooterStatus;
+    this.pivotIntakeStatus = pivotIntakeStatus;
   }
 
   @Override
@@ -39,6 +41,9 @@ public class LEDAutoStatus extends Command {
       ledSubsystem.setLed("redChase");
     }
     else {
+
+      // Alliance Color LEDS
+
       if (allianceRed) {
         ledSubsystem.setLEDRGB(255, 0, 0);
         //ledSubsystem.setLed("redGradient");
@@ -58,5 +63,10 @@ public class LEDAutoStatus extends Command {
   @Override
   public boolean isFinished() {
     return false;
+  }
+  @Override
+  public boolean runsWhenDisabled()
+  {
+    return true;
   }
 }

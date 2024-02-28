@@ -77,7 +77,7 @@ public class RobotContainer {
 
 
     //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient")); <- Nonchaning led command
-    ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus())); // <- Changes with status updates from attachemnts
+    ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus())); // <- Changes with status updates from attachemnts
     // TODO: add status enums from intakepivot and intake wheels and climber
 
 

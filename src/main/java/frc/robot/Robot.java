@@ -98,34 +98,13 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    // if (alliance.get() == Alliance.Blue) {
-    //     new LEDCommand("blueGradient");
-    // } 
-    // else if (alliance.get() == Alliance.Red) {
-    //   new LEDCommand("redGradient");
-    // }
-    // else {
-    //   new LEDCommand("rainbow");
-    // }
 
   }
 
   @Override
   public void disabledPeriodic() {
 
-   // SmartDashboard.putString("Alliance Colors", alliance.get().toString());
-    // if (queuedAlliance != alliance.get()) {
-    //   queuedAlliance = alliance.get();
-    //   if (queuedAlliance == Alliance.Blue) {
-    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"blueGradient"));
-    //   } 
-    //   else if (queuedAlliance == Alliance.Red) {
-    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"redChase"));
-    //   }
-    //   else {
-    //     m_robotContainer.ledSubsystem.setDefaultCommand(new LEDCommand(m_robotContainer.ledSubsystem,"rainbow"));
-    //   }
-    // }
+
     
 
 
