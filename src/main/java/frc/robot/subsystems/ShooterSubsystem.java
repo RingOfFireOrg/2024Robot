@@ -26,10 +26,11 @@ public class ShooterSubsystem extends SubsystemBase {
   double speedTarget;
   double getSpeedTop;
   double getSpeedBottom;
+  double getRPMVelocity;
 
 
-  double ampSpeedTop = 0.2;
-  double ampSpeedBottom = 0.2;
+  double ampSpeedTop = -0.2;
+  double ampSpeedBottom = -0.2;
 
 
 
@@ -48,15 +49,15 @@ public class ShooterSubsystem extends SubsystemBase {
     
     //shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
 
-    shooterMotorPIDController = shooterMotorTop.getPIDController();
+    shooterMotorTopPIDController = shooterMotorTop.getPIDController();
     shooterTopEncoder = shooterMotorTop.getEncoder();
     //shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
 
-    shooterMotorPIDController.setP(0.5);
-    shooterMotorPIDController.setI(0);
-    shooterMotorPIDController.setD(0.1);
-    shooterMotorPIDController.setFF(0.0017);
-    shooterMotorPIDController.setOutputRange(-1, 1);
+    shooterMotorTopPIDController.setP(0);
+    shooterMotorTopPIDController.setI(0);
+    shooterMotorTopPIDController.setD(0);
+    shooterMotorTopPIDController.setFF(0.0017);
+    shooterMotorTopPIDController.setOutputRange(-1, 1);
 
 
   }
@@ -77,18 +78,19 @@ public class ShooterSubsystem extends SubsystemBase {
 
     // --------------------------------------------//
     getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
+    getRPMVelocity = shooterTopEncoder.getVelocity();
     SmartDashboard.putNumber("Shooter Motor Voltage", getSpeedBottom);
     SmartDashboard.putNumber("Shooter Applied Output", shooterMotorTop.getAppliedOutput());
     SmartDashboard.putString("Shooter Status", shooterSubsystemStatus.toString());
-    SmartDashboard.putNumber("Shooter Velocity", shooterTopEncoder.getVelocity());
+    SmartDashboard.putNumber("Shooter Velocity RPM", shooterTopEncoder.getVelocity());
 
-    if (getSpeedBottom >= 7 ) {
+    if (getRPMVelocity >= 3100 ) {
       shooterSubsystemStatus = ShooterSubsystemStatus.READY;
     }
-    else if (getSpeedBottom >= 1) {
+    else if (getRPMVelocity >= 100) {
       shooterSubsystemStatus = ShooterSubsystemStatus.REVING;
     }
-    else if (getSpeedBottom <= -0.09) {
+    else if (getRPMVelocity <= -100) {
       shooterSubsystemStatus = ShooterSubsystemStatus.REVERSE;
     }
     else {  
@@ -112,8 +114,10 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setRefrence(double speed){
-    shooterMotorPIDController.setReference(speed*5676 , ControlType.kVelocity); 
-    SmartDashboard.putNumber("SetPoint", speed*5676 );
+   // if (Math.abs(speed) > 0.1) {
+      shooterMotorTopPIDController.setReference(-speed*5000 , ControlType.kVelocity); 
+    //}
+    SmartDashboard.putNumber("SetPoint", -speed*5000);
 
     //SmartDashboard.putNumber("ProcessVariable", m_encoder.getVelocity());
   }
@@ -121,6 +125,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setMotor(double shooterSpeed) {
     shooterMotorTop.set(shooterSpeed/1.5);
     shooterMotorBottom.set(shooterSpeed/1.5);
+    SmartDashboard.putNumber("Shooter NUms", shooterSpeed/1.5);
 
   }
 

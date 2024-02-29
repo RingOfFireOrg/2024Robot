@@ -55,6 +55,8 @@ public class LEDAutoStatus extends Command {
     }
   }
 
+
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
@@ -64,9 +66,9 @@ public class LEDAutoStatus extends Command {
   public boolean isFinished() {
     return false;
   }
+
   @Override
-  public boolean runsWhenDisabled()
-  {
+  public boolean runsWhenDisabled(){
     return true;
   }
 }

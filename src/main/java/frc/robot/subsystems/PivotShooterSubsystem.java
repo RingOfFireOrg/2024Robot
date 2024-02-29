@@ -10,6 +10,30 @@ import frc.robot.Constants;
 
 public class PivotShooterSubsystem extends SubsystemBase {
 
+
+
+
+
+
+
+
+
+
+
+
+  // THIS IS NO LONGER IN USE !!
+
+
+
+
+
+
+
+
+
+
+
+
   private TalonFX pivotMotor;
  // private DutyCycleEncoder pivotEncoder; 
 

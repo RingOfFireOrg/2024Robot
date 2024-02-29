@@ -27,6 +27,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     //intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
     intakePivotCim = new VictorSP(0); //PWM
     pivotEncoder = new DutyCycleEncoder(1); //DIO
+    pivotEncoder.setPositionOffset(0.8);
     
     
 
@@ -56,13 +57,19 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   // public CANSparkMax returnIntakePivotMotor() {
   //   return intakePivot;
   // }
-  // public DutyCycleEncoder returnIntakePivotEncoder() {
-  //   return pivotEncoder;
-  // }
+  public DutyCycleEncoder returnIntakePivotEncoder() {
+    return pivotEncoder;
+  }
   
   public void setPivotMotor(double speed) {
     //intakePivot.set(speed);
     intakePivotCim.set(speed);
+  }
+
+  public void intakeDown() {
+    if (pivotEncoder.getAbsolutePosition() < 0.7) {
+      intakePivotCim.set(0.7);
+    } 
   }
   // public void setPivotCoast(){
   //   intakePivot.setIdleMode(IdleMode.kCoast);

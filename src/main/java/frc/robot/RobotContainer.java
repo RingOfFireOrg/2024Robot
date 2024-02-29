@@ -10,7 +10,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AmpSpeeds;
 import frc.robot.commands.LEDAutoStatus;
+import frc.robot.commands.OTFPathGen;
 import frc.robot.commands.TurnToClimb;
+import frc.robot.commands.AutoCommands.IntakeDown;
+import frc.robot.commands.AutoCommands.IntakeUp;
 import frc.robot.commands.AutoCommands.ShootCMD;
 import frc.robot.commands.AutoCommands.TransferCMD;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
@@ -67,8 +70,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-0.5), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
-    // NamedCommands.registerCommand("command2", new InstantCommand());
-    // NamedCommands.registerCommand("command3", new InstantCommand());
+
+    NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem));
+    NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem));
+
 
     // autoChooser = AutoBuilder.buildAutoChooser();
     //SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -78,7 +83,6 @@ public class RobotContainer {
 
     //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient")); <- Nonchaning led command
     ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus())); // <- Changes with status updates from attachemnts
-    // TODO: add status enums from intakepivot and intake wheels and climber
 
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
@@ -144,8 +148,7 @@ public class RobotContainer {
     // driveStick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
-
-
+    new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
     new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeeds(shooterSubsystem));
     //operatorController.getAButton().whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
 
