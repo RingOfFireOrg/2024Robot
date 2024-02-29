@@ -17,12 +17,12 @@ public class TurnToClimb extends Command {
   private double Angle2 = 180;
   private double Angle3 = 300;
 
-  private PIDController pidController = new PIDController(0,0,0);
+  private PIDController pidController = new PIDController(1,0,0);
 
   public TurnToClimb(SwerveSubsystem swerveSubsystem) {
     addRequirements(swerveSubsystem);
     this.swerveSubsystem = swerveSubsystem;
-    pidController.enableContinuousInput(-180, 180);
+    pidController.enableContinuousInput(0, 360);
     pidController.setTolerance(1);
   }
 

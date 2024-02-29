@@ -39,6 +39,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   public void periodic() {
     latestResult = TomatoSoup.getLatestResult();
     hasTargets = latestResult.hasTargets();
+  
     SmartDashboard.putBoolean("Target Found", hasTargets);
 
     if (hasTargets) {

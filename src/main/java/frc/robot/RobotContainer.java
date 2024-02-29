@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AmpSpeeds;
+import frc.robot.commands.AmpSpeedsRaw;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.OTFPathGen;
 import frc.robot.commands.TurnToClimb;
@@ -82,7 +82,12 @@ public class RobotContainer {
 
 
     //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient")); <- Nonchaning led command
-    ledSubsystem.setDefaultCommand(new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus())); // <- Changes with status updates from attachemnts
+    ledSubsystem.setDefaultCommand(new LEDAutoStatus(
+      ledSubsystem, 
+      () -> shooterSubsystem.getStatus(),          //Supplier for Shooter Status
+      () -> pivotIntakeSubsystem.getIntakeStatus() //Supplier for Intake Pivot Status
+      
+    )); // <- Changes with status updates from attachemnts
 
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
@@ -149,7 +154,7 @@ public class RobotContainer {
 
     new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
-    new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeeds(shooterSubsystem));
+    new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
     //operatorController.getAButton().whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
 
 

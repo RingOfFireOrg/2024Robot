@@ -10,6 +10,26 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 public class ShootCMD extends Command {
+
+
+
+
+
+
+
+
+
+  //Do not use
+
+
+
+
+
+
+
+
+
+
   ShooterSubsystem shooterSubsystem;
   Boolean runCMD = false;
 
@@ -17,6 +37,9 @@ public class ShootCMD extends Command {
     addRequirements(shooterSubsystem);
     this.shooterSubsystem = shooterSubsystem;
   }
+
+
+
 
   // Called when the command is initially scheduled.
   @Override

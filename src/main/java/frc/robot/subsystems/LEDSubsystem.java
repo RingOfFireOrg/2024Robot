@@ -44,7 +44,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   
 
-  public void setLed(String pattern) {  //TODO: Replace this with switch & case
+  public void setLed(String pattern) {  //TODO: Replace this with switch & case ??
     if (pattern == "rainbow") {
       rainbow();
     }

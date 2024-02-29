@@ -1,15 +1,10 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.TeleopCommands;
 
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.PivotIntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
+
 
 
 public class IntakePivotTeleop extends Command {
@@ -21,7 +16,6 @@ public class IntakePivotTeleop extends Command {
     addRequirements(pivotIntakeSubsystem);
     this.pivotIntakeSubsystem = pivotIntakeSubsystem;
     this.pivotSpeed = pivotSpeed;
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
 

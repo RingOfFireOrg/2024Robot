@@ -34,22 +34,31 @@ public class LEDAutoStatus extends Command {
 
   @Override
   public void execute() {
+    if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN) {
+      //orange?
+    }
     if (shooterStatus.get() == ShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
+      //Leave as is(?)
     }
     else if (shooterStatus.get() == ShooterSubsystemStatus.REVING) {
       ledSubsystem.setLed("redChase");
+      //Make a RED pattern that is pointing Upwards
+    }
+    else if (shooterStatus.get() == ShooterSubsystemStatus.REVERSE) {
+      ledSubsystem.setLed("redChase");
+      //Make a RED pattern that is pointing downwards
     }
     else {
-
       // Alliance Color LEDS
-
       if (allianceRed) {
+        //TODO: make Orange Gradient pattern - NEEDS to be distcint from red so it does not get confused with shooter, but also from when intake is down
         ledSubsystem.setLEDRGB(255, 0, 0);
         //ledSubsystem.setLed("redGradient");
         //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
+        //TODO: make an actual blue gradient
         ledSubsystem.setLed("blueGradient");
       }
     }
@@ -57,18 +66,18 @@ public class LEDAutoStatus extends Command {
 
 
 
-  // Called once the command ends or is interrupted.
+
+
+
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
-  public boolean isFinished() {
-    return false;
-  }
+  public boolean isFinished() { return false; }
 
   @Override
   public boolean runsWhenDisabled(){
+    // Is this legal?
     return true;
   }
 }

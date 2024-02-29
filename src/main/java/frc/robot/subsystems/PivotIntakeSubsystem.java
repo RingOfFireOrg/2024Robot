@@ -27,7 +27,8 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     //intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
     intakePivotCim = new VictorSP(0); //PWM
     pivotEncoder = new DutyCycleEncoder(1); //DIO
-    pivotEncoder.setPositionOffset(0.8);
+    //pivotEncoder.setPositionOffset(0.8);
+    pivotEncoder.setDistancePerRotation(1.45);
     
     
 

@@ -20,6 +20,7 @@ public class ShooterSubsystem extends SubsystemBase {
   private SparkPIDController shooterMotorBottomPIDController; // Delete if follow works
   private SparkPIDController shooterMotorPIDController; 
   private RelativeEncoder shooterTopEncoder;
+  private RelativeEncoder shooterBottomEncoder;
 
   XboxController opcontrolly = new XboxController(1);
 
@@ -28,11 +29,9 @@ public class ShooterSubsystem extends SubsystemBase {
   double getSpeedBottom;
   double getRPMVelocity;
 
-
   double ampSpeedTop = -0.2;
   double ampSpeedBottom = -0.2;
-
-
+  double maxRPM = 4000;
 
   public enum ShooterSubsystemStatus {
     READY,
@@ -51,7 +50,6 @@ public class ShooterSubsystem extends SubsystemBase {
 
     shooterMotorTopPIDController = shooterMotorTop.getPIDController();
     shooterTopEncoder = shooterMotorTop.getEncoder();
-    //shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
 
     shooterMotorTopPIDController.setP(0);
     shooterMotorTopPIDController.setI(0);
@@ -59,13 +57,22 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorTopPIDController.setFF(0.0017);
     shooterMotorTopPIDController.setOutputRange(-1, 1);
 
+    shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
+    shooterBottomEncoder = shooterMotorBottom.getEncoder();
 
+    shooterMotorBottomPIDController.setP(0);
+    shooterMotorBottomPIDController.setI(0);
+    shooterMotorBottomPIDController.setD(0);
+    shooterMotorBottomPIDController.setFF(0.0017);
+    shooterMotorBottomPIDController.setOutputRange(-1, 1);
   }
 
   @Override
   public void periodic() {
-    double topSpeed = SmartDashboard.getNumber("Shooter Top Speed", 0.2);
-    double bottomSpeed = SmartDashboard.getNumber("Shooter Bottom Speed", 0.2);
+
+    //TODO: Remove for competition
+    double topSpeed = SmartDashboard.getNumber("sShooter Top Speed", 0.2);
+    double bottomSpeed = SmartDashboard.getNumber("sShooter Bottom Speed", 0.2);
     if((ampSpeedTop != topSpeed)) { 
       ampSpeedTop = topSpeed; 
     }
@@ -74,15 +81,13 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
 
-
-
     // --------------------------------------------//
     getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
-    getRPMVelocity = shooterTopEncoder.getVelocity();
-    SmartDashboard.putNumber("Shooter Motor Voltage", getSpeedBottom);
-    SmartDashboard.putNumber("Shooter Applied Output", shooterMotorTop.getAppliedOutput());
-    SmartDashboard.putString("Shooter Status", shooterSubsystemStatus.toString());
-    SmartDashboard.putNumber("Shooter Velocity RPM", shooterTopEncoder.getVelocity());
+    getRPMVelocity = shooterTopEncoder.getVelocity() * -1;
+    SmartDashboard.putNumber("sShooter Motor Voltage", getSpeedBottom);
+    SmartDashboard.putNumber("sShooter Applied Output", shooterMotorTop.getAppliedOutput());
+    SmartDashboard.putString("sShooter Status", shooterSubsystemStatus.toString());
+    SmartDashboard.putNumber("sShooter Velocity RPM", getRPMVelocity);
 
     if (getRPMVelocity >= 3100 ) {
       shooterSubsystemStatus = ShooterSubsystemStatus.READY;
@@ -115,9 +120,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setRefrence(double speed){
    // if (Math.abs(speed) > 0.1) {
-      shooterMotorTopPIDController.setReference(-speed*5000 , ControlType.kVelocity); 
+
+      shooterMotorTopPIDController.setReference(-speed*maxRPM , ControlType.kVelocity); 
+      shooterMotorBottomPIDController.setReference(-speed*maxRPM , ControlType.kVelocity); 
+
     //}
-    SmartDashboard.putNumber("SetPoint", -speed*5000);
+    SmartDashboard.putNumber("sSpeed Input", speed);
+    SmartDashboard.putNumber("sMaxrpm", maxRPM);
+    SmartDashboard.putNumber("sSetPoint", -speed*maxRPM);
 
     //SmartDashboard.putNumber("ProcessVariable", m_encoder.getVelocity());
   }
@@ -125,16 +135,22 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setMotor(double shooterSpeed) {
     shooterMotorTop.set(shooterSpeed/1.5);
     shooterMotorBottom.set(shooterSpeed/1.5);
-    SmartDashboard.putNumber("Shooter NUms", shooterSpeed/1.5);
+    SmartDashboard.putNumber("sShooter Nums", shooterSpeed/1.5);
 
   }
 
-  public void ampSpeeds() {
+  public void ampSpeedsRaw() {
     // shooterMotorTop.setVoltage(0.5);
     // shooterMotorBottom.setVoltage(0.45);
-
     shooterMotorTop.set(ampSpeedTop);
     shooterMotorBottom.set(ampSpeedBottom);
+  }
+
+  public void ampSpeedsVelocityControl() {
+    SmartDashboard.putNumber("sAmp RPM", 0.3*maxRPM);
+    shooterMotorTopPIDController.setReference(0.3*maxRPM , ControlType.kVelocity);
+    shooterMotorBottomPIDController.setReference(0.3*maxRPM , ControlType.kVelocity); 
+ 
 
   }
 

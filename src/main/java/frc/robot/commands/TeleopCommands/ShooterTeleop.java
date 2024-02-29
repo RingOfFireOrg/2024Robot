@@ -32,8 +32,8 @@ public class ShooterTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setMotor(shooterSpeed.get());
-    //shooterSubsystem.setRefrence(shooterSpeed.get()/1.5);
+    //shooterSubsystem.setMotor(shooterSpeed.get());
+    shooterSubsystem.setRefrence(shooterSpeed.get()/2);
   }
 
   // Called once the command ends or is interrupted.
