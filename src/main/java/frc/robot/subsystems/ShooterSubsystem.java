@@ -28,10 +28,11 @@ public class ShooterSubsystem extends SubsystemBase {
   double getSpeedTop;
   double getSpeedBottom;
   double getRPMVelocity;
+  double getRPMVelocityBelow;
 
   double ampSpeedTop = -0.2;
   double ampSpeedBottom = -0.2;
-  double maxRPM = 4000;
+  double maxRPM = 5676;
 
   public enum ShooterSubsystemStatus {
     READY,
@@ -45,26 +46,27 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
     shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
+
     
     //shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
 
     shooterMotorTopPIDController = shooterMotorTop.getPIDController();
     shooterTopEncoder = shooterMotorTop.getEncoder();
 
-    shooterMotorTopPIDController.setP(0);
+    shooterMotorTopPIDController.setP(0.00015);
     shooterMotorTopPIDController.setI(0);
     shooterMotorTopPIDController.setD(0);
-    shooterMotorTopPIDController.setFF(0.0017);
-    shooterMotorTopPIDController.setOutputRange(-1, 1);
+    shooterMotorTopPIDController.setFF(0.000155);
+    shooterMotorTopPIDController.setOutputRange(-0.7, 1);
 
     shooterMotorBottomPIDController = shooterMotorBottom.getPIDController();
     shooterBottomEncoder = shooterMotorBottom.getEncoder();
 
-    shooterMotorBottomPIDController.setP(0);
+    shooterMotorBottomPIDController.setP(0.00015);
     shooterMotorBottomPIDController.setI(0);
     shooterMotorBottomPIDController.setD(0);
-    shooterMotorBottomPIDController.setFF(0.0017);
-    shooterMotorBottomPIDController.setOutputRange(-1, 1);
+    shooterMotorBottomPIDController.setFF(0.000155);
+    shooterMotorBottomPIDController.setOutputRange(-0.7, 1);
   }
 
   @Override
@@ -84,12 +86,15 @@ public class ShooterSubsystem extends SubsystemBase {
     // --------------------------------------------//
     getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
     getRPMVelocity = shooterTopEncoder.getVelocity() * -1;
+    getRPMVelocityBelow = shooterBottomEncoder.getVelocity();
     SmartDashboard.putNumber("sShooter Motor Voltage", getSpeedBottom);
     SmartDashboard.putNumber("sShooter Applied Output", shooterMotorTop.getAppliedOutput());
     SmartDashboard.putString("sShooter Status", shooterSubsystemStatus.toString());
-    SmartDashboard.putNumber("sShooter Velocity RPM", getRPMVelocity);
+    SmartDashboard.putNumber("sShooter Velocity RPM TOP", getRPMVelocity);
+    SmartDashboard.putNumber("sShooter Velocity RPM Bottom", getRPMVelocityBelow);
 
-    if (getRPMVelocity >= 3100 ) {
+
+    if (getRPMVelocity >= 2800 ) {
       shooterSubsystemStatus = ShooterSubsystemStatus.READY;
     }
     else if (getRPMVelocity >= 100) {
@@ -121,15 +126,17 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setRefrence(double speed){
    // if (Math.abs(speed) > 0.1) {
 
-      shooterMotorTopPIDController.setReference(-speed*maxRPM , ControlType.kVelocity); 
-      shooterMotorBottomPIDController.setReference(-speed*maxRPM , ControlType.kVelocity); 
+      shooterMotorTopPIDController.setReference( speed*maxRPM , ControlType.kVelocity); 
+      shooterMotorBottomPIDController.setReference(speed*maxRPM , ControlType.kVelocity); 
 
     //}
     SmartDashboard.putNumber("sSpeed Input", speed);
     SmartDashboard.putNumber("sMaxrpm", maxRPM);
     SmartDashboard.putNumber("sSetPoint", -speed*maxRPM);
 
-    //SmartDashboard.putNumber("ProcessVariable", m_encoder.getVelocity());
+    SmartDashboard.putNumber("sTop Encoder Velocity", shooterTopEncoder.getVelocity());
+    SmartDashboard.putNumber("sBottom Encoder Velocity", shooterBottomEncoder.getVelocity());
+
   }
 
   public void setMotor(double shooterSpeed) {
@@ -147,9 +154,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void ampSpeedsVelocityControl() {
-    SmartDashboard.putNumber("sAmp RPM", 0.3*maxRPM);
-    shooterMotorTopPIDController.setReference(0.3*maxRPM , ControlType.kVelocity);
-    shooterMotorBottomPIDController.setReference(0.3*maxRPM , ControlType.kVelocity); 
+    SmartDashboard.putNumber("sAmp RPM", -750);
+    shooterMotorTopPIDController.setReference(-750, ControlType.kVelocity);
+    shooterMotorBottomPIDController.setReference(-750 , ControlType.kVelocity); 
  
 
   }

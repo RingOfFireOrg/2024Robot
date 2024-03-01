@@ -33,7 +33,7 @@ public class ShooterTeleop extends Command {
   @Override
   public void execute() {
     //shooterSubsystem.setMotor(shooterSpeed.get());
-    shooterSubsystem.setRefrence(shooterSpeed.get()/2);
+    shooterSubsystem.setRefrence(shooterSpeed.get()/1.65);
   }
 
   // Called once the command ends or is interrupted.
