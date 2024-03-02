@@ -81,7 +81,7 @@ public class SwerveJoystickCommand extends Command {
         this.resetDirection = resetDirectionButton;
 
 
-        // this.manuel = manuelButton;
+        //this.manuel = manuelButton;
 
         //this.manuelPivotPOV = manuelPivotPOV;
         //this.manuelTelescopePOV = manuelPivotPOV;

@@ -27,8 +27,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     //intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
     intakePivotCim = new VictorSP(0); //PWM
     pivotEncoder = new DutyCycleEncoder(1); //DIO
-    //pivotEncoder.setPositionOffset(0.8);
-    pivotEncoder.setDistancePerRotation(1.45);
+    
+    //pivotEncoder.setDistancePerRotation(1.45);
+    //pivotEncoder.setDutyCycleRange(-360,360 );
+    //pivotEncoder.
     
     
 
@@ -37,8 +39,11 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("piPos offset", pivotEncoder.getPositionOffset());
     double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
     SmartDashboard.putNumber("Intake Position", pivotEncoderPos);
+    SmartDashboard.putNumber("pi NewIntake Position", 1 - pivotEncoderPos +0.2);
+ 
     SmartDashboard.putString("Intake Status", pivotSubsystemStatus.toString());
     if (pivotEncoderPos <= 0.3 && pivotEncoderPos >= 0) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
@@ -50,6 +55,8 @@ public class PivotIntakeSubsystem extends SubsystemBase {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_MIDAIR;
     }
   }
+
+
 
   public PivotSubsystemStatus getIntakeStatus() {
     return pivotSubsystemStatus;

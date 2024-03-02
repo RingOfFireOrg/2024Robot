@@ -1,0 +1,100 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3533001663498863,
+        "y": 5.477759506502913
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 1.5295010746330093,
+        "y": 4.905009502893448
+      },
+      "isLocked": false,
+      "linkedName": "MiddleStart"
+    },
+    {
+      "anchor": {
+        "x": 2.234441105733733,
+        "y": 4.111991050457951
+      },
+      "prevControl": {
+        "x": 1.2945611971779734,
+        "y": 4.170793910779307
+      },
+      "nextControl": {
+        "x": 2.434050822863864,
+        "y": 4.099502622725493
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.3533001663498863,
+        "y": 5.477759506502913
+      },
+      "prevControl": {
+        "x": 1.243157548926905,
+        "y": 4.383676173434637
+      },
+      "nextControl": {
+        "x": 1.4634427837728674,
+        "y": 6.57184283957119
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.234441105733733,
+        "y": 7.0050704681015805
+      },
+      "prevControl": {
+        "x": 1.9887849307755927,
+        "y": 6.848743811310037
+      },
+      "nextControl": {
+        "x": 2.3959836112874378,
+        "y": 7.1078702443630295
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.3533001663498863,
+        "y": 5.477759506502913
+      },
+      "prevControl": {
+        "x": 1.4692339990717203,
+        "y": 6.206448847742624
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.2,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "kFullpaths",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

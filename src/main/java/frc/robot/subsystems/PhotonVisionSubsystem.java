@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PhotonVisionSubsystem extends SubsystemBase {
 
-  public enum LimeLightStatus {
+  public enum CameraStatus {
     TRACKING,
     ALIGNING,
     STANDBY,
@@ -25,7 +25,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   private PhotonPipelineResult latestResult;
   private Transform3d bestCameraToTarget;
 
-  LimeLightStatus limeLightStatus = LimeLightStatus.IDLE;
+  CameraStatus limeLightStatus = CameraStatus.IDLE;
 
   public final double cameraHeight = Units.inchesToMeters(0);   //Meters
   public final double targetHeight = Units.inchesToMeters(0);   //Meters
@@ -61,11 +61,11 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   }
 
 
-  public LimeLightStatus getLimeLightStatusStatus() {
+  public CameraStatus getLimeLightStatusStatus() {
     return limeLightStatus;
   }
 
-  public void setLimeLightStatus(LimeLightStatus newStatus) {
+  public void setLimeLightStatus(CameraStatus newStatus) {
     limeLightStatus = newStatus;
   }
 

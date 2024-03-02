@@ -2,7 +2,6 @@ package frc.robot;
 
 import java.util.Optional;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -152,6 +151,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
+    SmartDashboard.putString("swerveSubsystem Current Command", m_robotContainer.swerveSubsystem.getCurrentCommand().toString());
     
   }
 
