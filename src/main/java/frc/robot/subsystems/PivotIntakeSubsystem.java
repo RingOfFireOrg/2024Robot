@@ -45,10 +45,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("pi NewIntake Position", 1 - pivotEncoderPos +0.2);
  
     SmartDashboard.putString("Intake Status", pivotSubsystemStatus.toString());
-    if (pivotEncoderPos <= 0.3 && pivotEncoderPos >= 0) {
+    if ((pivotEncoderPos <= 0.2 && pivotEncoderPos >= 0) ) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
     }
-    else if (pivotEncoderPos <= 1 && pivotEncoderPos >= 0.7) {
+    else if (pivotEncoderPos <= 0.6 && pivotEncoderPos >= 0.4) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_DOWN;
     }
     else {
@@ -79,6 +79,20 @@ public class PivotIntakeSubsystem extends SubsystemBase {
       intakePivotCim.set(0.7);
     } 
   }
+
+
+  public void intakeDownStatus() {
+    while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_DOWN) {
+      intakePivotCim.set(-0.7);
+    } 
+  }
+
+  public void intakeUpStatus() {
+    while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_UP) {
+      intakePivotCim.set(0.7);
+    } 
+  }
+
   // public void setPivotCoast(){
   //   intakePivot.setIdleMode(IdleMode.kCoast);
   // }

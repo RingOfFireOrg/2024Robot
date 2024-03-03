@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -101,9 +102,9 @@ public class SwerveSubsystem extends SubsystemBase {
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                 new PIDConstants(7, 0.0, 0.3), // Translation PID constants
-                new PIDConstants(2.0, 0.0, 0.0), // Rotation PID constants
+                new PIDConstants(5, 0.0, 0.0), // Rotation PID constants
                 4.5, // Max module speed, in m/s
-                (28/2), // Drive base radius in meters. Distance from robot center to furthest module.
+                (Units.inchesToMeters(15.79899)), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {

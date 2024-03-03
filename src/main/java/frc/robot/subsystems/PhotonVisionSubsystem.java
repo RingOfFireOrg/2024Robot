@@ -53,7 +53,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     photonPoseEstimator = new PhotonPoseEstimator(
       aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, TomatoSoup, new Transform3d()
     );
-    //photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+    photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
   }
 
   @Override

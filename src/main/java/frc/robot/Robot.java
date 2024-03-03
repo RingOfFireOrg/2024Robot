@@ -151,7 +151,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    SmartDashboard.putString("swerveSubsystem Current Command", m_robotContainer.swerveSubsystem.getCurrentCommand().toString());
+    //SmartDashboard.putString("swerveSubsystem Current Command", m_robotContainer.swerveSubsystem.getCurrentCommand().toString());
     
   }
 

@@ -21,13 +21,17 @@ public class LEDSubsystem extends SubsystemBase {
   private int hue;
   private int hue2;
 
+  private int firstSection = 31;
+  private int secondSection = 41;
+  private int thirdSection = 32;
+
 
 
   public LEDSubsystem() {
 
     m_led = new AddressableLED(8);
 
-    m_ledBuffer = new AddressableLEDBuffer(45);
+    m_ledBuffer = new AddressableLEDBuffer(firstSection + secondSection + thirdSection);
     m_led.setLength(m_ledBuffer.getLength());
 
     // Set the data
@@ -89,6 +93,23 @@ public class LEDSubsystem extends SubsystemBase {
   
 
   public void setLEDRGB(int red, int green, int blue) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setRGB(i, red, green, blue);
+    }    
+    m_led.setData(m_ledBuffer);
+  }
+
+  public void setLEDRGB_BAR(int red, int green, int blue) {
+    for (var i = 0; i < firstSection; i++) {
+      m_ledBuffer.setRGB(i, red, green, blue);
+    }  
+    for (var i = secondSection + firstSection; i < thirdSection + secondSection + firstSection - 1; i++) {
+      m_ledBuffer.setRGB(i + secondSection + firstSection, red, green, blue);
+    }      
+    m_led.setData(m_ledBuffer);
+  }
+
+  public void setLEDRGB_TOP(int red, int green, int blue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       m_ledBuffer.setRGB(i, red, green, blue);
     }    

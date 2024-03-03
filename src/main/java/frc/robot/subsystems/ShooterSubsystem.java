@@ -149,8 +149,6 @@ public class ShooterSubsystem extends SubsystemBase {
   public void setMotor(double shooterSpeed) {
     shooterMotorTop.set(shooterSpeed/1.5);
     shooterMotorBottom.set(shooterSpeed/1.5);
-    SmartDashboard.putNumber("sShooter Nums", shooterSpeed/1.5);
-
   }
 
   public void ampSpeedsRaw() {
@@ -161,11 +159,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void ampSpeedsVelocityControl() {
-    SmartDashboard.putNumber("sAmp RPM", -750);
     shooterMotorTopPIDController.setReference(-750, ControlType.kVelocity);
     shooterMotorBottomPIDController.setReference(-750 , ControlType.kVelocity); 
- 
-
   }
 
   public void setCoast(){

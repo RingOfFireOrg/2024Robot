@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.118033988749895,
+        "x": 3.1,
         "y": 7.0
       },
       "isLocked": false,
@@ -20,7 +20,7 @@
         "y": 7.0
       },
       "prevControl": {
-        "x": 3.4793093674254454,
+        "x": 4.9,
         "y": 7.0
       },
       "nextControl": null,
@@ -28,18 +28,7 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.55,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1,
-      "rotationDegrees": 180.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -49,9 +38,9 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": 179.75968206645376,
-    "rotateFast": false
+    "velocity": 0.0,
+    "rotation": 180.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Testing Paths",

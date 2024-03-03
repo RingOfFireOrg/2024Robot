@@ -37,7 +37,7 @@ public class RobotContainer {
   public LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  //public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
   //public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem(); // removed until shooter can pivot
@@ -66,13 +66,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootIdle", new InstantCommand( () -> shooterSubsystem.setMotor(0.5), shooterSubsystem));
     NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> shooterSubsystem.setMotor(0), shooterSubsystem));
 
-    NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(3100), shooterSubsystem));
+    NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-3100), shooterSubsystem));
     NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(2300), shooterSubsystem));
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(0), shooterSubsystem));
 
 
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(0.5), intakeSubsystem));
-    NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-0.5), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(0.8), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-0.8), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
 
@@ -139,11 +139,11 @@ public class RobotContainer {
     ));
 
 
-    climberSubsystem.setDefaultCommand(new ClimberTeleop(
-      climberSubsystem, 
-      () -> climberController.getLeftY(),
-      () -> climberController.getRightY()
-    ));
+    // climberSubsystem.setDefaultCommand(new ClimberTeleop(
+    //   climberSubsystem, 
+    //   () -> climberController.getLeftY(),
+    //   () -> climberController.getRightY()
+    // ));
      
 
 
@@ -158,17 +158,20 @@ public class RobotContainer {
     // new JoystickButton()
     // driveStick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
-    new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
+    //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
     new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
-    //operatorController.getAButton().whileTrue(new InstantCommand(() ->shooterSubsystem.ampSpeeds()));
 
+    new JoystickButton(operatorController, Constants.OIConstants.yButton).onTrue(new IntakeUp(pivotIntakeSubsystem));
+    new JoystickButton(operatorController, Constants.OIConstants.xButton).onTrue(new IntakeDown(pivotIntakeSubsystem));
+
+    //operatorController.getAButton().whileTrue(new InstantCommand(() ->shoote rSubsystem.ampSpeeds()));
 
   } 
 
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("4pMid[Shoot]"); //IntakeTransferTest
+    return new PathPlannerAuto("Middle1"); //IntakeTransferTest
     //return new InstantCommand();
     //return autoChooser.getSelected();  <- Selectable Auto Command
 

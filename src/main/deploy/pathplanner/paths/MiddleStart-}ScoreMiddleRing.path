@@ -4,27 +4,27 @@
     {
       "anchor": {
         "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "y": 5.58
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.3533001663498863,
-        "y": 5.477759506502913
+        "y": 5.58
       },
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": "MiddleShoot"
     },
     {
       "anchor": {
-        "x": 2.278498152702925,
+        "x": 2.6896972577487204,
         "y": 5.58
       },
       "prevControl": {
-        "x": 2.0706887737201707,
+        "x": 2.481887878765966,
         "y": 5.58
       },
       "nextControl": {
-        "x": 2.486307531685679,
+        "x": 2.8975066367314746,
         "y": 5.58
       },
       "isLocked": false,
@@ -32,20 +32,32 @@
     },
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "x": 1.24,
+        "y": 5.58
       },
       "prevControl": {
-        "x": 1.4492882920887866,
-        "y": 5.477759506502913
+        "x": 1.3359881257389004,
+        "y": 5.58
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.1,
+      "maxWaypointRelativePos": 0.75,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "Move Intake Down",
@@ -66,7 +78,7 @@
     },
     {
       "name": "Start Up Intake wheels",
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "sequential",
         "data": {
@@ -83,7 +95,7 @@
     },
     {
       "name": "Reset Intake",
-      "waypointRelativePos": 1.35,
+      "waypointRelativePos": 1.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,30 +109,7 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeOff"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Shoot Out Ring",
-      "waypointRelativePos": 1.95,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeOut"
-              }
-            },
-            {
-              "type": "wait",
-              "data": {
-                "waitTime": 0.4
+                "name": "IntakeIn"
               }
             }
           ]

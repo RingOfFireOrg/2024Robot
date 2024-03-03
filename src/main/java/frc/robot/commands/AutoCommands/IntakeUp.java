@@ -6,6 +6,7 @@ package frc.robot.commands.AutoCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.PivotIntakeSubsystem;
+import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 
 public class IntakeUp extends Command {
   PivotIntakeSubsystem pivotIntakeSubsystem;
@@ -19,7 +20,7 @@ public class IntakeUp extends Command {
 
   @Override
   public void execute() {
-    pivotIntakeSubsystem.setPivotMotor(0.7);
+    pivotIntakeSubsystem.setPivotMotor(-0.5);
   }
 
   // Called once the command ends or is interrupted.
@@ -29,6 +30,6 @@ public class IntakeUp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return pivotIntakeSubsystem.returnIntakePivotEncoder().getAbsolutePosition() < 0.2;
+    return pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_UP;
   }
 }
