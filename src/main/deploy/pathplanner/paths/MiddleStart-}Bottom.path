@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3465096453115373,
+        "x": 1.827428069896433,
         "y": 5.562987660051266
       },
       "isLocked": false,
@@ -16,28 +16,60 @@
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 5.58
+        "x": 1.598608052518626,
+        "y": 4.101502460210752
       },
       "prevControl": {
-        "x": 2.481887878765966,
-        "y": 5.58
+        "x": 1.598608052518626,
+        "y": 4.401502460210752
       },
       "nextControl": {
-        "x": 2.8975066367314746,
-        "y": 5.58
+        "x": 1.598608052518626,
+        "y": 4.0015024602107525
       },
       "isLocked": false,
-      "linkedName": "kMiddleRing"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.24,
-        "y": 5.58
+        "x": 2.365724320537161,
+        "y": 4.101502460210752
       },
       "prevControl": {
-        "x": 1.3359881257389004,
-        "y": 5.58
+        "x": 1.911345247482966,
+        "y": 4.101502460210752
+      },
+      "nextControl": {
+        "x": 2.820103393591356,
+        "y": 4.101502460210752
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.4530621961159118,
+        "y": 5.562987660051266
+      },
+      "prevControl": {
+        "x": 1.5246814482234625,
+        "y": 3.65248916080907
+      },
+      "nextControl": {
+        "x": 1.417892880704531,
+        "y": 6.501156132013493
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.191617819754907,
+        "y": 7.028695863184205
+      },
+      "prevControl": {
+        "x": 2.191617819754907,
+        "y": 6.8704339438329916
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,12 +79,12 @@
   "rotationTargets": [],
   "constraintZones": [
     {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.1,
-      "maxWaypointRelativePos": 0.75,
+      "name": "Slow down",
+      "minWaypointRelativePos": 1.05,
+      "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -60,56 +92,53 @@
   ],
   "eventMarkers": [
     {
-      "name": "Move Intake Down",
-      "waypointRelativePos": 0,
+      "name": "Intake down",
+      "waypointRelativePos": 0.35,
       "command": {
         "type": "sequential",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDown"
-              }
-            }
-          ]
+          "commands": []
         }
       }
     },
     {
-      "name": "Start Up Intake wheels",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Reset Intake",
-      "waypointRelativePos": 1.55,
+      "name": "Intake up",
+      "waypointRelativePos": 2.0,
       "command": {
         "type": "parallel",
         "data": {
+          "commands": []
+        }
+      }
+    },
+    {
+      "name": "Intake Wheels On",
+      "waypointRelativePos": 0.55,
+      "command": {
+        "type": "sequential",
+        "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "IntakeUp"
+                "name": "IntakeIn"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Shoot out",
+      "waypointRelativePos": 2.95,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {
-                "name": "IntakeIn"
+                "name": "IntakeOut"
               }
             }
           ]

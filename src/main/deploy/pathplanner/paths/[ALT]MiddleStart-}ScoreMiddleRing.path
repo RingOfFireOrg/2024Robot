@@ -77,23 +77,6 @@
       }
     },
     {
-      "name": "Start Up Intake wheels",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "Reset Intake",
       "waypointRelativePos": 1.55,
       "command": {
@@ -104,12 +87,6 @@
               "type": "named",
               "data": {
                 "name": "IntakeUp"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeIn"
               }
             }
           ]
