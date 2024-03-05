@@ -1,21 +1,20 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
-
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
+import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class ClimberSubsystem extends SubsystemBase {
 
-  private CANSparkMax leftClimber; 
-  private CANSparkMax rightClimber;
+  // private CANSparkMax leftClimberSPK; 
+  // private CANSparkMax rightClimberSPK;
+  // private VictorSP leftClimberVSP;
+  // private VictorSP rightClimberVSP;
+
+  private PWMSparkMax leftClimberSPK; 
+  private PWMSparkMax rightClimberSPK;
 
   public enum ClimberStatus {
     UNTOUCHED,
@@ -28,10 +27,12 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public ClimberSubsystem() {
-    leftClimber = new CANSparkMax(Constants.IDConstants.leftClimberMotorID, MotorType.kBrushless);
-    rightClimber = new CANSparkMax(Constants.IDConstants.rightClimberMotorID, MotorType.kBrushless);
+    // leftClimber = new CANSparkMax(Constants.IDConstants.leftClimberMotorID, MotorType.kBrushless);
+    // rightClimber = new CANSparkMax(Constants.IDConstants.rightClimberMotorID, MotorType.kBrushless);
+    leftClimberSPK = new PWMSparkMax(5);
+    rightClimberSPK = new PWMSparkMax(6);
 
-    rightClimber.setInverted(true);
+    rightClimberSPK.setInverted(true);
   }
 
   @Override
@@ -43,32 +44,32 @@ public class ClimberSubsystem extends SubsystemBase {
 
 
   public void setMotor(double speed) {
-    leftClimber.set(speed);
-    rightClimber.set(speed);
+    leftClimberSPK.set(speed);
+    rightClimberSPK.set(speed);
   }
    public void setLeftMotor(double speed) {
-    leftClimber.set(speed);
+    leftClimberSPK.set(speed);
     // rightClimber.set(speed);
   }
    public void setRightMotor(double speed) {
     // leftClimber.set(speed);
-    rightClimber.set(speed);
+    rightClimberSPK.set(speed);
   }
-  public void setCoast(){
-    leftClimber.setIdleMode(IdleMode.kCoast);
-    rightClimber.setIdleMode(IdleMode.kCoast);
-  }
+  // public void setCoast(){
+  //   leftClimber.setIdleMode(IdleMode.kCoast);
+  //   rightClimber.setIdleMode(IdleMode.kCoast);
+  // }
   
-  public void setBreak(){
-    leftClimber.setIdleMode(IdleMode.kBrake);
-    rightClimber.setIdleMode(IdleMode.kBrake);
+  // public void setBreak(){
+  //   leftClimber.setIdleMode(IdleMode.kBrake);
+  //   rightClimber.setIdleMode(IdleMode.kBrake);
   
-  }
-  public void setMotorStop() {
-    leftClimber.stopMotor();
-    rightClimber.stopMotor();
+  // }
+  // public void setMotorStop() {
+  //   leftClimber.stopMotor();
+  //   rightClimber.stopMotor();
 
-  }
+  // }
 
 
 

@@ -3,34 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.513469069871951,
-        "y": 7.034441832747708
+        "x": 0.74,
+        "y": 4.420390379242297
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.0432803102733494,
-        "y": 6.990409858506845
+        "x": 1.0679563878743,
+        "y": 3.961290778691041
       },
       "isLocked": false,
-      "linkedName": "kTopRing"
+      "linkedName": "BottomStart"
     },
     {
       "anchor": {
-        "x": 0.7365015087811937,
-        "y": 6.681985456994171
+        "x": 2.51,
+        "y": 4.1
       },
       "prevControl": {
-        "x": 1.309243119380694,
-        "y": 7.063813197393838
+        "x": 1.6582309999528202,
+        "y": 4.085281023378135
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TopStart"
+      "linkedName": "kBottomRing"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.5,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -38,33 +38,22 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0,
+      "name": "IntakeDown",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDown"
+              }
+            },
             {
               "type": "named",
               "data": {
                 "name": "IntakeIn"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.35,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeUp"
               }
             }
           ]
@@ -80,13 +69,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 60.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "x2p Paths",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

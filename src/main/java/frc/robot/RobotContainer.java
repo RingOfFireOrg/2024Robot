@@ -1,17 +1,20 @@
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.AmpSpeedsRaw;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.OTFPathGen;
-import frc.robot.commands.TurnToClimb;
 import frc.robot.commands.AutoCommands.IntakeDown;
 import frc.robot.commands.AutoCommands.IntakeUp;
 import frc.robot.commands.AutoCommands.ShootCMD;
@@ -37,7 +40,7 @@ public class RobotContainer {
   public LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  //public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
   //public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem(); // removed until shooter can pivot
@@ -53,7 +56,7 @@ public class RobotContainer {
   XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
   XboxController climberController = new XboxController(2); //TODO: remove?
 
-  //SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //private final SendableChooser<Command> autoChooser;
   //private final SendableChooser<Command> autoChooser;
 
 
@@ -71,7 +74,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(0), shooterSubsystem));
 
 
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(0.8), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-0.8), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
@@ -81,7 +84,7 @@ public class RobotContainer {
 
 
     // autoChooser = AutoBuilder.buildAutoChooser();
-    //SmartDashboard.putData("Auto Chooser", autoChooser);
+    // SmartDashboard.putData("Auto Chooser", autoChooser);
 
 
 
@@ -139,11 +142,11 @@ public class RobotContainer {
     ));
 
 
-    // climberSubsystem.setDefaultCommand(new ClimberTeleop(
-    //   climberSubsystem, 
-    //   () -> climberController.getLeftY(),
-    //   () -> climberController.getRightY()
-    // ));
+    climberSubsystem.setDefaultCommand(new ClimberTeleop(
+      climberSubsystem, 
+      () -> climberController.getLeftY(),
+      () -> climberController.getRightY()
+    ));
      
 
 
@@ -154,16 +157,19 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    // This no longer works(?) -> new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
+    // This no longer works(?) Freezing the Robot (only swervesubsyetm) -> new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
     // new JoystickButton()
     // driveStick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
 
     //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
-    new JoystickButton(operatorController, Constants.OIConstants.aButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
+    new JoystickButton(operatorController, Constants.OIConstants.xButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
 
-    new JoystickButton(operatorController, Constants.OIConstants.yButton).onTrue(new IntakeUp(pivotIntakeSubsystem));
-    new JoystickButton(operatorController, Constants.OIConstants.xButton).onTrue(new IntakeDown(pivotIntakeSubsystem));
+    // new JoystickButton(operatorController, Constants.OIConstants.yButton).onTrue(new IntakeUp(pivotIntakeSubsystem));
+    // new JoystickButton(operatorController, Constants.OIConstants.xButton).onTrue(new IntakeDown(pivotIntakeSubsystem));
+
+    new POVButton(operatorController, Constants.OIConstants.dPadUp).onTrue(new IntakeUp(pivotIntakeSubsystem));
+    new POVButton(operatorController, Constants.OIConstants.dPadDown).onTrue(new IntakeDown(pivotIntakeSubsystem));
 
     //operatorController.getAButton().whileTrue(new InstantCommand(() ->shoote rSubsystem.ampSpeeds()));
 
@@ -171,9 +177,9 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("Middle1"); //IntakeTransferTest
+    return new PathPlannerAuto("[NEW]MiddleFull"); //IntakeTransferTest
     //return new InstantCommand();
-    //return autoChooser.getSelected();  <- Selectable Auto Command
+    //return autoChooser.getSelected(); // <- Selectable Auto Command
 
   }
 }

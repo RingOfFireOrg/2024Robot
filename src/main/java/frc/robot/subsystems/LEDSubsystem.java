@@ -21,17 +21,23 @@ public class LEDSubsystem extends SubsystemBase {
   private int hue;
   private int hue2;
 
-  private int firstSection = 31;
-  private int secondSection = 41;
-  private int thirdSection = 32;
+  private int ledSegment1 = 31;
+  private int ledSegment2 = 41;
+  private int ledSegment3 = 31;
 
 
+  int ledLengthBar = 31+41+31;
+  int ledSegment1Start = 0; // Left bar
+  int ledSegment2Start = 31; // top Bar
+  int ledSegment3Start = 31+41; // Right Bar
+  int ledSegmentTotal = 31+41+31;
+  int ledLegnthBoard = 0;
 
   public LEDSubsystem() {
 
     m_led = new AddressableLED(8);
 
-    m_ledBuffer = new AddressableLEDBuffer(firstSection + secondSection + thirdSection);
+    m_ledBuffer = new AddressableLEDBuffer(ledLengthBar);
     m_led.setLength(m_ledBuffer.getLength());
 
     // Set the data
@@ -41,7 +47,6 @@ public class LEDSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
     m_led.setData(m_ledBuffer);
   }
 
@@ -90,7 +95,7 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
-  
+  // --------------------------------- SET RGB FUNCTIONS ------------------------------------- \\
 
   public void setLEDRGB(int red, int green, int blue) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -100,18 +105,16 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void setLEDRGB_BAR(int red, int green, int blue) {
-    for (var i = 0; i < firstSection; i++) {
-      m_ledBuffer.setRGB(i, red, green, blue);
-    }  
-    for (var i = secondSection + firstSection; i < thirdSection + secondSection + firstSection - 1; i++) {
-      m_ledBuffer.setRGB(i + secondSection + firstSection, red, green, blue);
-    }      
+    for (var i = 0; i < ledSegment2Start; i++) {
+      m_ledBuffer.setRGB(ledSegment2Start-i-1, red, green, blue);
+      m_ledBuffer.setRGB(i + ledSegment3Start, red, green, blue);
+    }       
     m_led.setData(m_ledBuffer);
   }
 
   public void setLEDRGB_TOP(int red, int green, int blue) {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, red, green, blue);
+    for (var i = 0; i < ledSegment2; i++) {
+      m_ledBuffer.setRGB(ledSegment2Start+i, red, green, blue);
     }    
     m_led.setData(m_ledBuffer);
   }
@@ -123,6 +126,45 @@ public class LEDSubsystem extends SubsystemBase {
     }    
     m_led.setData(m_ledBuffer);
   }
+
+
+  // ------------------------------------------------------------------------------------- \\
+
+
+  public void redMoveSplit() {
+    // red chase with dimming black
+    for (var i = 0; i < ledSegment2Start; i++) {
+      final var hue = (m_rainbowFirstPixelHue + (i * 255 / 30)) % 255;
+      m_ledBuffer.setRGB(ledSegment2Start-i-1, 255-hue, 0, 0);
+      m_ledBuffer.setRGB(i + ledSegment3Start, 255-hue, 0, 0);
+    }
+    m_rainbowFirstPixelHue += 6;
+    m_rainbowFirstPixelHue %= 255;
+    m_led.setData(m_ledBuffer);
+  } 
+
+
+  public void redMoveSplit_REVERSE() {
+    // red chase with dimming black REVRESE
+    for (var i = 0; i < ledSegment2Start; i++) {
+      final var hue = (m_rainbowFirstPixelHue + (i * 255 / 30)) % 255;
+      m_ledBuffer.setRGB(ledSegment1Start +i, 255-hue, 0, 0);
+      m_ledBuffer.setRGB(ledSegmentTotal - i - 1, 255-hue, 0, 0);
+    }
+    m_rainbowFirstPixelHue += 6;
+    m_rainbowFirstPixelHue %= 255;
+    m_led.setData(m_ledBuffer);
+  } 
+
+
+
+
+
+// ------------------------------------------------------------------------ \\
+
+
+
+
 
 
 
@@ -275,6 +317,8 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue %= 255;
     m_led.setData(m_ledBuffer);
   }   
+
+ 
   
 
 

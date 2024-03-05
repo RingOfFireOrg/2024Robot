@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.0302151552424759,
-        "y": 7.093184562039965
+        "x": 1.0302318209733132,
+        "y": 7.093172657436457
       },
       "isLocked": false,
       "linkedName": "TopStart"
@@ -36,7 +36,31 @@
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "IntakeDown",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDown"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeIn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.2,
     "maxAcceleration": 3.0,
@@ -49,7 +73,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "xTop3pPaths",
+  "folder": "x2p Paths",
   "previewStartingState": {
     "rotation": 60.0,
     "velocity": 0

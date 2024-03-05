@@ -4,28 +4,28 @@
     {
       "anchor": {
         "x": 1.3465096453115373,
-        "y": 5.562987660051266
+        "y": 5.54
       },
       "prevControl": null,
       "nextControl": {
         "x": 2.3465096453115373,
-        "y": 5.562987660051266
+        "y": 5.54
       },
       "isLocked": false,
       "linkedName": "MiddleShoot"
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 5.58
+        "x": 2.8,
+        "y": 5.54
       },
       "prevControl": {
-        "x": 2.481887878765966,
-        "y": 5.58
+        "x": 2.5921906210172456,
+        "y": 5.54
       },
       "nextControl": {
-        "x": 2.8975066367314746,
-        "y": 5.58
+        "x": 3.007809378982754,
+        "y": 5.54
       },
       "isLocked": false,
       "linkedName": "kMiddleRing"
@@ -33,11 +33,11 @@
     {
       "anchor": {
         "x": 1.24,
-        "y": 5.58
+        "y": 5.54
       },
       "prevControl": {
         "x": 1.3359881257389004,
-        "y": 5.58
+        "y": 5.54
       },
       "nextControl": null,
       "isLocked": false,
@@ -63,7 +63,7 @@
       "name": "Move Intake Down",
       "waypointRelativePos": 0,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -71,18 +71,7 @@
               "data": {
                 "name": "IntakeDown"
               }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Start Up Intake wheels",
-      "waypointRelativePos": 0.0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
+            },
             {
               "type": "named",
               "data": {

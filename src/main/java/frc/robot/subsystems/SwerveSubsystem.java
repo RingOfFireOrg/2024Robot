@@ -101,8 +101,8 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                new PIDConstants(7, 0.0, 0.3), // Translation PID constants
-                new PIDConstants(5, 0.0, 0.0), // Rotation PID constants
+                new PIDConstants(7, 0.0, 1), // Translation PID constants
+                new PIDConstants(5, 0.0, 0.3), // Rotation PID constants
                 4.5, // Max module speed, in m/s
                 (Units.inchesToMeters(15.79899)), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -112,11 +112,16 @@ public class SwerveSubsystem extends SubsystemBase {
             // This will flip the path being followed to the red side of the field.
             // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
+            // var alliance = DriverStation.getAlliance();
+            //     if (alliance.isPresent()) {
+            //         return alliance.get() == DriverStation.Alliance.Red;
+            //     }
+            // return false;
             var alliance = DriverStation.getAlliance();
                 if (alliance.isPresent()) {
-                    return alliance.get() == DriverStation.Alliance.Red;
+                    return alliance.get() == DriverStation.Alliance.Blue;
                 }
-            return false;
+            return alliance.get() == DriverStation.Alliance.Red;            
         },
         this // Reference to this subsystem to set requirements
 

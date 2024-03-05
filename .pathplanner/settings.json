@@ -8,10 +8,11 @@
     "kFullpaths",
     "xBottom3pPaths",
     "xMiddle4pPaths",
-    "xTop3pPaths"
+    "x2p Paths"
   ],
   "autoFolders": [
     "FullPaths",
+    "Testing",
     "TestFullPaths"
   ],
   "defaultMaxVel": 4.2,

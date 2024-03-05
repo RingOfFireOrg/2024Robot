@@ -40,7 +40,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 1.0
+                        "waitTime": 0.7
                       }
                     },
                     {
@@ -80,27 +80,46 @@
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "sequential",
                       "data": {
-                        "pathName": "MiddleStart-}Bottom"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeIn"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 1.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "IntakeOut"
+                        "commands": [
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeIn"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "[New]Middle To Bottom"
+                            }
+                          },
+                          {
+                            "type": "path",
+                            "data": {
+                              "pathName": "[New]Bottom to Top"
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeIn"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.5
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeOut"
+                            }
+                          }
+                        ]
                       }
                     }
                   ]

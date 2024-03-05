@@ -3,97 +3,87 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "x": 2.35,
+        "y": 4.097305368134887
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5295010746330093,
-        "y": 4.905009502893448
+        "x": 1.8708090449970896,
+        "y": 4.576496323137798
       },
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": "NEWBottomRing"
     },
     {
       "anchor": {
-        "x": 2.234441105733733,
-        "y": 4.111991050457951
+        "x": 1.4530621961159118,
+        "y": 5.562987660051266
       },
       "prevControl": {
-        "x": 1.2945611971779734,
-        "y": 4.170793910779307
+        "x": 1.4530621961159118,
+        "y": 5.145049237184059
       },
       "nextControl": {
-        "x": 2.434050822863864,
-        "y": 4.099502622725493
+        "x": 1.4530621961159118,
+        "y": 5.921047975822361
+      },
+      "isLocked": false,
+      "linkedName": "StrafeShot"
+    },
+    {
+      "anchor": {
+        "x": 1.4530621961159118,
+        "y": 6.990384785778517
+      },
+      "prevControl": {
+        "x": 1.3530621961159117,
+        "y": 6.990384785778517
+      },
+      "nextControl": {
+        "x": 1.9994701885647073,
+        "y": 6.990384785778517
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "x": 2.528154752195015,
+        "y": 6.990384785778517
       },
       "prevControl": {
-        "x": 1.243157548926905,
-        "y": 4.383676173434637
+        "x": 1.9350858900129193,
+        "y": 6.990384785778517
       },
       "nextControl": {
-        "x": 1.4634427837728674,
-        "y": 6.57184283957119
+        "x": 3.51209546784031,
+        "y": 6.990384785778517
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NEWTopring"
     },
     {
       "anchor": {
-        "x": 2.234441105733733,
-        "y": 7.0050704681015805
+        "x": 1.3465096453115373,
+        "y": 5.54
       },
       "prevControl": {
-        "x": 1.9887849307755927,
-        "y": 6.848743811310037
-      },
-      "nextControl": {
-        "x": 2.3959836112874378,
-        "y": 7.1078702443630295
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
-      },
-      "prevControl": {
-        "x": 1.4692339990717203,
-        "y": 6.206448847742624
+        "x": 1.804586581956293,
+        "y": 6.134770134084096
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleShoot"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake Down",
-      "waypointRelativePos": 0.3,
+      "name": "Intake wheels IN",
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
-        "data": {
-          "commands": []
-        }
-      }
-    },
-    {
-      "name": "Intake Wheels On",
-      "waypointRelativePos": 0.65,
-      "command": {
-        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -107,8 +97,8 @@
       }
     },
     {
-      "name": "reset intake",
-      "waypointRelativePos": 1.45,
+      "name": "Intake up",
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -122,7 +112,7 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeOff"
+                "name": "IntakeIn"
               }
             }
           ]
@@ -130,8 +120,8 @@
       }
     },
     {
-      "name": "shoot",
-      "waypointRelativePos": 1.9,
+      "name": "Shoot out",
+      "waypointRelativePos": 0.75,
       "command": {
         "type": "parallel",
         "data": {
@@ -140,6 +130,52 @@
               "type": "named",
               "data": {
                 "name": "IntakeOut"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake down",
+      "waypointRelativePos": 1.45,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeDown"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeIn"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake up",
+      "waypointRelativePos": 3.15,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeIn"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeUp"
               }
             }
           ]

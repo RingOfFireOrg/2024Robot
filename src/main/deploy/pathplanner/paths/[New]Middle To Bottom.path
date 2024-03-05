@@ -4,81 +4,52 @@
     {
       "anchor": {
         "x": 1.3465096453115373,
-        "y": 5.562987660051266
+        "y": 5.54
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3465096453115373,
-        "y": 5.562987660051266
+        "x": 1.6910708597803608,
+        "y": 5.0225033544879265
       },
       "isLocked": false,
       "linkedName": "MiddleShoot"
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 5.58
+        "x": 1.602956765841976,
+        "y": 4.097305368134887
       },
       "prevControl": {
-        "x": 2.481887878765966,
-        "y": 5.58
+        "x": 2.0029567658419762,
+        "y": 4.097305368134887
       },
       "nextControl": {
-        "x": 2.8975066367314746,
-        "y": 5.58
+        "x": 1.5588997188727838,
+        "y": 4.097305368134887
       },
       "isLocked": false,
-      "linkedName": "kMiddleRing"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.24,
-        "y": 5.58
+        "x": 2.35,
+        "y": 4.097305368134887
       },
       "prevControl": {
-        "x": 1.3359881257389004,
-        "y": 5.58
+        "x": 2.15,
+        "y": 4.097305368134887
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "NEWBottomRing"
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.1,
-      "maxWaypointRelativePos": 0.75,
-      "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Move Intake Down",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeDown"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Reset Intake",
-      "waypointRelativePos": 1.55,
+      "name": "intake down",
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -86,7 +57,13 @@
             {
               "type": "named",
               "data": {
-                "name": "IntakeUp"
+                "name": "IntakeDown"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "IntakeIn"
               }
             }
           ]

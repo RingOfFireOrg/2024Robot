@@ -34,32 +34,35 @@ public class LEDAutoStatus extends Command {
 
   @Override
   public void execute() {
-    if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN) {
-      //orange?
-    }
+    // if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN) {
+    //   //orange?
+    // }
     if (shooterStatus.get() == ShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
       //Leave as is(?)
     }
     else if (shooterStatus.get() == ShooterSubsystemStatus.REVING) {
-      ledSubsystem.setLed("redChase");
+      ledSubsystem.redMoveSplit();
       //Make a RED pattern that is pointing Upwards
     }
     else if (shooterStatus.get() == ShooterSubsystemStatus.REVERSE) {
-      ledSubsystem.setLed("redChase");
+      ledSubsystem.redMoveSplit_REVERSE();
       //Make a RED pattern that is pointing downwards
     }
     else {
       // Alliance Color LEDS
       if (allianceRed) {
         //TODO: make Orange Gradient pattern - NEEDS to be distcint from red so it does not get confused with shooter, but also from when intake is down
-        ledSubsystem.setLEDRGB(255, 0, 0);
+        //ledSubsystem.setLEDRGB(255, 0, 0);
+        //ledSubsystem.setLEDRGB(255, 103, 43);
+        ledSubsystem.setLEDRGB(87, 5, 5);
         //ledSubsystem.setLed("redGradient");
         //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
         //TODO: make an actual blue gradient
         ledSubsystem.setLed("blueGradient");
+        //255, 103, 43
       }
     }
   }
