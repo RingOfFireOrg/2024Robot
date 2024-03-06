@@ -70,12 +70,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> shooterSubsystem.setMotor(0), shooterSubsystem));
 
     NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-3100), shooterSubsystem));
-    NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(2300), shooterSubsystem));
+    NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-2300), shooterSubsystem));
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(0), shooterSubsystem));
 
 
     NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(1), intakeSubsystem));
-    NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-0.8), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
 
@@ -177,7 +177,7 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("[NEW]MiddleFull"); //IntakeTransferTest
+    return new PathPlannerAuto("MiddleFull"); //IntakeTransferTest
     //return new InstantCommand();
     //return autoChooser.getSelected(); // <- Selectable Auto Command
 

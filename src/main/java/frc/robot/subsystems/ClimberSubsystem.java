@@ -1,6 +1,8 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -9,12 +11,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ClimberSubsystem extends SubsystemBase {
 
   // private CANSparkMax leftClimberSPK; 
-  // private CANSparkMax rightClimberSPK;
+  private CANSparkMax rightClimberSPK;
   // private VictorSP leftClimberVSP;
   // private VictorSP rightClimberVSP;
 
   private PWMSparkMax leftClimberSPK; 
-  private PWMSparkMax rightClimberSPK;
+  //private PWMSparkMax rightClimberSPK;
 
   public enum ClimberStatus {
     UNTOUCHED,
@@ -28,9 +30,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
   public ClimberSubsystem() {
     // leftClimber = new CANSparkMax(Constants.IDConstants.leftClimberMotorID, MotorType.kBrushless);
-    // rightClimber = new CANSparkMax(Constants.IDConstants.rightClimberMotorID, MotorType.kBrushless);
+    rightClimberSPK = new CANSparkMax(27, MotorType.kBrushless);
     leftClimberSPK = new PWMSparkMax(5);
-    rightClimberSPK = new PWMSparkMax(6);
+    //rightClimberSPK = new PWMSparkMax(6);
 
     rightClimberSPK.setInverted(true);
   }
@@ -43,9 +45,9 @@ public class ClimberSubsystem extends SubsystemBase {
 
 
 
-  public void setMotor(double speed) {
+  public void setMotor(double speed, double speed2) {
     leftClimberSPK.set(speed);
-    rightClimberSPK.set(speed);
+    rightClimberSPK.set(speed2);
   }
    public void setLeftMotor(double speed) {
     leftClimberSPK.set(speed);
