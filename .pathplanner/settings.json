@@ -4,11 +4,12 @@
   "holonomicMode": true,
   "pathFolders": [
     "Concept",
+    "VisionCope",
     "Testing Paths",
     "kFullpaths",
+    "x2p Paths",
     "xBottom3pPaths",
-    "xMiddle4pPaths",
-    "x2p Paths"
+    "xMiddle4pPaths"
   ],
   "autoFolders": [
     "FullPaths",
