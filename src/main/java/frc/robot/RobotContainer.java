@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
@@ -12,13 +11,14 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
-import frc.robot.commands.AmpSpeedsRaw;
 import frc.robot.commands.LEDAutoStatus;
+import frc.robot.commands.LEDTeleOpStatus;
 import frc.robot.commands.OTFPathGen;
 import frc.robot.commands.AutoCommands.IntakeDown;
 import frc.robot.commands.AutoCommands.IntakeUp;
 import frc.robot.commands.AutoCommands.ShootCMD;
 import frc.robot.commands.AutoCommands.TransferCMD;
+import frc.robot.commands.TeleopCommands.AmpSpeedsRaw;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
@@ -43,12 +43,7 @@ public class RobotContainer {
   public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
-  //public PivotShooterSubsystem pivotSubsystem = new PivotShooterSubsystem(); // removed until shooter can pivot
   public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-
-
-
-
   //public LimeLight limeLightSubsystem = new LimeLight();
 
 
@@ -57,10 +52,35 @@ public class RobotContainer {
   XboxController climberController = new XboxController(2); //TODO: remove?
 
   //private final SendableChooser<Command> autoChooser;
-  //private final SendableChooser<Command> autoChooser;
+  SendableChooser<Command> autoChooser = new SendableChooser<>();
+
 
 
   public RobotContainer() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*  These commands are so we dont get a bunch of errors yelling at us */
+    NamedCommands.registerCommand("IntakeInDeadline", new InstantCommand());
+    NamedCommands.registerCommand("RevShooter", new InstantCommand());
+    NamedCommands.registerCommand("TransferRingToShooter", new InstantCommand());
+
+    /*         ----------------------------------------------------               */
 
     NamedCommands.registerCommand("Shoot", new ShootCMD(shooterSubsystem));
     NamedCommands.registerCommand("Transfer", new TransferCMD(intakeSubsystem));
@@ -74,7 +94,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(0), shooterSubsystem));
 
 
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(1), intakeSubsystem));
+    // NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotor(1), intakeSubsystem));
+    // NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
+    // NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
+
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.65), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
@@ -83,19 +107,28 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem));
 
 
+    NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
 
+    autoChooser.setDefaultOption("Nothing", new InstantCommand());
+    autoChooser.setDefaultOption("4 Piece", new PathPlannerAuto("MiddleFull"));
+    autoChooser.setDefaultOption("2 Middle", new PathPlannerAuto("Middle1"));
+    autoChooser.setDefaultOption("2 Left", new PathPlannerAuto("Left2p"));
+    autoChooser.setDefaultOption("2 Right", new PathPlannerAuto("Right2p"));
+    autoChooser.setDefaultOption("Taxi", new PathPlannerAuto("Taxi"));
+    autoChooser.setDefaultOption("Shoot No Movement", new PathPlannerAuto("IntakeTransferTest"));
 
+    SmartDashboard.putData(autoChooser);
 
 
     //ledSubsystem.setDefaultCommand(new LEDCommand(ledSubsystem,"blueGradient")); <- Nonchaning led command
-    ledSubsystem.setDefaultCommand(new LEDAutoStatus(
+    ledSubsystem.setDefaultCommand(new LEDTeleOpStatus(
       ledSubsystem, 
       () -> shooterSubsystem.getStatus(),          //Supplier for Shooter Status
-      () -> pivotIntakeSubsystem.getIntakeStatus() //Supplier for Intake Pivot Status
-      
-    )); // <- Changes with status updates from attachemnts
+      () -> pivotIntakeSubsystem.getIntakeStatus(), //Supplier for Intake Pivot Status
+      () -> intakeSubsystem.getStatus()             //Supplier for Intake Wheels
+    ));
 
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
@@ -163,11 +196,12 @@ public class RobotContainer {
 
     //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
-    new JoystickButton(operatorController, Constants.OIConstants.xButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
 
     // new JoystickButton(operatorController, Constants.OIConstants.yButton).onTrue(new IntakeUp(pivotIntakeSubsystem));
     // new JoystickButton(operatorController, Constants.OIConstants.xButton).onTrue(new IntakeDown(pivotIntakeSubsystem));
 
+
+    new JoystickButton(operatorController, Constants.OIConstants.xButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
     new POVButton(operatorController, Constants.OIConstants.dPadUp).onTrue(new IntakeUp(pivotIntakeSubsystem));
     new POVButton(operatorController, Constants.OIConstants.dPadDown).onTrue(new IntakeDown(pivotIntakeSubsystem));
 
@@ -177,9 +211,11 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    return new PathPlannerAuto("MiddleFull"); //IntakeTransferTest
+    //return new PathPlannerAuto("MiddleFull"); //IntakeTransferTest
     //return new InstantCommand();
     //return autoChooser.getSelected(); // <- Selectable Auto Command
+    SmartDashboard.putString("Auto running", autoChooser.getSelected().toString());
+    return autoChooser.getSelected();
 
   }
 }

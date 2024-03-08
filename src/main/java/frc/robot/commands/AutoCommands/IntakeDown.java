@@ -20,7 +20,7 @@ public class IntakeDown extends Command {
 
   @Override
   public void execute() {
-    pivotIntakeSubsystem.setPivotMotor(0.6);
+    pivotIntakeSubsystem.setPivotMotor(0.7);
   }
 
   // Called once the command ends or is interrupted.

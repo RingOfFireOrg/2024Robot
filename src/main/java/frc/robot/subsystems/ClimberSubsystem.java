@@ -51,10 +51,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
    public void setLeftMotor(double speed) {
     leftClimberSPK.set(speed);
-    // rightClimber.set(speed);
   }
    public void setRightMotor(double speed) {
-    // leftClimber.set(speed);
     rightClimberSPK.set(speed);
   }
   // public void setCoast(){

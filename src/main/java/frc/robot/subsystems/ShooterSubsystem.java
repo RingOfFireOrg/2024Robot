@@ -6,8 +6,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,8 +20,6 @@ public class ShooterSubsystem extends SubsystemBase {
   private RelativeEncoder shooterTopEncoder;
   private RelativeEncoder shooterBottomEncoder;
 
-  XboxController opcontrolly = new XboxController(1); //TODO delete
-
   double speedTarget;
   double getSpeedTop;
   double getSpeedBottom;
@@ -34,6 +30,7 @@ public class ShooterSubsystem extends SubsystemBase {
   double ampSpeedBottom = -0.2;
   double maxRPM = 5676;
 
+  // move to constants
   double shooterMotorTopP;
   double shooterMotorTopI;
   double shooterMotorTopD;
@@ -59,7 +56,7 @@ public class ShooterSubsystem extends SubsystemBase {
   ShooterSubsystemStatus shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
 
   public ShooterSubsystem() {
-    shooterMotorTop = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
+    shooterMotorTop    = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
     shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
 
     //shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
@@ -133,9 +130,7 @@ public class ShooterSubsystem extends SubsystemBase {
       shooterMotorTopPIDController.setReference( speed*maxRPM , ControlType.kVelocity); 
       shooterMotorBottomPIDController.setReference(speed*maxRPM , ControlType.kVelocity); 
     //}
-
     SmartDashboard.putNumber("sTargeted RPM", -speed*maxRPM);
-
     SmartDashboard.putNumber("sVelocity RPM TOP (refrence function)", shooterTopEncoder.getVelocity());
     SmartDashboard.putNumber("sVelocity RPM Bottom (refrence function))", shooterBottomEncoder.getVelocity());
 
@@ -163,6 +158,9 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterMotorBottomPIDController.setReference(-750 , ControlType.kVelocity); 
   }
 
+  public CANSparkMax returnShooterMotorTop() {
+    return shooterMotorTop;
+  }
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);
     shooterMotorBottom.setIdleMode(IdleMode.kCoast);

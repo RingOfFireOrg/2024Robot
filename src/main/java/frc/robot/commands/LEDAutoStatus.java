@@ -10,20 +10,21 @@ import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
-public class LEDTeleOpStatus extends Command {
+public class LEDAutoStatus extends Command {
   LEDSubsystem ledSubsystem;
   String pattern;
   Boolean allianceRed = true;
   Supplier<ShooterSubsystemStatus> shooterStatus;
   Supplier<PivotSubsystemStatus> pivotIntakeStatus;
   Supplier<IntakeSubsystemStatus> intakeStatus;
-  
-  public LEDTeleOpStatus(LEDSubsystem ledSubsystem,  Supplier<ShooterSubsystemStatus> shooterStatus, Supplier<PivotSubsystemStatus> pivotIntakeStatus, Supplier<IntakeSubsystemStatus> intakeStatus) {
+
+  public LEDAutoStatus(LEDSubsystem ledSubsystem,  Supplier<ShooterSubsystemStatus> shooterStatus, Supplier<PivotSubsystemStatus> pivotIntakeStatus, Supplier<IntakeSubsystemStatus> intakeStatus) {
     addRequirements(ledSubsystem);
     this.ledSubsystem = ledSubsystem;
     this.shooterStatus = shooterStatus;
     this.pivotIntakeStatus = pivotIntakeStatus;
     this.intakeStatus = intakeStatus;
+
   }
 
   @Override
@@ -38,28 +39,17 @@ public class LEDTeleOpStatus extends Command {
 
   @Override
   public void execute() {
-    // if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN) {
-    //   //orange?
-    // }
-    if (shooterStatus.get() == ShooterSubsystemStatus.READY) {
-      ledSubsystem.setLEDRGB(0, 255, 0);
-      //Leave as is(?)
+
+    if (pivotIntakeStatus.get() != PivotSubsystemStatus.INTAKE_UP) {
+      ledSubsystem.setLEDRGB(255, 0, 0);
     }
-    else if (shooterStatus.get() == ShooterSubsystemStatus.REVING) {
-      ledSubsystem.redMoveSplit();
-      //Make a RED pattern that is pointing Upwards
-    }
-    else if (shooterStatus.get() == ShooterSubsystemStatus.REVERSE) {
+    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN) {
       ledSubsystem.redMoveSplit_REVERSE();
-      //Make a RED pattern that is pointing downwards
     }
     else {
       // Alliance Color LEDS
       if (allianceRed) {
-        //TODO: make Orange Gradient pattern - NEEDS to be distcint from red so it does not get confused with shooter, but also from when intake is down
         ledSubsystem.shiftingOrange_BAR();
-        //ledSubsystem.setLEDRGB(87, 5, 5); // TODO: MOVE TO CONSTANTS!!!!!!!!!!!
-        //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
         ledSubsystem.setLed("blueGradient");

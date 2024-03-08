@@ -128,11 +128,10 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
-  // ------------------------------------------------------------------------------------- \\
-
+  // ------------------------------------ Red chase ------------------------------------------------- \\
+  //                                  
 
   public void redMoveSplit() {
-    // red chase with dimming black
     for (var i = 0; i < ledSegment2Start; i++) {
       final var hue = (m_rainbowFirstPixelHue + (i * 255 / 30)) % 255;
       m_ledBuffer.setRGB(ledSegment2Start-i-1, 255-hue, 0, 0);
@@ -145,7 +144,6 @@ public class LEDSubsystem extends SubsystemBase {
 
 
   public void redMoveSplit_REVERSE() {
-    // red chase with dimming black REVRESE
     for (var i = 0; i < ledSegment2Start; i++) {
       final var hue = (m_rainbowFirstPixelHue + (i * 255 / 30)) % 255;
       m_ledBuffer.setRGB(ledSegment1Start +i, 255-hue, 0, 0);
@@ -160,12 +158,68 @@ public class LEDSubsystem extends SubsystemBase {
 
 
 
-// ------------------------------------------------------------------------ \\
+// --------------------------------Shifting orange Pattern for Red Alliance--------------------------------------- \\
+   
+
+  int firstOrange = 2;
+  boolean flip = false;
+
+  public void shiftingOrange() {
+    if (flip == false) {
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, 255, firstOrange, 0);
+      }
+      firstOrange += 1;
+      m_led.setData(m_ledBuffer);
+      if (firstOrange >= 140) {
+        flip = true;
+      }
+    }
+    if (flip == true) {
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, 255, firstOrange, 0);
+      }
+      firstOrange -= 1;
+      m_led.setData(m_ledBuffer);
+      if (firstOrange <= 5) {
+        flip = false;
+      }
+    }
+  }
+
+
+  // int firstOrange_Bar = 2;
+  // boolean flip_Bar = false;
+
+  public void shiftingOrange_BAR() {
+    if (flip == false) {
+      for (var i = 0; i < ledSegment2Start; i++) {
+        m_ledBuffer.setRGB(ledSegment1Start + i, 255, firstOrange, 0);
+        m_ledBuffer.setRGB(ledSegment3Start + i, 255, firstOrange, 0);
+      }
+      firstOrange += 1;
+      m_led.setData(m_ledBuffer);
+      if (firstOrange >= 140) {
+        flip = true;
+      }
+    }
+    if (flip == true) {
+      for (var i = 0; i < ledSegment2Start; i++) {
+        m_ledBuffer.setRGB(ledSegment1Start + i, 255, firstOrange, 0);
+        m_ledBuffer.setRGB(ledSegment3Start + i, 255, firstOrange, 0);;
+
+      }
+      firstOrange -= 1;
+      m_led.setData(m_ledBuffer);
+      if (firstOrange <= 5) {
+        flip = false;
+      }
+    }
+  }
 
 
 
-
-
+  // ---------------------------------------------------------------------------------------------------- \\
 
 
 

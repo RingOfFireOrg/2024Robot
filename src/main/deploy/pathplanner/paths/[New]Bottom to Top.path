@@ -121,7 +121,7 @@
     },
     {
       "name": "Shoot out",
-      "waypointRelativePos": 0.75,
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {

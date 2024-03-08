@@ -2,6 +2,17 @@ package frc.robot;
 
 import java.util.Optional;
 
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
+
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.CvSink;
+import edu.wpi.first.cscore.CvSource;
+import edu.wpi.first.cscore.MjpegServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.util.PixelFormat;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -25,55 +36,68 @@ public class Robot extends TimedRobot {
   //private DriverStation.Alliance queuedAlliance = DriverStation.Alliance.Blue;
 
   public enum AutoModes {
-    AUTO1, AUTO2, AUTO3, AUTO4, AUTO5, AUTO6
+    Nothing, x4_piece, x2_Middle, x2_Left, x2_Right
   }
   
   @Override
   public void robotInit() {
-    //     Thread m_visionThread = new Thread(
-    //     () -> {
-    //       UsbCamera camera = CameraServer.startAutomaticCapture();
 
-    //       camera.setResolution(640, 480);
-        
+    Thread m_visionThread = new Thread(
+    () -> {
+      UsbCamera camera = CameraServer.startAutomaticCapture();
 
-    //       CvSink cvSink = CameraServer.getVideo();
+      camera.setResolution(640, 480);
+    
 
-    //       CvSource outputStream = CameraServer.putVideo("Rectangle", 640, 480);
+      CvSink cvSink = CameraServer.getVideo();
 
-    //       Mat mat = new Mat();
-          
-    //       while (!Thread.interrupted()) {
-    //         if (cvSink.grabFrame(mat) == 0) {
+      CvSource outputStream = CameraServer.putVideo("Rectangle", 640, 480);
 
-    //           outputStream.notifyError(cvSink.getError());
-   
-    //           continue;
-    //         }
-     
-    //         Imgproc.rectangle(
-    //             mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+      Mat mat = new Mat();
+      
+      while (!Thread.interrupted()) {
+        if (cvSink.grabFrame(mat) == 0) {
 
-    //         outputStream.putFrame(mat);
-    //       }
-    //     });
-    // m_visionThread.setDaemon(true);
-    // m_visionThread.start();
+          outputStream.notifyError(cvSink.getError());
+
+          continue;
+        }
+
+        Imgproc.rectangle(
+            mat, new Point(100, 100), new Point(400, 400), new Scalar(255, 255, 255), 5);
+
+        outputStream.putFrame(mat);
+      }
+    });
+    m_visionThread.setDaemon(true);
+    m_visionThread.start();
 
     m_robotContainer = new RobotContainer();
 
     autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("AUTO1", AutoModes.AUTO1);
-    autoChooser.addOption("AUTO2", AutoModes.AUTO2);
-    autoChooser.addOption("AUTO3", AutoModes.AUTO3);
-    autoChooser.addOption("AUTO4", AutoModes.AUTO4);
-    autoChooser.addOption("AUTO5", AutoModes.AUTO5);
-    autoChooser.addOption("AUTO6", AutoModes.AUTO6);
+    autoChooser.setDefaultOption("Instant CMD", AutoModes.Nothing);
+    autoChooser.addOption("Four Piece Auto", AutoModes.x4_piece);
+    autoChooser.addOption("2 Piece Left", AutoModes.x2_Middle);
+    autoChooser.addOption("2 Piece Right", AutoModes.x2_Left);
+    autoChooser.addOption("2 Piece Middle", AutoModes.x2_Right);
+    //autoChooser.addOption("AUTO6", AutoModes.AUTO6);
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
     previousSelectedAuto = autoChooser.getSelected();
 
+    // // Creates UsbCamera and MjpegServer [1] and connects them
+    // UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
+    // MjpegServer mjpegServer1 = new MjpegServer("serve_USB Camera 0", 1181);
+    // mjpegServer1.setSource(usbCamera);
 
+    // // Creates the CvSink and connects it to the UsbCamera
+    // CvSink cvSink = new CvSink("opencv_USB Camera 0");
+    // cvSink.setSource(usbCamera);
+
+    // // Creates the CvSource and MjpegServer [2] and connects them
+    // CvSource outputStream = new CvSource("Blur", PixelFormat.kMJPEG, 640, 480, 30);
+    // MjpegServer mjpegServer2 = new MjpegServer("serve_Blur", 1182);
+    // mjpegServer2.setSource(outputStream);
     
   }
 
@@ -91,7 +115,6 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();    
-    //SmartDashboard.putString( "  Get Pose meters ",swerveSubsystem.getPose().toString());
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -102,11 +125,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-
-
-    
-
-
 
   }
 
@@ -132,7 +150,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    //SmartDashboard.putString( "  Get Pose meters ",swerveSubsystem.getPose().toString());
+
   }
 
   @Override
@@ -141,7 +159,6 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    //m_robotContainer.ledSubsystem.removeDefaultCommand();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
