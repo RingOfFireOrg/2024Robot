@@ -158,9 +158,7 @@ public class LEDSubsystem extends SubsystemBase {
 
 
 
-// --------------------------------Shifting orange Pattern for Red Alliance--------------------------------------- \\
-   
-
+/*  --------------------------------Shifting orange Pattern for Red Alliance--------------------------------------- */   
   int firstOrange = 2;
   boolean flip = false;
 
@@ -219,7 +217,7 @@ public class LEDSubsystem extends SubsystemBase {
 
 
 
-  // ---------------------------------------------------------------------------------------------------- \\
+  /*  ------------------------------------------------------------------------------------ */   
 
 
 

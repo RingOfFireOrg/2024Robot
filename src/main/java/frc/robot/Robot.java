@@ -25,8 +25,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
-  private static SendableChooser<AutoModes> autoChooser;
-  private AutoModes previousSelectedAuto;
   SwerveSubsystem swerveSubsystem;
   //Alliance queuedAlliance;
   //Alliance red = DriverStation.Alliance.Blue;
@@ -34,10 +32,6 @@ public class Robot extends TimedRobot {
   Optional<Alliance> alliance = DriverStation.getAlliance();
   Alliance queuedAlliance = null;
   //private DriverStation.Alliance queuedAlliance = DriverStation.Alliance.Blue;
-
-  public enum AutoModes {
-    Nothing, x4_piece, x2_Middle, x2_Left, x2_Right
-  }
   
   @Override
   public void robotInit() {
@@ -74,16 +68,6 @@ public class Robot extends TimedRobot {
 
     m_robotContainer = new RobotContainer();
 
-    autoChooser = new SendableChooser<>();
-    autoChooser.setDefaultOption("Instant CMD", AutoModes.Nothing);
-    autoChooser.addOption("Four Piece Auto", AutoModes.x4_piece);
-    autoChooser.addOption("2 Piece Left", AutoModes.x2_Middle);
-    autoChooser.addOption("2 Piece Right", AutoModes.x2_Left);
-    autoChooser.addOption("2 Piece Middle", AutoModes.x2_Right);
-    //autoChooser.addOption("AUTO6", AutoModes.AUTO6);
-
-    SmartDashboard.putData("Auto Chooser", autoChooser);
-    previousSelectedAuto = autoChooser.getSelected();
 
     // // Creates UsbCamera and MjpegServer [1] and connects them
     // UsbCamera usbCamera = new UsbCamera("USB Camera 0", 0);
@@ -136,14 +120,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }  
-    // AutoBuilder autoBuilder = new AutoBuilder();
-    // autoBuilder.setRobotContainer(m_robotContainer);
-    // autoBuilder.setAutoMode(autoChooser.getSelected());
-    // if (m_autonomousCommand != null) {
-    //     m_autonomousCommand.schedule();
-    // }
-
-    // m_autonomousCommand = autoBuilder.build();
 
   }
 

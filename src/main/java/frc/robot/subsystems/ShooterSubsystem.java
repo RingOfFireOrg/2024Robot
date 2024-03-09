@@ -154,8 +154,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void ampSpeedsVelocityControl() {
-    shooterMotorTopPIDController.setReference(-750, ControlType.kVelocity);
-    shooterMotorBottomPIDController.setReference(-750 , ControlType.kVelocity); 
+    shooterMotorTopPIDController.setReference(-900, ControlType.kVelocity);
+    shooterMotorBottomPIDController.setReference(-820 , ControlType.kVelocity); 
   }
 
   public CANSparkMax returnShooterMotorTop() {
