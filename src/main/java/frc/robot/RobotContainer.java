@@ -203,6 +203,8 @@ public class RobotContainer {
     //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     //new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
 
+    //Add trigger to enable when back trigger pressed, move the wheels back when shooter revereses
+
 
   } 
 
