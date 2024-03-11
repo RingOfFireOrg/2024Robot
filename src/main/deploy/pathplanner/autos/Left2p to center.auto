@@ -1,0 +1,85 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.74,
+      "y": 4.420390379242297
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOnRPM"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOffRPM"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BottomStart-}Center5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Center5-}BottomStart"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "ShootOnRPM"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "IntakeOut"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        }
+      ]
+    }
+  },
+  "folder": "TestFullPaths",
+  "choreoAuto": false
+}

@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.8,
-        "y": 5.54
+        "x": 1.059586519888604,
+        "y": 2.511251677243963
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7999999999999998,
-        "y": 5.54
+        "x": 2.0595865198886045,
+        "y": 2.511251677243963
       },
       "isLocked": false,
-      "linkedName": "kMiddleRing"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.3465096453115373,
-        "y": 5.54
+        "x": 2.792497034010169,
+        "y": 2.511251677243963
       },
       "prevControl": {
-        "x": 1.978164725868816,
-        "y": 5.54
+        "x": 1.792497034010169,
+        "y": 2.511251677243963
+      },
+      "nextControl": {
+        "x": 3.792497034010169,
+        "y": 2.511251677243963
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.9526659375322337,
+        "y": 2.511251677243963
+      },
+      "prevControl": {
+        "x": 3.8578958034481374,
+        "y": 1.85773881386761
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleShoot"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -39,11 +55,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -176.3086140135488,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "xMiddle4pPaths",
+  "folder": "RR",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

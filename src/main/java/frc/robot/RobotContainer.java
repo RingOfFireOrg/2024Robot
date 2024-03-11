@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.LEDTeleOpStatus;
-import frc.robot.commands.OTFPathGen;
 import frc.robot.commands.AutoCommands.IntakeDown;
 import frc.robot.commands.AutoCommands.IntakeUp;
 import frc.robot.commands.AutoCommands.ShootCMD;
@@ -40,11 +39,11 @@ public class RobotContainer {
   public LEDSubsystem ledSubsystem = new LEDSubsystem();
 
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
-  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
   public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   //public LimeLight limeLightSubsystem = new LimeLight();
+  public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
@@ -58,24 +57,7 @@ public class RobotContainer {
 
   public RobotContainer() {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /*  These commands are so we dont get a bunch of errors yelling at us */
+    /*  These commands are so we dont get a bunch of errors yelling at us, they are from old deleted paths that are stuck on the rio */
     NamedCommands.registerCommand("IntakeInDeadline", new InstantCommand());
     NamedCommands.registerCommand("RevShooter", new InstantCommand());
     NamedCommands.registerCommand("TransferRingToShooter", new InstantCommand());
@@ -90,7 +72,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> shooterSubsystem.setMotor(0), shooterSubsystem));
 
     NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-3100), shooterSubsystem));
-    NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-2300), shooterSubsystem));
+    NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-1000), shooterSubsystem));
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(0), shooterSubsystem));
 
 
@@ -111,14 +93,15 @@ public class RobotContainer {
     // autoChooser = AutoBuilder.buildAutoChooser();
     // SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    autoChooser.setDefaultOption("Nothing", new InstantCommand());
-    autoChooser.setDefaultOption("4 Piece", new PathPlannerAuto("MiddleFull"));
-    autoChooser.setDefaultOption("2 Middle", new PathPlannerAuto("Middle1"));
-    autoChooser.setDefaultOption("2 Left", new PathPlannerAuto("Left2p"));
-    autoChooser.setDefaultOption("2 Right", new PathPlannerAuto("Right2p"));
-    autoChooser.setDefaultOption("Taxi", new PathPlannerAuto("Taxi"));
     autoChooser.setDefaultOption("Shoot No Movement", new PathPlannerAuto("IntakeTransferTest"));
-
+    autoChooser.addOption("Nothing", new InstantCommand());
+    autoChooser.addOption("Taxi", new PathPlannerAuto("Taxi"));
+    autoChooser.addOption("4 Piece", new PathPlannerAuto("MiddleFull"));
+    autoChooser.addOption("2 Middle", new PathPlannerAuto("Middle1"));
+    autoChooser.addOption("2 Left", new PathPlannerAuto("Left2p"));
+    autoChooser.addOption("2 Right", new PathPlannerAuto("Right2p"));
+    autoChooser.addOption("3 Middle Left", new PathPlannerAuto("Middle3pLeft"));
+    autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
     SmartDashboard.putData(autoChooser);
 
 
@@ -133,6 +116,7 @@ public class RobotContainer {
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
       swerveSubsystem,
+
       // Left Joystick Field Oriented
       () -> -driverController.getRawAxis(OIConstants.leftStickY),
       () -> driverController.getRawAxis(OIConstants.leftStickX),
@@ -188,24 +172,39 @@ public class RobotContainer {
 
   }
 
+
+
+  /* Sets default commands for each subsystem */
+  private void defaultCommands() {}
+
+  /* Registers Named Commands used in Paths */
+  private void namedCommands() {}
+
+  /* Populates the Sendable Chooser to pick autonomous in SmartDashboard */
+  private void populateAutoChooser() {}
+
+
+
+  /* Function that sets button bindings that arent being run as default commands */
   private void configureButtonBindings() {
-
-    // This no longer works(?) Freezing the Robot (only swervesubsyetm) -> new JoystickButton(driverController, Constants.OIConstants.backButton).onTrue(new RunCommand(() -> swerveSubsystem.zeroHeading(), swerveSubsystem));
-    // new JoystickButton()
-    // driveStick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
-
-    //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
-    new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
-
-    // new JoystickButton(operatorController, Constants.OIConstants.yButton).onTrue(new IntakeUp(pivotIntakeSubsystem));
-    // new JoystickButton(operatorController, Constants.OIConstants.xButton).onTrue(new IntakeDown(pivotIntakeSubsystem));
-
-
+    /* Runs the Shooter at a speed desirable for Amping */
     new JoystickButton(operatorController, Constants.OIConstants.xButton).whileTrue(new AmpSpeedsRaw(shooterSubsystem));
+
+    /* Sets the intake automatically to up or down */
     new POVButton(operatorController, Constants.OIConstants.dPadUp).onTrue(new IntakeUp(pivotIntakeSubsystem));
     new POVButton(operatorController, Constants.OIConstants.dPadDown).onTrue(new IntakeDown(pivotIntakeSubsystem));
 
-    //operatorController.getAButton().whileTrue(new InstantCommand(() ->shoote rSubsystem.ampSpeeds()));
+
+
+
+    
+    // driveStick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldRelative()));
+
+    //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
+    //new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
+
+    //Add trigger to enable when back trigger pressed, move the wheels back when shooter revereses
+
 
   } 
 

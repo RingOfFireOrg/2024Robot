@@ -3,6 +3,7 @@
   "robotLength": 0.889,
   "holonomicMode": true,
   "pathFolders": [
+    "RR",
     "Testing Paths",
     "kFullpaths",
     "x2p Paths",
@@ -11,8 +12,8 @@
   ],
   "autoFolders": [
     "FullPaths",
-    "Testing",
-    "TestFullPaths"
+    "TestFullPaths",
+    "Testing"
   ],
   "defaultMaxVel": 4.2,
   "defaultMaxAccel": 3.0,

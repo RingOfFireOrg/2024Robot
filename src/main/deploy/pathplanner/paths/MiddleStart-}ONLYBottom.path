@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3465096453115373,
+        "x": 1.827428069896433,
         "y": 5.54
       },
       "isLocked": false,
@@ -16,43 +16,70 @@
     },
     {
       "anchor": {
-        "x": 2.8,
-        "y": 5.54
+        "x": 1.8819847299801942,
+        "y": 3.744848992381349
       },
       "prevControl": {
-        "x": 2.5921906210172456,
-        "y": 5.54
+        "x": 1.8819847299801942,
+        "y": 4.04484899238135
       },
       "nextControl": {
-        "x": 3.007809378982754,
-        "y": 5.54
+        "x": 1.8819847299801942,
+        "y": 3.644848992381349
       },
       "isLocked": false,
-      "linkedName": "kMiddleRing"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.0,
+        "x": 2.6162688461334,
+        "y": 3.744848992381349
+      },
+      "prevControl": {
+        "x": 2.161889773079205,
+        "y": 3.744848992381349
+      },
+      "nextControl": {
+        "x": 3.070647919187595,
+        "y": 3.744848992381349
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 1.3465096453115373,
         "y": 5.54
       },
       "prevControl": {
-        "x": 1.0959881257389004,
-        "y": 5.54
+        "x": 1.9080518161036322,
+        "y": 3.6568684046459006
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "MiddleShoot"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.1,
-      "maxWaypointRelativePos": 0.75,
+      "name": "Slow down",
+      "minWaypointRelativePos": 0.8999999999999999,
+      "maxWaypointRelativePos": 2.55,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 3.0,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 3,
+      "maxWaypointRelativePos": 3,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -60,10 +87,10 @@
   ],
   "eventMarkers": [
     {
-      "name": "Move Intake Down",
-      "waypointRelativePos": 0,
+      "name": "Intake down",
+      "waypointRelativePos": 0.35,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -71,20 +98,14 @@
               "data": {
                 "name": "IntakeDown"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "IntakeIn"
-              }
             }
           ]
         }
       }
     },
     {
-      "name": "Reset Intake",
-      "waypointRelativePos": 1.55,
+      "name": "Intake up",
+      "waypointRelativePos": 2.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -94,7 +115,18 @@
               "data": {
                 "name": "IntakeUp"
               }
-            },
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake Wheels On",
+      "waypointRelativePos": 0.55,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
             {
               "type": "named",
               "data": {
