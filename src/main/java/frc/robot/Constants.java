@@ -103,7 +103,7 @@ public final class Constants {
 
         public static final int driverControllerPort = 0;
         public static final int operatorControllerPort = 1;
-        public static final int operatorSpareControllerPort = 2; //If we ever need a Second Operator Controler, use this
+        public static final int operatorSpareControllerPort = 2; 
 
         //  Axis 
         public static final int leftStickX = 0;
@@ -198,7 +198,6 @@ public final class Constants {
 
     public static final class IDConstants {
         //Swerve IDs
-            // Not used, but here for consistancy 
         public static final int frontLeftDriveMotor = 1;
         public static final int frontLeftTurnMotor = 2;
         public static final int frontLeftCANcoder = 9;

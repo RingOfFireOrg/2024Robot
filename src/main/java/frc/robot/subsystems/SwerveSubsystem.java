@@ -79,7 +79,6 @@ public class SwerveSubsystem extends SubsystemBase {
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(
         DriveConstants.kDriveKinematics, getRotation2d(),
         getSwerveModulePosition());
-        //,new Pose2d(1, 3, new Rotation2d()));
 
     private final PIDController yController = new PIDController(AutoConstants.kPYController, 0.0, 0.0);
     private final PIDController xController = new PIDController(AutoConstants.kPXController, 0.0, 0.0);
@@ -103,7 +102,7 @@ public class SwerveSubsystem extends SubsystemBase {
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                 new PIDConstants(8, 0.0, 1), // Translation PID constants
                 new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
-                4.5, // Max module speed, in m/s
+                4.6, // Max module speed, in m/s
                 (Units.inchesToMeters(15.79899)), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),

@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2,
-      "y": 2
+      "x": 1.3235236938753967,
+      "y": 5.550083606492732
     },
     "rotation": 0
   },
@@ -16,55 +16,55 @@
           "data": {
             "commands": [
               {
-                "type": "named",
-                "data": {
-                  "name": "ShootOnRPM"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 1.5
+                        "pathName": "1_MiddleStart to MiddleRing"
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "IntakeDown"
+                        "pathName": "2_MiddleRing to MiddleStart"
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "IntakeIn"
+                        "pathName": "3_MiddleStart to BottomRing"
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 5.0
+                        "pathName": "4_BottomRing to Middle Start"
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "IntakeUp"
+                        "pathName": "5_MiddleStart to TopRing"
                       }
                     },
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "IntakeOut"
+                        "pathName": "6_TopRing to MiddleStart"
                       }
                     },
                     {
-                      "type": "wait",
+                      "type": "path",
                       "data": {
-                        "waitTime": 5.0
+                        "pathName": "C2_MiddleStart to Centerline2"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "C2_Centerline2 to MiddleStart "
                       }
                     }
                   ]
@@ -76,6 +76,6 @@
       ]
     }
   },
-  "folder": "testing",
+  "folder": "5p Auto Testing",
   "choreoAuto": false
 }

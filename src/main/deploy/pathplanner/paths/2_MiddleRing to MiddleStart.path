@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "x": 2.4694120229027585,
+        "y": 5.551187918118234
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5442140365497206,
-        "y": 5.184045860041632
+        "x": 1.4694120229027585,
+        "y": 5.551187918118234
       },
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": "5_MiddleRing"
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 4.067934003488759
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
       },
       "prevControl": {
-        "x": 1.514842671903592,
-        "y": 3.96513422722731
+        "x": 2.323523693875397,
+        "y": 5.550083606492732
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "kBottomRing"
+      "linkedName": "5_MiddleStart"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "xMiddle4pPaths",
+  "folder": "[New]5 Piece middle Cope",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

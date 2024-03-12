@@ -3,32 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "x": 2.542840434512654,
+        "y": 7.005070468094607
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5442140365497206,
-        "y": 5.184045860041632
+        "x": 2.0582129178569635,
+        "y": 6.961013421132389
       },
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": "TN_TopRing"
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 4.067934003488759
+        "x": 0.7271735863212764,
+        "y": 6.667275029355093
       },
       "prevControl": {
-        "x": 1.514842671903592,
-        "y": 3.96513422722731
+        "x": 1.2651860724115016,
+        "y": 6.872899327194004
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "kBottomRing"
+      "linkedName": "TN_TopStart"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 60.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -39,11 +45,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 60.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "xMiddle4pPaths",
+  "folder": "[New]Top Autos",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

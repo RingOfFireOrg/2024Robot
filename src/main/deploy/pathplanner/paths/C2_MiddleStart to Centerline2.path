@@ -3,29 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3533001663498863,
-        "y": 5.477759506502913
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5442140365497206,
-        "y": 5.184045860041632
+        "x": 2.323523693875397,
+        "y": 5.550083606492732
       },
       "isLocked": false,
-      "linkedName": "MiddleStart"
+      "linkedName": "5_MiddleStart"
     },
     {
       "anchor": {
-        "x": 2.6896972577487204,
-        "y": 4.067934003488759
+        "x": 6.111461239022658,
+        "y": 6.197357940333054
       },
       "prevControl": {
-        "x": 1.514842671903592,
-        "y": 3.96513422722731
+        "x": 5.2570716050523005,
+        "y": 6.698039577897338
+      },
+      "nextControl": {
+        "x": 6.363917004064107,
+        "y": 6.049416110484166
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.829686070821158,
+        "y": 5.771473152964195
+      },
+      "prevControl": {
+        "x": 7.169457611064594,
+        "y": 5.771473152964195
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "kBottomRing"
+      "linkedName": "5_Center2"
     }
   ],
   "rotationTargets": [],
@@ -43,7 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "xMiddle4pPaths",
+  "folder": "[New]5 Piece middle Cope",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
