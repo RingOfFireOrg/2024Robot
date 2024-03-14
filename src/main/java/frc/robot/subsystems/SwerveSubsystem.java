@@ -103,7 +103,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 new PIDConstants(8, 0.0, 1), // Translation PID constants
                 new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
                 4.6, // Max module speed, in m/s
-                (Units.inchesToMeters(15.79899)), // Drive base radius in meters. Distance from robot center to furthest module.
+                Units.inchesToMeters(15.79899), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
@@ -159,19 +159,19 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // ---------------------------------------------------------------------------------------------------------------
     public Pose2d getPose() {
-        SmartDashboard.putString( "  Get Pose meters ", odometer.getPoseMeters().toString()); //ij, +2
+        SmartDashboard.putString( "  Get Pose meters ", odometer.getPoseMeters().toString()); 
         return odometer.getPoseMeters();
     }
 
     public void resetPose(Pose2d pose) {
         //odometer.resetPosition(getRotation2d(),getSwerveModulePosition(),pose);
-        odometer.resetPosition(new Rotation2d(Math.toRadians(gyro.getYaw())),getSwerveModulePosition(),pose); //ij
+        odometer.resetPosition(new Rotation2d(Math.toRadians(gyro.getYaw())),getSwerveModulePosition(),pose); 
         
     }
 
     public ChassisSpeeds getRobotRelativeSpeeds(){
        // return Constants.DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates());
-        return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()); // ij + 2
+        return DriveConstants.kDriveKinematics.toChassisSpeeds(getModuleStates()); 
     }
 
     public void driveRobotRelative(ChassisSpeeds chassisSpeeds){
@@ -260,15 +260,18 @@ public class SwerveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getSwerveModulePosition());
-
         
         SmartDashboard.putNumber("Robot Heading", getHeading());
         SmartDashboard.putNumber("Robot Theta", getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber(" Robot Tranlsation    fl", frontLeft.getDrivePosition());
-        SmartDashboard.putNumber(" Robot Tranlsation    fr", frontRight.getDrivePosition());
-        SmartDashboard.putNumber(" Robot Tranlsation    bl", backLeft.getDrivePosition());
-        SmartDashboard.putNumber(" Robot Tranlsation    br", backRight.getDrivePosition());
+        SmartDashboard.putNumber("FL Robot Tranlsation", frontLeft.getDrivePosition());
+        SmartDashboard.putNumber("FR Robot Tranlsation", frontRight.getDrivePosition());
+        SmartDashboard.putNumber("BL Robot Tranlsation", backLeft.getDrivePosition());
+        SmartDashboard.putNumber("BR Robot Tranlsation", backRight.getDrivePosition());
 
+        SmartDashboard.putNumber("FL Motor Temp", frontLeft.returnDriveMotorTemp());
+        SmartDashboard.putNumber("FR Motor Temp", frontRight.returnDriveMotorTemp());
+        SmartDashboard.putNumber("BL Motor Temp", backLeft.returnDriveMotorTemp());
+        SmartDashboard.putNumber("BR Motor Temp", backRight.returnDriveMotorTemp());
     }
 
     public void stopModules() {

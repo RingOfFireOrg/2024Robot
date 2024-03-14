@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.LEDTeleOpStatus;
@@ -41,8 +43,8 @@ public class RobotContainer {
   //public LimeLight limeLightSubsystem = new LimeLight();
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
-  XboxController operatorController = new XboxController(OIConstants.operatorControllerPort);
-  XboxController climberController = new XboxController(2); 
+  CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
+  XboxController climberController = new XboxController(OIConstants.operatorSpareControllerPort); 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
   SendableChooser<Command> newAutoChooser = new SendableChooser<>();
@@ -62,7 +64,7 @@ public class RobotContainer {
 
     ledSubsystem.setDefaultCommand(new LEDTeleOpStatus(
       ledSubsystem, 
-      () -> shooterSubsystem.getStatus(),          //Supplier for Shooter Status
+      () -> shooterSubsystem.getStatus(),           //Supplier for Shooter Status
       () -> pivotIntakeSubsystem.getIntakeStatus(), //Supplier for Intake Pivot Status
       () -> intakeSubsystem.getStatus()             //Supplier for Intake Wheels
     ));
@@ -98,7 +100,7 @@ public class RobotContainer {
 
     shooterSubsystem.setDefaultCommand(new ShooterTeleop(
       shooterSubsystem, 
-      () -> (operatorController.getLeftTriggerAxis() - operatorController.getRightTriggerAxis()) 
+      () -> (- operatorController.getRightTriggerAxis()) 
     ));
 
     pivotIntakeSubsystem.setDefaultCommand(new IntakePivotTeleop(
@@ -122,9 +124,8 @@ public class RobotContainer {
   /* Registers Named Commands used in Paths */
   private void namedCommands() {
 
-
-
     /* Shooter Commands */
+    // Add in Named Command to test delay between using
     NamedCommands.registerCommand("ShootOn", new InstantCommand( () -> shooterSubsystem.setMotor(0.6), shooterSubsystem));
     NamedCommands.registerCommand("ShootIdle", new InstantCommand( () -> shooterSubsystem.setMotor(0.5), shooterSubsystem));
     NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> shooterSubsystem.setMotor(0), shooterSubsystem));
@@ -138,7 +139,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
-
     /* Intake Pivot Commands */
     NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem));
     NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem));
@@ -146,7 +146,6 @@ public class RobotContainer {
     /* LED Command */
     NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
 
-        
     /*  These commands are so we dont get a bunch of errors yelling at us, they are from old deleted paths that are stuck on the rio */
     NamedCommands.registerCommand("IntakeInDeadline", new InstantCommand());
     NamedCommands.registerCommand("RevShooter", new InstantCommand());
@@ -154,6 +153,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", new ShootCMD(shooterSubsystem));
     NamedCommands.registerCommand("Transfer", new TransferCMD(intakeSubsystem));
   }
+
+
+
 
   /* Populates the Sendable Chooser to pick autonomous in SmartDashboard */
   private void populateAutoChooser() {
@@ -169,8 +171,7 @@ public class RobotContainer {
     autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
     /* New Pathing Testing  */
-    autoChooser.addOption("new 4p testing", new PathPlannerAuto("[Path]4p auto but the 5p path"));
-
+    autoChooser.addOption("5p", new PathPlannerAuto("[Path]5pC2 Path"));
 
     SmartDashboard.putData(autoChooser);
   }
@@ -179,37 +180,44 @@ public class RobotContainer {
 
   /* Creates button Bindings*/
   private void configureButtonBindings() {
+
+    // use "controller.getHID()" to use it as a standard XboxContoller instead of CommandXboxController
+
     /* Runs the Shooter at a speed desirable for Amping */
-    new JoystickButton(operatorController, Constants.OIConstants.xButton)
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
       .whileTrue(new AmpSpeedsRaw(shooterSubsystem));
 
     /* Spins Intake in and intake wheels to intake from source faster */
-    new JoystickButton(operatorController, Constants.OIConstants.leftBumper)
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
       .whileTrue(new InstantCommand(() -> intakeSubsystem.setMotorFull(-0.3))
       .alongWith(new InstantCommand(() -> shooterSubsystem.setMotor(-0.4)))
     );
 
-
-    /* Auto Deploy the Intake */      
-    new JoystickButton(operatorController, Constants.OIConstants.leftTrigger)
-      .onTrue(new InstantCommand(() -> intakeSubsystem.setMotor(0.6))
-      .alongWith(new IntakeDown(pivotIntakeSubsystem))
-    );
-
-    new JoystickButton(operatorController, Constants.OIConstants.leftTrigger)
-      .onFalse(new InstantCommand(() -> intakeSubsystem.setMotor(0))
-      .alongWith(new IntakeUp(pivotIntakeSubsystem))
-    );
-
-
     /* Sets the intake automatically to up or down */
-    new POVButton(operatorController, Constants.OIConstants.dPadUp)
+    new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)
       .onTrue(new IntakeUp(pivotIntakeSubsystem)
     );
-    new POVButton(operatorController, Constants.OIConstants.dPadDown)
+    new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDown)
       .onTrue(new IntakeDown(pivotIntakeSubsystem)
     );
 
+    /* Auto Deploy the Intake */      
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftTrigger)
+    //   .onTrue(new InstantCommand(() -> intakeSubsystem.setMotor(0.6))
+    //   .alongWith(new IntakeDown(pivotIntakeSubsystem))
+    // );
+
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftTrigger)
+    //   .onFalse(new InstantCommand(() -> intakeSubsystem.setMotor(0))
+    //   .alongWith(new IntakeUp(pivotIntakeSubsystem))
+    // );
+
+    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
+    .onTrue(new IntakeDown(pivotIntakeSubsystem)
+      .andThen(new IntakeTeleop(intakeSubsystem,() -> 0.5))) 
+    .onFalse(new IntakeUp(pivotIntakeSubsystem)
+      .andThen(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
+    
 
     //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     //new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
@@ -219,10 +227,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new PathPlannerAuto("MiddleFull"); //IntakeTransferTest
     //return new InstantCommand();
-    //return autoChooser.getSelected(); // <- Selectable Auto Command
-    //return autoChooser.getSelected();
-    return newAutoChooser.getSelected();
-    
-
+    return autoChooser.getSelected(); // <- Selectable Auto Command
+    //return newAutoChooser.getSelected();
   }
 }

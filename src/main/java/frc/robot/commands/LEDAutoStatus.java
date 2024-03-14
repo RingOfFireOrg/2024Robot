@@ -40,11 +40,12 @@ public class LEDAutoStatus extends Command {
   @Override
   public void execute() {
 
-    if (pivotIntakeStatus.get() != PivotSubsystemStatus.INTAKE_UP) {
-      ledSubsystem.setLEDRGB(255, 0, 0);
-    }
-    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN) {
+
+    if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN) {
       ledSubsystem.redMoveSplit_REVERSE();
+    }
+    else if (pivotIntakeStatus.get() != PivotSubsystemStatus.INTAKE_UP) {
+      ledSubsystem.setLEDRGB(255, 0, 0);
     }
     else {
       // Alliance Color LEDS
@@ -52,7 +53,7 @@ public class LEDAutoStatus extends Command {
         ledSubsystem.shiftingOrange_BAR();
       }
       else {
-        ledSubsystem.setLed("blueGradient");
+        ledSubsystem.blueGradient();
       }
     }
   }

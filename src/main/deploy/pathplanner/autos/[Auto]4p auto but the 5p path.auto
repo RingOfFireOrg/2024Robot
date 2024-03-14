@@ -220,7 +220,7 @@
                                       {
                                         "type": "path",
                                         "data": {
-                                          "pathName": "3_MiddleStart to BottomRing"
+                                          "pathName": "5_MiddleStart to TopRing"
                                         }
                                       }
                                     ]
@@ -245,7 +245,7 @@
                                       {
                                         "type": "path",
                                         "data": {
-                                          "pathName": "4_BottomRing to Middle Start"
+                                          "pathName": "6_TopRing to MiddleStart"
                                         }
                                       }
                                     ]

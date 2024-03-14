@@ -1,7 +1,6 @@
 package frc.robot;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 
 public final class Constants {
@@ -9,7 +8,6 @@ public final class Constants {
     public static final class ModuleConstants {
 
         public static final double kEncoderCPR = 2048;
-
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4);
         public static final double kDriveMotorGearRatio = 1 / 6.75; //L2
         public static final double kTurningMotorGearRatio = 1 / (150/7);
@@ -22,13 +20,11 @@ public final class Constants {
 
     public static final class DriveConstants {
 
+        /* Distance between right and left wheels */
         public static final double kTrackWidth =  Units.inchesToMeters(22.75); 
-        // Distance between right and left wheels
+        /* Distance between front and back wheels */
         public static final double kWheelBase = Units.inchesToMeters(22.75); 
-        // Distance between front and back wheels
 
-
-        //TODO: wrong order?
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -85,18 +81,30 @@ public final class Constants {
 
 
     public static final class AutoConstants {
-        public static final double kMaxSpeedMetersPerSecond = 0.5;
-        public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*0.5;
-        public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
-        public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI/4;
+        public static final double kMaxModuleSpeed = 0;
+
+        public static final double kTranslationP = 0;
+        public static final double kTranslationI = 0;
+        public static final double kTranslationD = 0;
+
+        public static final double kRotationP = 0;
+        public static final double kRotationI = 0;
+        public static final double kRotationD = 0;
+
+        public static final double kDriveBaseRadius = 0;
+
+        // public static final double kMaxSpeedMetersPerSecond = 0.5;
+        // public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*0.5;
+        // public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
+        // public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI/4;
         public static final double kPXController = 0.75; //multiplier for controller PID control
         public static final double kPYController = 0.75; //multiplier for controller PID control
         public static final double kPThetaController = 1.75; //multiplier for controller PID control
 
-        public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
-                new TrapezoidProfile.Constraints(
-                        kMaxAngularSpeedRadiansPerSecond,
-                        kMaxAngularAccelerationRadiansPerSecondSquared);
+        // public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
+        //         new TrapezoidProfile.Constraints(
+        //                 kMaxAngularSpeedRadiansPerSecond,
+        //                 kMaxAngularAccelerationRadiansPerSecondSquared);
     }
 
     public static final class OIConstants {

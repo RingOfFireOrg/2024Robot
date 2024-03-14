@@ -53,6 +53,9 @@ public class LEDTeleOpStatus extends Command {
       ledSubsystem.redMoveSplit_REVERSE();
       //Make a RED pattern that is pointing downwards
     }
+    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN) {
+      //red blink
+    }
     else {
       // Alliance Color LEDS
       if (allianceRed) {
@@ -62,7 +65,7 @@ public class LEDTeleOpStatus extends Command {
         //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
-        ledSubsystem.setLed("blueGradient");
+        ledSubsystem.blueGradient();
       }
     }
   }

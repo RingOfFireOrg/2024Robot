@@ -47,7 +47,8 @@ public class SwerveModule {
 
         //testMotor = new CANSparkMax(absoluteEncoderId, null);
 
-        driveMotor.setSmartCurrentLimit(80);
+        driveMotor.setSmartCurrentLimit(60);
+        driveMotor.burnFlash();
         //turningMotor.setSmartCurrentLimit(40);
 
 
@@ -141,8 +142,8 @@ public class SwerveModule {
         //double angle = absoluteEncoder.getAbsolutePosition();
 
         SmartDashboard.putNumber("Swerve[" + encId + "] state", getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Swerve[" + encId + "] state pure rotations", absoluteEncoder.getAbsolutePosition().getValue());
-        SmartDashboard.putNumber("Swerve[" + encId + "] converted to Radians", absoluteEncoder.getAbsolutePosition().getValue() * (2*Math.PI));
+        SmartDashboard.putNumber("Module[" + encId + "]", state.angle.getDegrees());
+   
 
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
@@ -167,5 +168,10 @@ public class SwerveModule {
             driveMotor.setIdleMode(CANSparkMax.IdleMode.kCoast);
         }
         
+    }
+
+
+    public double returnDriveMotorTemp() {
+        return driveMotor.getMotorTemperature();
     }
 }
