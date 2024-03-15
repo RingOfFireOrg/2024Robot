@@ -53,7 +53,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   
 
-  public void setLed(String pattern) {  //TODO: Replace this with switch & case ??
+  public void setLed(String pattern) {  //remove
     if (pattern == "rainbow") {
       rainbow();
     }
@@ -70,14 +70,14 @@ public class LEDSubsystem extends SubsystemBase {
 
 
 
-  public enum ledModes {
+  public enum ledModes { //remove
     rainbow,
     redGradient,
     redChase,
     blueGradient
   }
 
-  public void setLedCase(ledModes ledMode) {
+  public void setLedCase(ledModes ledMode) { //remove
     switch (ledMode) {
       case rainbow:
         rainbow();
@@ -127,9 +127,14 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
 
+  /*  -------------------------------- Blinking Pattern --------------------------------------- */   
+  
+  public void blink(double red, double green, double blue, double delay) {}
 
-  // ------------------------------------ Red chase ------------------------------------------------- \\
-  //                                  
+  public void blink_BAR(double red, double green, double blue, double delay) {}
+
+
+  // ------------------------------------ Red chase ------------------------------------------------- \\                        
 
   public void redMoveSplit() {
     for (var i = 0; i < ledSegment2Start; i++) {
@@ -153,9 +158,6 @@ public class LEDSubsystem extends SubsystemBase {
     m_rainbowFirstPixelHue %= 255;
     m_led.setData(m_ledBuffer);
   } 
-
-
-
 
 
 /*  --------------------------------Shifting orange Pattern for Red Alliance--------------------------------------- */   
@@ -186,8 +188,7 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
 
-  // int firstOrange_Bar = 2;
-  // boolean flip_Bar = false;
+ 
 
   public void shiftingOrange_BAR() {
     if (flip == false) {
@@ -215,9 +216,14 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
+  /*  --------------------------------Shifting orange Pattern for Blue Alliance--------------------------------------- */   
+  
+  public void shiftingBlue() {}
+
+  public void shiftingBlue_BAR() {}
 
 
-  /*  ------------------------------------------------------------------------------------ */   
+  /*  ------------------------------------- Random --------------------------------------------- */   
 
 
 

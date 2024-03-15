@@ -48,7 +48,6 @@ public class RobotContainer {
   XboxController climberController = new XboxController(OIConstants.operatorSpareControllerPort); 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
-  SendableChooser<Command> newAutoChooser = new SendableChooser<>();
 
 
   public RobotContainer() {
@@ -65,9 +64,10 @@ public class RobotContainer {
 
     ledSubsystem.setDefaultCommand(new LEDTeleOpStatus(
       ledSubsystem, 
-      () -> shooterSubsystem.getStatus(),           //Supplier for Shooter Status
-      () -> pivotIntakeSubsystem.getIntakeStatus(), //Supplier for Intake Pivot Status
-      () -> intakeSubsystem.getStatus()             //Supplier for Intake Wheels
+      () -> shooterSubsystem.getStatus(),              //Supplier for Shooter Status
+      () -> pivotIntakeSubsystem.getIntakeStatus(),    //Supplier for Intake Pivot Status
+      () -> intakeSubsystem.getStatus(),               //Supplier for Intake Wheels
+      () -> pivotIntakeSubsystem.getNoteSesnorStatus() //Supplier for InfaredSensor
     ));
 
     swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
@@ -202,18 +202,7 @@ public class RobotContainer {
       .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
     );
 
-    /* Auto Deploy the Intake */      
-    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftTrigger)
-    //   .onTrue(new InstantCommand(() -> intakeSubsystem.setMotor(0.6))
-    //   .alongWith(new IntakeDown(pivotIntakeSubsystem))
-    // );
-
-    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftTrigger)
-    //   .onFalse(new InstantCommand(() -> intakeSubsystem.setMotor(0))
-    //   .alongWith(new IntakeUp(pivotIntakeSubsystem))
-    // );
-
-    
+    /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    
     operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 
     //.and(() ->(pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
     .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
@@ -226,10 +215,18 @@ public class RobotContainer {
 
 
     /* Intake Auto Stow using Infared Sensor */
-    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3).and(() -> (pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
-      .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
-        .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
-    ;
+    // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3).and(() -> (pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
+    //   .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
+    //     .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
+    // ;
+
+    // operatorController.axisGreaterThan(0, 0)
+    //     .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
+    //       .alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0)
+    //     )
+    // .onlyIf(() -> pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED).end(false));
+    // )
+    // ; 
 
 
     
@@ -242,7 +239,6 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //return new PathPlannerAuto("MiddleFull"); //IntakeTransferTest
     //return new InstantCommand();
-    return autoChooser.getSelected(); // <- Selectable Auto Command
-    //return newAutoChooser.getSelected();
+    return autoChooser.getSelected(); // <- Selectable Auto Command  
   }
 }

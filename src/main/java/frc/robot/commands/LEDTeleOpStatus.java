@@ -8,6 +8,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
+import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
 public class LEDTeleOpStatus extends Command {
@@ -17,13 +18,21 @@ public class LEDTeleOpStatus extends Command {
   Supplier<ShooterSubsystemStatus> shooterStatus;
   Supplier<PivotSubsystemStatus> pivotIntakeStatus;
   Supplier<IntakeSubsystemStatus> intakeStatus;
+  Supplier<NoteSesnorStatus> noteSensorStatus;
   
-  public LEDTeleOpStatus(LEDSubsystem ledSubsystem,  Supplier<ShooterSubsystemStatus> shooterStatus, Supplier<PivotSubsystemStatus> pivotIntakeStatus, Supplier<IntakeSubsystemStatus> intakeStatus) {
+  public LEDTeleOpStatus(
+    LEDSubsystem ledSubsystem,  
+    Supplier<ShooterSubsystemStatus> shooterStatus, 
+    Supplier<PivotSubsystemStatus> pivotIntakeStatus, 
+    Supplier<IntakeSubsystemStatus> intakeStatus,
+    Supplier<NoteSesnorStatus> noteSensorStatus
+    ) {
     addRequirements(ledSubsystem);
     this.ledSubsystem = ledSubsystem;
     this.shooterStatus = shooterStatus;
     this.pivotIntakeStatus = pivotIntakeStatus;
     this.intakeStatus = intakeStatus;
+    this.noteSensorStatus = noteSensorStatus;
   }
 
   @Override
@@ -43,7 +52,6 @@ public class LEDTeleOpStatus extends Command {
     // }
     if (shooterStatus.get() == ShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
-      //Leave as is(?)
     }
     else if (shooterStatus.get() == ShooterSubsystemStatus.REVING) {
       ledSubsystem.redMoveSplit();
@@ -53,6 +61,9 @@ public class LEDTeleOpStatus extends Command {
       ledSubsystem.redMoveSplit_REVERSE();
       //Make a RED pattern that is pointing downwards
     }
+    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN && noteSensorStatus.get() == NoteSesnorStatus.NOTE_DECTECTED) {
+      ledSubsystem.setLEDRGB(0, 255, 0);
+    }
     else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN) {
       //red blink
     }
@@ -61,7 +72,6 @@ public class LEDTeleOpStatus extends Command {
       if (allianceRed) {
         //TODO: make Orange Gradient pattern - NEEDS to be distcint from red so it does not get confused with shooter, but also from when intake is down
         ledSubsystem.shiftingOrange_BAR();
-        //ledSubsystem.setLEDRGB(87, 5, 5); // TODO: MOVE TO CONSTANTS!!!!!!!!!!!
         //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
       }
       else {
