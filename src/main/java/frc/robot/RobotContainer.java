@@ -31,6 +31,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 
 
 public class RobotContainer {
@@ -212,13 +213,25 @@ public class RobotContainer {
     //   .alongWith(new IntakeUp(pivotIntakeSubsystem))
     // );
 
-    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
+    
+    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 
+    //.and(() ->(pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
     .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
-      //.alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0))
-      .andThen(new IntakeTeleop(intakeSubsystem,() -> 1.0))) 
-    .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
-      //.alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0))
-      .andThen(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
+      .alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0))); //Change to Instant Command?
+    
+    /* Intake Auto Stow upon Release */
+    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
+      .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
+        .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
+
+
+    /* Intake Auto Stow using Infared Sensor */
+    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3).and(() -> (pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
+      .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
+        .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
+    ;
+
+
     
 
     //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));

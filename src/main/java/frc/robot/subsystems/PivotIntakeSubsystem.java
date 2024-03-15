@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -14,8 +15,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   //private CANSparkMax intakePivot; 
   private VictorSP intakePivotCim;
   private DutyCycleEncoder pivotEncoder;
+  private AnalogInput noteSensor;
 
   PivotSubsystemStatus pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
+  NoteSesnorStatus noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
 
   public enum PivotSubsystemStatus {
     INTAKE_UP,
@@ -23,10 +26,18 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     INTAKE_MIDAIR
   }
 
+  public enum NoteSesnorStatus {
+    NOTE_DECTECTED,
+    NO_NOTE,
+    VALUE_OUT_OF_BOUNDS
+  }
+
   public PivotIntakeSubsystem() {
     //intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
     intakePivotCim = new VictorSP(0); //PWM
     pivotEncoder = new DutyCycleEncoder(1); //DIO
+    noteSensor = new AnalogInput(0);
+    noteSensor.setAverageBits(4);
     
     //pivotEncoder.setDistancePerRotation(1.45);
     //pivotEncoder.setDutyCycleRange(-360,360 );
@@ -54,12 +65,29 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     else {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_MIDAIR;
     }
+
+    if (noteSensor.getValue() > 1000 ) {
+      noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
+    }
+    else if (noteSensor.getValue() < 50) {
+      noteSesnorStatus = NoteSesnorStatus.NOTE_DECTECTED;
+    }
+    else {
+      noteSesnorStatus = NoteSesnorStatus.VALUE_OUT_OF_BOUNDS;
+    }
+    SmartDashboard.putString("ns_Note Sensor Status", noteSesnorStatus.toString());
+    SmartDashboard.putNumber("ns_Note Sensor Value", noteSensor.getValue());
+
   }
 
 
 
   public PivotSubsystemStatus getIntakeStatus() {
     return pivotSubsystemStatus;
+  }
+
+  public NoteSesnorStatus getNoteSesnorStatus() {
+    return noteSesnorStatus;
   }
 
   // public CANSparkMax returnIntakePivotMotor() {
