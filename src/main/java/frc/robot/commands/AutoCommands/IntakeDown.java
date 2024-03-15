@@ -10,9 +10,11 @@ import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 
 public class IntakeDown extends Command {
   PivotIntakeSubsystem pivotIntakeSubsystem;
-  public IntakeDown(PivotIntakeSubsystem pivotIntakeSubsystem) {
+  double movementSpeed;
+  public IntakeDown(PivotIntakeSubsystem pivotIntakeSubsystem, double movementSpeed) {
     addRequirements(pivotIntakeSubsystem);
     this.pivotIntakeSubsystem = pivotIntakeSubsystem;
+    this.movementSpeed = movementSpeed;
   }
 
   @Override
@@ -20,7 +22,9 @@ public class IntakeDown extends Command {
 
   @Override
   public void execute() {
-      pivotIntakeSubsystem.setPivotMotor(0.7);
+    if ( pivotIntakeSubsystem.getIntakeStatus() != PivotSubsystemStatus.INTAKE_DOWN) {
+      pivotIntakeSubsystem.setPivotMotor(movementSpeed);
+    }
     
   }
 

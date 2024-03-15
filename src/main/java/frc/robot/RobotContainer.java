@@ -140,8 +140,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
     /* Intake Pivot Commands */
-    NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem));
-    NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem));
+    NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.7));
+    NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.7));
 
     /* LED Command */
     NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
@@ -195,10 +195,10 @@ public class RobotContainer {
 
     /* Sets the intake automatically to up or down */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)
-      .onTrue(new IntakeUp(pivotIntakeSubsystem)
+      .onTrue(new IntakeUp(pivotIntakeSubsystem, 0.5)
     );
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDown)
-      .onTrue(new IntakeDown(pivotIntakeSubsystem)
+      .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
     );
 
     /* Auto Deploy the Intake */      
@@ -213,9 +213,11 @@ public class RobotContainer {
     // );
 
     operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
-    .onTrue(new IntakeDown(pivotIntakeSubsystem)
-      .andThen(new IntakeTeleop(intakeSubsystem,() -> 0.5))) 
-    .onFalse(new IntakeUp(pivotIntakeSubsystem)
+    .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
+      //.alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0))
+      .andThen(new IntakeTeleop(intakeSubsystem,() -> 1.0))) 
+    .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
+      //.alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0))
       .andThen(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
     
 

@@ -10,9 +10,11 @@ import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 
 public class IntakeUp extends Command {
   PivotIntakeSubsystem pivotIntakeSubsystem;
-  public IntakeUp(PivotIntakeSubsystem pivotIntakeSubsystem) {
+  double movementSpeed;
+  public IntakeUp(PivotIntakeSubsystem pivotIntakeSubsystem, double movementSpeed) {
     addRequirements(pivotIntakeSubsystem);
     this.pivotIntakeSubsystem = pivotIntakeSubsystem;
+    this.movementSpeed = movementSpeed;
   }
 
   @Override
@@ -20,7 +22,9 @@ public class IntakeUp extends Command {
 
   @Override
   public void execute() {
-    pivotIntakeSubsystem.setPivotMotor(-0.7);
+    if (pivotIntakeSubsystem.getIntakeStatus() != PivotSubsystemStatus.INTAKE_UP) {
+      pivotIntakeSubsystem.setPivotMotor(-movementSpeed);
+    }
   }
 
   // Called once the command ends or is interrupted.

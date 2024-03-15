@@ -100,21 +100,26 @@ public class SwerveJoystickCommand extends Command {
 
     @Override
     public void execute() {
+        /* Reset Gyro Button (Not created as a trigger so the Swerve Drive Command does not get intrerrupted while driving) */
         if(driveController.getRawButton(7) == true) {
             swerveSubsystem.fieldCentricReset();
         }
 
         if(aButton.get() == true) {
+            /* 50% Speed */
             speedDivide = 2;
         }
         if(xButton.get() == true) {
+            /* 25% Speed */
             speedDivide = 4;
         }
         if(bButton.get() == true) {
+            /* 75% Speed */
             speedDivide = 1.3333;
         }
         if(yButton.get() == true) {
-            speedDivide = 1;
+            /* 100% Speed */
+            speedDivide = 1; 
         }
 
         if (xSpdFunctionField.get() >= 0.1 || xSpdFunctionField.get() <= -0.1 || ySpdFunctionField.get() >= 0.1 || ySpdFunctionField.get() <= -0.1) 
@@ -150,14 +155,10 @@ public class SwerveJoystickCommand extends Command {
 
             // 4. Construct desired chassis speeds
             ChassisSpeeds chassisSpeeds;
-            
-            
-            // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds (
-            //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
 
 
             chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-                        xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
+                xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());
             
 
 
@@ -213,34 +214,30 @@ public class SwerveJoystickCommand extends Command {
 
         }
         else {
-            // 1. Get real-time joystick inputs
+            /* Joystick Input */
             //double xSpeed = xSpdFunctionRobot.get()/speedDivide;
             //double ySpeed = ySpdFunctionRobot.get()/speedDivide;
             double xSpeed = 0;
             double ySpeed = 0;
-
             double turningSpeed = turningSpdFunctionLeft.get() - turningSpdFunctionRight.get();
 
-            // 2. Apply deadband
+            /* Deadband */
             xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
             ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
             turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
-            // 3. Make the driving smoother
+            /* Ratelimiter/Acceleration Limit */
             xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
             ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
             turningSpeed = turningLimiter.calculate(turningSpeed)
                     * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-            // 4. Construct desired chassis speeds
+            /* Create Chassis speeds for each module */
             ChassisSpeeds chassisSpeeds;
-
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-
-            // 5. Convert chassis speeds to individual module states
             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
 
-            // 6. Output each module states to wheels
+            /* Output Chassis Speeds */
             swerveSubsystem.setModuleStates(moduleStates); 
         }
 

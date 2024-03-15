@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ClimberSubsystem extends SubsystemBase {
@@ -23,8 +22,18 @@ public class ClimberSubsystem extends SubsystemBase {
   public enum ClimberControlStatus {
     BOTH,
     LEFT_ONLY,
-    RIGHT_ONLY
+    RIGHT_ONLY,
+    NEITHER
   }
+  public enum LeftClimberStatus {
+    LIMIT,
+    MOVABLE
+  }
+  public enum RightClimberStatus {
+    LIMIT,
+    MOVABLE
+  }
+  ClimberControlStatus climberControlStatus = ClimberControlStatus.NEITHER;
 
   public ClimberSubsystem() {
     // leftClimber = new CANSparkMax(Constants.IDConstants.leftClimberMotorID, MotorType.kBrushless);
@@ -34,23 +43,28 @@ public class ClimberSubsystem extends SubsystemBase {
 
     rightClimberSPK.setInverted(true);
     leftClimberPWM.setInverted(true);
+
   }
 
   @Override
   public void periodic() {
-
+    if (Math.abs(rightClimberSPK.get()) > 0.1 && Math.abs(leftClimberPWM.get()) > 0.1 ) {
+      climberControlStatus = ClimberControlStatus.BOTH;
+    }
+    else {
+      climberControlStatus = ClimberControlStatus.NEITHER;
+    }
   }
-
-
-
 
   public void setBothMotors(double speed, double speed2) {
     leftClimberPWM.set(speed);
     rightClimberSPK.set(speed2);
   }
-   public void setLeftMotor(double speed) {
+
+  public void setLeftMotor(double speed) {
     leftClimberPWM.set(speed);
   }
+
    public void setRightMotor(double speed) {
     rightClimberSPK.set(speed);
   }

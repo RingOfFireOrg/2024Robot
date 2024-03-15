@@ -71,7 +71,6 @@ public class LEDAutoStatus extends Command {
 
   @Override
   public boolean runsWhenDisabled(){
-    // Is this legal?
     return true;
   }
 }
