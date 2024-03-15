@@ -10,6 +10,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
@@ -31,6 +32,8 @@ public class SwerveModule {
 
     private int encId;
 
+    private SwerveModulePosition currentPosition = new SwerveModulePosition();
+    private SwerveModuleState currentState = new SwerveModuleState();
 
     public SwerveModule(int driveMotorId, int turningMotorId, boolean driveMotorReversed, boolean turningMotorReversed,
             int absoluteEncoderId, double absoluteEncoderOffset, boolean absoluteEncoderReversed) {
@@ -135,7 +138,8 @@ public class SwerveModule {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+        //return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurningPosition()));
+        return currentState;
     }
 
     public void setDesiredState(SwerveModuleState state) {
@@ -149,10 +153,33 @@ public class SwerveModule {
             stop();
             return;
         }
-        state = SwerveModuleState.optimize(state, getState().angle);
+        currentState = SwerveModuleState.optimize(state, currentState.angle);
         driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        turningMotor.set(turningPidController.calculate(getTurningPosition(), currentState.angle.getRadians()));
 
+    }
+
+    public void setDesiredStatePP(SwerveModuleState state) {
+        //double angle = absoluteEncoder.getAbsolutePosition();
+
+        SmartDashboard.putNumber("Swerve[" + encId + "] state", getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("Module[" + encId + "]", state.angle.getDegrees());
+   
+
+        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+            stop();
+            return;
+        }
+        currentState = SwerveModuleState.optimize(state, getState().angle);
+        currentPosition = new SwerveModulePosition(currentPosition.distanceMeters + (currentState.speedMetersPerSecond * 0.02), currentState.angle);
+
+        driveMotor.set(currentState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        turningMotor.set(turningPidController.calculate(getTurningPosition(), currentState.angle.getRadians()));
+
+    }
+
+    public SwerveModulePosition getPosition() {
+        return currentPosition;
     }
 
     public void stop() {
