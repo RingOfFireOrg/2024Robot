@@ -143,35 +143,18 @@ public class SwerveModule {
     }
 
     public void setDesiredState(SwerveModuleState state) {
-        //double angle = absoluteEncoder.getAbsolutePosition();
 
-        SmartDashboard.putNumber("Swerve[" + encId + "] state", getAbsoluteEncoderRad());
-        SmartDashboard.putNumber("Module[" + encId + "]", state.angle.getDegrees());
-   
 
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
         currentState = SwerveModuleState.optimize(state, currentState.angle);
-        driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        turningMotor.set(turningPidController.calculate(getTurningPosition(), currentState.angle.getRadians()));
-
-    }
-
-    public void setDesiredStatePP(SwerveModuleState state) {
-        //double angle = absoluteEncoder.getAbsolutePosition();
+        currentPosition = new SwerveModulePosition(currentPosition.distanceMeters + (currentState.speedMetersPerSecond * 0.02), currentState.angle);
 
         SmartDashboard.putNumber("Swerve[" + encId + "] state", getAbsoluteEncoderRad());
         SmartDashboard.putNumber("Module[" + encId + "]", state.angle.getDegrees());
-   
-
-        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
-            stop();
-            return;
-        }
-        currentState = SwerveModuleState.optimize(state, getState().angle);
-        currentPosition = new SwerveModulePosition(currentPosition.distanceMeters + (currentState.speedMetersPerSecond * 0.02), currentState.angle);
+        SmartDashboard.putNumber("Current state: [" + encId + "]", state.angle.getDegrees());
 
         driveMotor.set(currentState.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         turningMotor.set(turningPidController.calculate(getTurningPosition(), currentState.angle.getRadians()));
