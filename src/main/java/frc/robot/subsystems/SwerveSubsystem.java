@@ -21,11 +21,8 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
-
-
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule
@@ -74,8 +71,6 @@ public class SwerveSubsystem extends SubsystemBase {
     
     private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
 
-
-
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(
         DriveConstants.kDriveKinematics, getRotation2d(),
         getSwerveModulePosition());
@@ -103,7 +98,7 @@ public class SwerveSubsystem extends SubsystemBase {
                 new PIDConstants(8, 0.0, 1), // Translation PID constants
                 new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
                 4.6, // Max module speed, in m/s
-                Units.inchesToMeters(15.79899), // Drive base radius in meters. Distance from robot center to furthest module.
+                Units.inchesToMeters(15.909905), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() // Default path replanning config. See the API for the options here
         ),
         () -> {
