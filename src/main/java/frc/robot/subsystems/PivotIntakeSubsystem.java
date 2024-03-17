@@ -53,9 +53,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     
     //intakePivotCim = new VictorSP(0); //PWM
 
-
-
-    pivotEncoder = new DutyCycleEncoder(0); //PWM
+    pivotEncoder = new DutyCycleEncoder(0); //DIO
 
 
 
@@ -79,6 +77,8 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("pi NewIntake Position", 1 - pivotEncoderPos +0.2);
  
     SmartDashboard.putString("Intake Status", pivotSubsystemStatus.toString());
+
+    
     if ((pivotEncoderPos <= 0.2 && pivotEncoderPos >= 0) ) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
     }
@@ -88,6 +88,9 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     else {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_MIDAIR;
     }
+
+
+
 
     if (noteSensor.getValue() > 1000 ) {
       noteSesnorStatus = NoteSesnorStatus.NO_NOTE;

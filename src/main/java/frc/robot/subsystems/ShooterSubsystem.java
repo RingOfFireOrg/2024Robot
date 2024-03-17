@@ -8,15 +8,21 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
+
+
+  /*
+    This Subsystem will be here just in case we switch back to neos or need it for refrence, 
+    but the motor controllers have been switched to talonfx, so KrakenShooterSubsystem is the most up to date one
+  */
+
+
   private CANSparkMax shooterMotorTop; 
   private CANSparkMax shooterMotorBottom;
-  private SparkPIDController shooterMotorTopPIDController;    // Delete if follow works
-  private SparkPIDController shooterMotorBottomPIDController; // Delete if follow works
-  //private SparkPIDController shooterMotorPIDController; 
+  private SparkPIDController shooterMotorTopPIDController;    
+  private SparkPIDController shooterMotorBottomPIDController; 
   private RelativeEncoder shooterTopEncoder;
   private RelativeEncoder shooterBottomEncoder;
 
@@ -30,22 +36,6 @@ public class ShooterSubsystem extends SubsystemBase {
   double ampSpeedBottom = -0.2;
   double maxRPM = 5676;
 
-  // move to constants
-  double shooterMotorTopP;
-  double shooterMotorTopI;
-  double shooterMotorTopD;
-  double shooterMotorTopFF;
-  double shooterMotorTopMax;
-  double shooterMotorTopMin;
-
-  double shooterMotorBottomP;
-  double shooterMotorBottomI;
-  double shooterMotorBottomD;
-  double shooterMotorBottomFF;
-  double shooterMotorBottomMax;
-  double shooterMotorBottomMin;
-
-
   public enum ShooterSubsystemStatus {
     READY,
     REVING,
@@ -56,10 +46,10 @@ public class ShooterSubsystem extends SubsystemBase {
   ShooterSubsystemStatus shooterSubsystemStatus = ShooterSubsystemStatus.IDLE;
 
   public ShooterSubsystem() {
-    shooterMotorTop    = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
-    shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
-
-    //shooterMotorBottom.follow(shooterMotorTop); // Idk if this implies they both will follow the same PID...
+    // shooterMotorTop    = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
+    // shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
+    shooterMotorTop    = new CANSparkMax(24,MotorType.kBrushless);
+    shooterMotorBottom = new CANSparkMax(25,MotorType.kBrushless);
 
     shooterMotorTopPIDController = shooterMotorTop.getPIDController();
     shooterTopEncoder = shooterMotorTop.getEncoder();
@@ -85,12 +75,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
 
-    // --------------------------------------------//
     //getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
     getRPMVelocityTop = shooterTopEncoder.getVelocity();
     getRPMVelocityBottom = shooterBottomEncoder.getVelocity();
     SmartDashboard.putNumber("sShooter Motor Voltage", getSpeedBottom);
-    //SmartDashboard.putNumber("sShooter Applied Output", shooterMotorTop.getAppliedOutput());
     SmartDashboard.putString("sShooter Status", shooterSubsystemStatus.toString());
     SmartDashboard.putNumber("sVelocity RPM TOP (periodic)", getRPMVelocityTop);
     SmartDashboard.putNumber("sVelocity RPM Bottom  (periodic)", getRPMVelocityBottom);
@@ -126,14 +114,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setRefrence(double speed){
-   // if (Math.abs(speed) > 0.1) { //add Deadband?
-      shooterMotorTopPIDController.setReference( speed*maxRPM , ControlType.kVelocity); 
-      shooterMotorBottomPIDController.setReference(speed*maxRPM , ControlType.kVelocity); 
-    //}
+    shooterMotorTopPIDController.setReference( speed*maxRPM , ControlType.kVelocity); 
+    shooterMotorBottomPIDController.setReference(speed*maxRPM , ControlType.kVelocity); 
     SmartDashboard.putNumber("sTargeted RPM", -speed*maxRPM);
-    SmartDashboard.putNumber("sVelocity RPM TOP (refrence function)", shooterTopEncoder.getVelocity());
-    SmartDashboard.putNumber("sVelocity RPM Bottom (refrence function))", shooterBottomEncoder.getVelocity());
-
   }
 
   public void setRefrenceRPM(double RPM){
@@ -147,8 +130,6 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void ampSpeedsRaw() {
-    // shooterMotorTop.setVoltage(0.5);
-    // shooterMotorBottom.setVoltage(0.45);
     shooterMotorTop.set(ampSpeedTop);
     shooterMotorBottom.set(ampSpeedBottom);
   }
@@ -161,6 +142,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public CANSparkMax returnShooterMotorTop() {
     return shooterMotorTop;
   }
+
   public void setCoast(){
     shooterMotorTop.setIdleMode(IdleMode.kCoast);
     shooterMotorBottom.setIdleMode(IdleMode.kCoast);
