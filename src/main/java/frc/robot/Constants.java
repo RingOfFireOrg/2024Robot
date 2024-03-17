@@ -25,6 +25,7 @@ public final class Constants {
         /* Distance between front and back wheels */
         public static final double kWheelBase = Units.inchesToMeters(22.75); 
 
+        //wrong order but fix it in offseason becuase it works rn
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
@@ -63,12 +64,11 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (-1.721126444007689 ); //offset in radians - CanCoder 9
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (0 - 1.768679848432144+ Math.PI); //offset in radians - CanCoder 10
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0 - -2.531068300011308+ Math.PI); //offset in radians - CanCoder 11
-        //public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0); //offset in radians - CanCoder 11
-
-        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (0 - 0.490873852123405); //offset in radians - CanCoder 12
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (-2.15370902619144); //offset in radians - CanCoder 9
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (-1.684310905098434+Math.PI); //offset in radians - CanCoder 10
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (2.96671884377083 + Math.PI); //offset in radians - CanCoder 11
+        //public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0); 
+        public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (-0.47860200582032); //offset in radians - CanCoder 12
 
         public static final double kPhysicalMaxSpeedMetersPerSecond = Units.feetToMeters(15.1);
         public static final double kPhysicalMaxAngularSpeedRadiansPerSecond = 2 * 2 * Math.PI;
@@ -76,7 +76,7 @@ public final class Constants {
         public static final double kTeleDriveMaxSpeedMetersPerSecond = kPhysicalMaxSpeedMetersPerSecond ; //change denomenator
         public static final double kTeleDriveMaxAngularSpeedRadiansPerSecond = kPhysicalMaxAngularSpeedRadiansPerSecond / 4; //change denomenator
         public static final double kTeleDriveMaxAccelerationUnitsPerSecond = 3;
-        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 3;
+        public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 4;
     }
 
 
@@ -108,6 +108,8 @@ public final class Constants {
     }
 
     public static final class OIConstants {
+
+        // add k to the start of all the variables? dosen't rlly matter tbh
 
         public static final int driverControllerPort = 0;
         public static final int operatorControllerPort = 1;
@@ -153,6 +155,7 @@ public final class Constants {
         
 
         // ------Above are new for this season-----
+        //delete
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
 
@@ -176,6 +179,7 @@ public final class Constants {
     }
 
     public static final class LEDConstants {
+        //TODO: Update all
         //Put any colors that are relevant
 
         public int ledLengthBar = 16+15+15;
@@ -205,6 +209,9 @@ public final class Constants {
     }
 
     public static final class IDConstants {
+
+        //TODO: Update all with new numbers
+
         //Swerve IDs
         public static final int frontLeftDriveMotor = 1;
         public static final int frontLeftTurnMotor = 2;
@@ -242,6 +249,7 @@ public final class Constants {
         // 27 - Right Climber
     }
 
+    //delete
     public enum ModulePosition {
         FRONT_LEFT,
         FRONT_RIGHT,

@@ -21,24 +21,25 @@ public class SwerveJoystickCommand extends Command {
     private final Supplier<Boolean> fieldOrientedFunction, alignFunction, resetDirection, aButton, bButton, xButton, yButton;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
 
-    public final double cameraHeight = Units.inchesToMeters(5);// replace number with height of camera on robot
-    public final double targetHeight = Units.feetToMeters(5);// replace number with height of targets
-    public final double cameraPitch = Units.degreesToRadians(65);// replace number with angle of camera
-
+    // delete
+    // public final double cameraHeight = Units.inchesToMeters(5);// replace number with height of camera on robot
+    // public final double targetHeight = Units.feetToMeters(5);// replace number with height of targets
+    // public final double cameraPitch = Units.degreesToRadians(65);// replace number with angle of camera
     //PhotonCamera camera = new PhotonCamera("gloworm");
+
     private final XboxController driveController = new XboxController(0);
 
-    //pid constants
-    final double linearP = 0.0;
-    final double linearD = 0.0;
+    //delete
+    // final double linearP = 0.0;
+    // final double linearD = 0.0;
 
-    final double angularP = 0.1;
-    final double angularD = 0.005;
-    PIDController turnController = new PIDController(angularP, 0, angularD);
+    // final double angularP = 0.1;
+    // final double angularD = 0.005;
+    // PIDController turnController = new PIDController(angularP, 0, angularD);
     boolean manuelMode = false;
     boolean fieldOrientTrue = true;
     double speedDivide = 2;
-    String speedValue = "None";
+    //String speedValue = "None"; //delete
     
 
     public SwerveJoystickCommand(SwerveSubsystem swerveSubsystem, 
@@ -81,6 +82,7 @@ public class SwerveJoystickCommand extends Command {
         this.resetDirection = resetDirectionButton;
 
 
+        //delete
         //this.manuel = manuelButton;
 
         //this.manuelPivotPOV = manuelPivotPOV;
@@ -124,6 +126,7 @@ public class SwerveJoystickCommand extends Command {
 
         if (xSpdFunctionField.get() >= 0.1 || xSpdFunctionField.get() <= -0.1 || ySpdFunctionField.get() >= 0.1 || ySpdFunctionField.get() <= -0.1) 
         {
+            //test & delete 
             if(aButton.get() == true) {
                 speedDivide = 2;
             }
@@ -170,6 +173,7 @@ public class SwerveJoystickCommand extends Command {
         }
         else if (xSpdFunctionRobot.get() >= 0.1 || xSpdFunctionRobot.get() <= -0.1 || ySpdFunctionRobot.get() >= 0.1 || ySpdFunctionRobot.get() <= -0.1)
         {
+            //test & delete
             if(aButton.get() == true) {
                 speedDivide = 2;
             }
