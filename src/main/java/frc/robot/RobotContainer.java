@@ -133,14 +133,13 @@ public class RobotContainer {
   private void namedCommands() {
 
     /* Shooter Commands */
-    // Add in Named Command to test delay between using
     NamedCommands.registerCommand("ShootOn", new InstantCommand( () -> krakenShooterSubsystem.setMotor(0.6), krakenShooterSubsystem));
     NamedCommands.registerCommand("ShootIdle", new InstantCommand( () -> krakenShooterSubsystem.setMotor(0.5), krakenShooterSubsystem));
     NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> krakenShooterSubsystem.setMotor(0), krakenShooterSubsystem));
 
-    // NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> krakenShooterSubsystem.setRefrenceRPM(-3100), krakenShooterSubsystem));
-    // NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> krakenShooterSubsystem.setRefrenceRPM(-1000), krakenShooterSubsystem));
-    // NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRefrenceRPM(0), krakenShooterSubsystem));
+    NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(-3100), krakenShooterSubsystem));
+    NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(-1000), krakenShooterSubsystem));
+    NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(0), krakenShooterSubsystem));
 
     /* Intake Wheel Commands */
     NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.65), intakeSubsystem));
@@ -148,8 +147,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
     /* Intake Pivot Commands */
-    NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.7));
-    NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.7));
+    NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.5));
+    NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.5));
 
     /* LED Command */
     NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> krakenShooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
@@ -182,7 +181,9 @@ public class RobotContainer {
     autoChooser.addOption("5p", new PathPlannerAuto("[Path]5pC2 Path"));
     
     autoChooser.addOption("Rotate 180", new PathPlannerAuto("Rotate 180"));
+    autoChooser.addOption("new 4p test path", new PathPlannerAuto("[Path] - 2 - 4p auto NEW"));
 
+    
 
     SmartDashboard.putData(autoChooser);
   }
@@ -211,7 +212,10 @@ public class RobotContainer {
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDown)
       .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
     );
-
+    new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDownLeft)
+      .whileTrue(pivotIntakeSubsystem.intakeDownPPID()
+    );
+    
     // /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    
     // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 
     // //.and(() ->(pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))

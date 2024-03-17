@@ -6,27 +6,24 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-
-// i will unionize pyrotech i am getting my rights trampled on as a programmer
 
 public class KrakenShooterSubsystem extends SubsystemBase {
 
   private final TalonFX shooterMotorTop;
   private final TalonFX shooterMotorBottom;
-  private MotionMagicVelocityVoltage motionMagicVelocityVoltage;
   private final MotionMagicVelocityVoltage mmvv = new MotionMagicVelocityVoltage(0);
-
-  double maxrpm = 3500; //6000 but i dont want it that high
+  private final double maxRPM = 6000; 
+  private final double maxRPMTeleOp = 3200;
   public enum KrakenShooterSubsystemStatus {
     READY,
     REVING,
     REVERSE,
     IDLE
   }
+
   KrakenShooterSubsystemStatus krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.IDLE;
   public KrakenShooterSubsystem() {
     shooterMotorTop = new TalonFX(30);
@@ -34,7 +31,6 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
 
     var shooterConfig = new TalonFXConfiguration();
-    //shooterConfig.CurrentLimits.SupplyCurrentLimit = 30;
     shooterConfig.MotorOutput.NeutralMode = NeutralModeValue.Brake;
 
     // this is my first time using talonfx idk what to do here :( 
@@ -61,12 +57,11 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    //shooterMotorTop.getVelocity();
+    
     double rotorvelocity  = shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
-    SmartDashboard.putNumber("krshooter_rpm Kraken Rotor Top shooter", shooterMotorTop.getRotorVelocity().getValueAsDouble()*60);
-    SmartDashboard.putNumber("krshooter_rps Kraken Rotor Top shooter", shooterMotorTop.getRotorVelocity().getValueAsDouble());
-    //SmartDashboard.putNumber("Kraken Rotor Bottom shooter", shooterMotorBottom.getRotorVelocity().getValueAsDouble());
+    SmartDashboard.putNumber("krshooter_rpm Kraken Rotor Top shooter", rotorvelocity);
+    SmartDashboard.putNumber("krshooter_rps Kraken Rotor Top shooter", rotorvelocity/60);
+
     if (rotorvelocity >= 2800 ) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.READY;
     }
@@ -81,22 +76,27 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     }
   }
 
-  public void setVelocity(double velocity){
-    shooterMotorTop.setControl(mmvv.withVelocity(velocity*(maxrpm/60)));
-    //shooterMotorBottom.setControl(motionMagicVelocityVoltage.withVelocity(velocity));
+  public KrakenShooterSubsystemStatus getStatus() {
+    return krakenShooterSubsystemStatus;
   }
 
-  public void setMPS(double velocity) {
-    shooterMotorTop.setControl(mmvv.withVelocity(velocity));
+
+
+
+  public void setVelocity(double velocity){
+    shooterMotorTop.setControl(mmvv.withVelocity(velocity*(maxRPMTeleOp/60)));
+  }
+
+  public void setRPM(double rpm){
+    shooterMotorTop.setControl(mmvv.withVelocity(rpm/60));
+  }
+
+  public void setRPS(double rps){
+    shooterMotorTop.setControl(mmvv.withVelocity(rps));
   }
 
   public void setMotor(double speed){
-    shooterMotorTop.set(0.7);
-    //shooterMotorBottom.set(speed);
-  }
-
-  public KrakenShooterSubsystemStatus getStatus() {
-    return krakenShooterSubsystemStatus;
+    shooterMotorTop.set(speed);
   }
 
 }

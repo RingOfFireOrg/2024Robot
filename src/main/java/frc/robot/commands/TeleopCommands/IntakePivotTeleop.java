@@ -30,7 +30,7 @@ public class IntakePivotTeleop extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pivotIntakeSubsystem.setPivotMotor(pivotSpeed.get()/2);
+    pivotIntakeSubsystem.setPivotMotor(pivotSpeed.get());
   }
 
   // Called once the command ends or is interrupted.

@@ -7,12 +7,19 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PivotIntakeSubsystem extends SubsystemBase {
@@ -21,9 +28,15 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   // private SparkPIDController intakePivotPidController;
   // private RelativeEncoder intakePivotEncoder;
   
-  private VictorSP intakePivotCim;
+  //private VictorSP intakePivotCim;
   private DutyCycleEncoder pivotEncoder;
   private AnalogInput noteSensor;
+
+
+  private Rotation2d encoderOffset;
+  private final ArmFeedforward pivotFF;
+  private final ProfiledPIDController profiledPIDController;
+  //private final TrapezoidProfile.Constraints constraints;
 
   PivotSubsystemStatus pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
   NoteSesnorStatus noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
@@ -42,6 +55,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
   public PivotIntakeSubsystem() {
     intakePivot = new CANSparkMax(34, MotorType.kBrushless);
+    intakePivot.setIdleMode(IdleMode.kCoast);
     // intakePivotPidController = intakePivot.getPIDController();
     // intakePivotEncoder = intakePivot.getEncoder();
 
@@ -55,14 +69,16 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
     pivotEncoder = new DutyCycleEncoder(0); //DIO
 
+    pivotFF = new ArmFeedforward(0.15, 0.25, 1.0, 0.25);
+    profiledPIDController = new ProfiledPIDController
+    (4, 0, 0.015, new Constraints(8, 30));
+    profiledPIDController.disableContinuousInput();
 
 
     noteSensor = new AnalogInput(0);
     noteSensor.setAverageBits(4);
+
     
-    //pivotEncoder.setDistancePerRotation(1.45);
-    //pivotEncoder.setDutyCycleRange(-360,360 );
-    //pivotEncoder.
     
     
 
@@ -71,13 +87,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("piPos offset", pivotEncoder.getPositionOffset());
     double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
-    SmartDashboard.putNumber("Intake Position", pivotEncoderPos);
-    SmartDashboard.putNumber("pi NewIntake Position", 1 - pivotEncoderPos +0.2);
- 
-    SmartDashboard.putString("Intake Status", pivotSubsystemStatus.toString());
-
+    SmartDashboard.putNumber("piIntake Position", pivotEncoderPos);
+    SmartDashboard.putString("piIntake Status", pivotSubsystemStatus.toString());
+    SmartDashboard.putNumber("pi Intake Pivot Get Applied output", intakePivot.getAppliedOutput());
     
     if ((pivotEncoderPos <= 0.2 && pivotEncoderPos >= 0) ) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
@@ -122,7 +135,34 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   public DutyCycleEncoder returnIntakePivotEncoder() {
     return pivotEncoder;
   }
+
+  public Command intakeDownPPID() {
+    return setIntakePivotPos(new Rotation2d(-1.5708));
+  }  
   
+  public Command intakeUpPPID() {
+    return setIntakePivotPos(new Rotation2d(1.5708));
+  }
+
+  public Command setIntakePivotPos(Rotation2d posRad) {
+    return this.run(
+      () -> {
+        intakePivot.setVoltage(calculateVoltage(posRad));
+      })
+  .finallyDo(() -> intakePivot.setVoltage(0));
+  }
+
+
+  public double calculateVoltage(Rotation2d angle) {
+    profiledPIDController.setGoal(angle.getRadians());
+    var profileSetpoint = profiledPIDController.getSetpoint();
+    double feedForwardVoltage =
+        pivotFF.calculate(
+            profileSetpoint.position, profileSetpoint.velocity);
+    double feedbackVoltage = profiledPIDController.calculate((pivotEncoder.getAbsolutePosition()*10)* (Math.PI/180));
+
+    return feedForwardVoltage + feedbackVoltage;
+  }
 
   /* ------------------------------------- CIM Motor intake ---------------------------------------- */
   public void setPivotMotor(double speed) {
