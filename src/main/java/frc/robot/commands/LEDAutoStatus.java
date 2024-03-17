@@ -4,21 +4,20 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
+import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
 public class LEDAutoStatus extends Command {
   LEDSubsystem ledSubsystem;
   String pattern;
   Boolean allianceRed = true;
-  Supplier<ShooterSubsystemStatus> shooterStatus;
+  Supplier<KrakenShooterSubsystemStatus> shooterStatus;
   Supplier<PivotSubsystemStatus> pivotIntakeStatus;
   Supplier<IntakeSubsystemStatus> intakeStatus;
 
-  public LEDAutoStatus(LEDSubsystem ledSubsystem,  Supplier<ShooterSubsystemStatus> shooterStatus, Supplier<PivotSubsystemStatus> pivotIntakeStatus, Supplier<IntakeSubsystemStatus> intakeStatus) {
+  public LEDAutoStatus(LEDSubsystem ledSubsystem,  Supplier<KrakenShooterSubsystemStatus> shooterStatus, Supplier<PivotSubsystemStatus> pivotIntakeStatus, Supplier<IntakeSubsystemStatus> intakeStatus) {
     addRequirements(ledSubsystem);
     this.ledSubsystem = ledSubsystem;
     this.shooterStatus = shooterStatus;

@@ -4,6 +4,11 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -12,7 +17,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PivotIntakeSubsystem extends SubsystemBase {
   
-  //private CANSparkMax intakePivot; 
+  private CANSparkMax intakePivot;
+  // private SparkPIDController intakePivotPidController;
+  // private RelativeEncoder intakePivotEncoder;
+  
   private VictorSP intakePivotCim;
   private DutyCycleEncoder pivotEncoder;
   private AnalogInput noteSensor;
@@ -33,9 +41,24 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   }
 
   public PivotIntakeSubsystem() {
-    //intakePivot = new CANSparkMax(Constants.IDConstants.intakePivotMotorID ,MotorType.kBrushless);
-    intakePivotCim = new VictorSP(0); //PWM
-    pivotEncoder = new DutyCycleEncoder(1); //DIO
+    intakePivot = new CANSparkMax(34, MotorType.kBrushless);
+    // intakePivotPidController = intakePivot.getPIDController();
+    // intakePivotEncoder = intakePivot.getEncoder();
+
+    // intakePivotPidController.setP(0);
+    // intakePivotPidController.setI(0);
+    // intakePivotPidController.setD(0);
+    // intakePivotPidController.setFF(0);
+    // intakePivotPidController.setOutputRange(-1, 1);
+    
+    //intakePivotCim = new VictorSP(0); //PWM
+
+
+
+    pivotEncoder = new DutyCycleEncoder(0); //PWM
+
+
+
     noteSensor = new AnalogInput(0);
     noteSensor.setAverageBits(4);
     
@@ -90,44 +113,47 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     return noteSesnorStatus;
   }
 
-  // public CANSparkMax returnIntakePivotMotor() {
-  //   return intakePivot;
-  // }
+  public CANSparkMax returnIntakePivotMotor() {
+    return intakePivot;
+  }
   public DutyCycleEncoder returnIntakePivotEncoder() {
     return pivotEncoder;
   }
   
+
+  /* ------------------------------------- CIM Motor intake ---------------------------------------- */
   public void setPivotMotor(double speed) {
-    //intakePivot.set(speed);
-    intakePivotCim.set(speed);
+    intakePivot.set(speed);
+    //intakePivotCim.set(speed);
   }
 
   public void intakeDown() {
     if (pivotEncoder.getAbsolutePosition() < 0.7) {
-      intakePivotCim.set(0.7);
+      //intakePivotCim.set(0.7);
+      intakePivot.set(0.7);
+
     } 
   }
 
-
   public void intakeDownStatus() {
     while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_DOWN) {
-      intakePivotCim.set(-0.7);
+//      intakePivotCim.set(-0.7);
+      intakePivot.set(0.7);
+
     } 
   }
 
   public void intakeUpStatus() {
     while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_UP) {
-      intakePivotCim.set(0.7);
+      //intakePivotCim.set(0.7);
+      intakePivot.set(0.7);
+
     } 
   }
+  /* ----------------------------------------------------------------------------------------- */
 
-  // public void setPivotCoast(){
-  //   intakePivot.setIdleMode(IdleMode.kCoast);
+  // public void setRefernecePositionControl(double rotations) {
+  //   intakePivotPidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
   // }
-  // public void setPivotBrake(){
-  //   intakePivot.setIdleMode(IdleMode.kBrake);
-  // }
-  // public void setPivotMotorStop() {
-  //   intakePivot.stopMotor();
-  // }
+
 }

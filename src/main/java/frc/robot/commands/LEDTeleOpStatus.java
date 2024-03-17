@@ -5,8 +5,10 @@ import java.util.function.Supplier;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
+import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
@@ -15,14 +17,14 @@ public class LEDTeleOpStatus extends Command {
   LEDSubsystem ledSubsystem;
   String pattern;
   Boolean allianceRed = true;
-  Supplier<ShooterSubsystemStatus> shooterStatus;
+  Supplier<KrakenShooterSubsystemStatus> shooterStatus;
   Supplier<PivotSubsystemStatus> pivotIntakeStatus;
   Supplier<IntakeSubsystemStatus> intakeStatus;
   Supplier<NoteSesnorStatus> noteSensorStatus;
   
   public LEDTeleOpStatus(
     LEDSubsystem ledSubsystem,  
-    Supplier<ShooterSubsystemStatus> shooterStatus, 
+    Supplier<KrakenShooterSubsystemStatus> shooterStatus, 
     Supplier<PivotSubsystemStatus> pivotIntakeStatus, 
     Supplier<IntakeSubsystemStatus> intakeStatus,
     Supplier<NoteSesnorStatus> noteSensorStatus
@@ -50,14 +52,14 @@ public class LEDTeleOpStatus extends Command {
     // if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN) {
     //   //orange?
     // }
-    if (shooterStatus.get() == ShooterSubsystemStatus.READY) {
+    if (shooterStatus.get() == KrakenShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
     }
-    else if (shooterStatus.get() == ShooterSubsystemStatus.REVING) {
+    else if (shooterStatus.get() == KrakenShooterSubsystemStatus.REVING) {
       ledSubsystem.redMoveSplit();
       //Make a RED pattern that is pointing Upwards
     }
-    else if (shooterStatus.get() == ShooterSubsystemStatus.REVERSE) {
+    else if (shooterStatus.get() == KrakenShooterSubsystemStatus.REVERSE) {
       ledSubsystem.redMoveSplit_REVERSE();
       //Make a RED pattern that is pointing downwards
     }

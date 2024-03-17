@@ -23,10 +23,12 @@ import frc.robot.commands.TeleopCommands.AmpSpeedsRaw;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
+import frc.robot.commands.TeleopCommands.KrakenShooterTeleop;
 import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -39,7 +41,8 @@ public class RobotContainer {
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
-  public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  //public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  public KrakenShooterSubsystem krakenShooterSubsystem = new KrakenShooterSubsystem();
   public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   //public LimeLight limeLightSubsystem = new LimeLight();
 
@@ -64,7 +67,7 @@ public class RobotContainer {
 
     ledSubsystem.setDefaultCommand(new LEDTeleOpStatus(
       ledSubsystem, 
-      () -> shooterSubsystem.getStatus(),              //Supplier for Shooter Status
+      () -> krakenShooterSubsystem.getStatus(),              //Supplier for Shooter Status
       () -> pivotIntakeSubsystem.getIntakeStatus(),    //Supplier for Intake Pivot Status
       () -> intakeSubsystem.getStatus(),               //Supplier for Intake Wheels
       () -> pivotIntakeSubsystem.getNoteSesnorStatus() //Supplier for InfaredSensor
@@ -99,10 +102,14 @@ public class RobotContainer {
       () -> driverController.getRawButton(OIConstants.kResetDirectionButton)
     ));
 
-    shooterSubsystem.setDefaultCommand(new ShooterTeleop(
-      shooterSubsystem, 
-      () -> (- operatorController.getRightTriggerAxis()) 
-    ));
+    // shooterSubsystem.setDefaultCommand(new ShooterTeleop(
+    //   shooterSubsystem, 
+    //   () -> (- operatorController.getRightTriggerAxis()) 
+    // ));
+
+    krakenShooterSubsystem.setDefaultCommand(
+      new KrakenShooterTeleop(krakenShooterSubsystem, () -> (operatorController.getLeftTriggerAxis() -  operatorController.getRightTriggerAxis()))
+    );
 
     pivotIntakeSubsystem.setDefaultCommand(new IntakePivotTeleop(
       pivotIntakeSubsystem, 
@@ -127,13 +134,13 @@ public class RobotContainer {
 
     /* Shooter Commands */
     // Add in Named Command to test delay between using
-    NamedCommands.registerCommand("ShootOn", new InstantCommand( () -> shooterSubsystem.setMotor(0.6), shooterSubsystem));
-    NamedCommands.registerCommand("ShootIdle", new InstantCommand( () -> shooterSubsystem.setMotor(0.5), shooterSubsystem));
-    NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> shooterSubsystem.setMotor(0), shooterSubsystem));
+    NamedCommands.registerCommand("ShootOn", new InstantCommand( () -> krakenShooterSubsystem.setMotor(0.6), krakenShooterSubsystem));
+    NamedCommands.registerCommand("ShootIdle", new InstantCommand( () -> krakenShooterSubsystem.setMotor(0.5), krakenShooterSubsystem));
+    NamedCommands.registerCommand("ShootOff", new InstantCommand( () -> krakenShooterSubsystem.setMotor(0), krakenShooterSubsystem));
 
-    NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-3100), shooterSubsystem));
-    NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(-1000), shooterSubsystem));
-    NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> shooterSubsystem.setRefrenceRPM(0), shooterSubsystem));
+    // NamedCommands.registerCommand("ShootOnRPM", new InstantCommand( () -> krakenShooterSubsystem.setRefrenceRPM(-3100), krakenShooterSubsystem));
+    // NamedCommands.registerCommand("ShootIdleRPM", new InstantCommand( () -> krakenShooterSubsystem.setRefrenceRPM(-1000), krakenShooterSubsystem));
+    // NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRefrenceRPM(0), krakenShooterSubsystem));
 
     /* Intake Wheel Commands */
     NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.65), intakeSubsystem));
@@ -145,13 +152,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.7));
 
     /* LED Command */
-    NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> shooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
+    NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> krakenShooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
 
     /*  These commands are so we dont get a bunch of errors yelling at us, they are from old deleted paths that are stuck on the rio */
     NamedCommands.registerCommand("IntakeInDeadline", new InstantCommand());
     NamedCommands.registerCommand("RevShooter", new InstantCommand());
     NamedCommands.registerCommand("TransferRingToShooter", new InstantCommand());
-    NamedCommands.registerCommand("Shoot", new ShootCMD(shooterSubsystem));
+    //NamedCommands.registerCommand("Shoot", new ShootCMD(krakenShooterSubsystem));
     NamedCommands.registerCommand("Transfer", new TransferCMD(intakeSubsystem));
   }
 
@@ -173,6 +180,9 @@ public class RobotContainer {
 
     /* New Pathing Testing  */
     autoChooser.addOption("5p", new PathPlannerAuto("[Path]5pC2 Path"));
+    
+    autoChooser.addOption("Rotate 180", new PathPlannerAuto("Rotate 180"));
+
 
     SmartDashboard.putData(autoChooser);
   }
@@ -185,14 +195,14 @@ public class RobotContainer {
     // use "controller.getHID()" to use it as a standard XboxContoller instead of CommandXboxController
 
     /* Runs the Shooter at a speed desirable for Amping */
-    new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
-      .whileTrue(new AmpSpeedsRaw(shooterSubsystem));
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
+    //   .whileTrue(new AmpSpeedsRaw(shooterSubsystem));
 
-    /* Spins Intake in and intake wheels to intake from source faster */
-    new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
-      .whileTrue(new InstantCommand(() -> intakeSubsystem.setMotorFull(-0.3))
-      .alongWith(new InstantCommand(() -> shooterSubsystem.setMotor(-0.4)))
-    );
+    // /* Spins Intake in and intake wheels to intake from source faster */
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
+    //   .whileTrue(new InstantCommand(() -> intakeSubsystem.setMotorFull(-0.3))
+    //   .alongWith(new InstantCommand(() -> shooterSubsystem.setMotor(-0.4)))
+    // );
 
     /* Sets the intake automatically to up or down */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)
@@ -202,16 +212,16 @@ public class RobotContainer {
       .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
     );
 
-    /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    
-    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 
-    //.and(() ->(pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
-    .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
-      .alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0))); //Change to Instant Command?
+    // /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    
+    // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 
+    // //.and(() ->(pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
+    // .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
+    //   .alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0))); //Change to Instant Command?
     
-    /* Intake Auto Stow upon Release */
-    operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
-      .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
-        .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
+    // /* Intake Auto Stow upon Release */
+    // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
+    //   .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
+    //     .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
 
 
     /* Intake Auto Stow using Infared Sensor */
