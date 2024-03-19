@@ -4,14 +4,12 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.KrakenShooterSubsystem;
+
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
 import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 
 public class LEDTeleOpStatus extends Command {
   LEDSubsystem ledSubsystem;

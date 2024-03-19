@@ -181,7 +181,7 @@ public class LEDSubsystem extends SubsystemBase {
       }
       firstOrange -= 1;
       m_led.setData(m_ledBuffer);
-      if (firstOrange <= 5) {
+      if (firstOrange <= 20) {
         flip = false;
       }
     }

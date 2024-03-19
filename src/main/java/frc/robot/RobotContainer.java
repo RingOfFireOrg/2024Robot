@@ -11,29 +11,24 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.LEDTeleOpStatus;
 import frc.robot.commands.AutoCommands.IntakeDown;
 import frc.robot.commands.AutoCommands.IntakeUp;
-import frc.robot.commands.AutoCommands.ShootCMD;
 import frc.robot.commands.AutoCommands.TransferCMD;
 import frc.robot.commands.TeleopCommands.AmpSpeedsRaw;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
 import frc.robot.commands.TeleopCommands.KrakenShooterTeleop;
-import frc.robot.commands.TeleopCommands.ShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 
 
 public class RobotContainer {
@@ -166,6 +161,30 @@ public class RobotContainer {
 
   /* Populates the Sendable Chooser to pick autonomous in SmartDashboard */
   private void populateAutoChooser() {
+
+    /*    Planned Auto List
+      DONE - Anywhere 1p (Preload)
+
+      Middle 2p (Preload, MiddleRing)
+      Middle 3p Up (Preload, MiddleRing, TopRing)
+      Middle 3p Down (Preload, MiddleRing, BottomRing)
+      Middle 4p (Preload, MiddleRing, TopRing, BottomRing)
+      Middle 4p Up (Preload, MiddleRing, TopRing, Centerline2)
+      Middle 4p Down (Preload, MiddleRing, BottomRing, Centerline2)
+      Middle 5p (Preload, MiddleRing, TopRing, BottomRing, Centerline2)
+
+      Top 2p (Preload, TopRing)
+      Top 3p (Preload, TopRing, Centerline1)
+
+      Bottom 2p (Preload, BottomRing)
+      Bottom 2p C4 (Preload, Centerline4)
+      Bottom 3pC4 (Preload, BottomRing, Centerline4)
+      Bottom 3p C4C5 (Preload, Centerline4, Centerline5)
+      Bottom 4p (Preload, BottomRing, Centerline4, Centerline5) - WILL RUN OUT OF TIME
+     */
+
+    // make sure to add a wait command at the end of every single auto
+
     autoChooser.setDefaultOption("Shoot No Movement", new PathPlannerAuto("IntakeTransferTest"));
     autoChooser.addOption("Nothing", new InstantCommand());
     autoChooser.addOption("Taxi", new PathPlannerAuto("Taxi"));
@@ -178,10 +197,17 @@ public class RobotContainer {
     autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
     /* New Pathing Testing  */
-    autoChooser.addOption("5p", new PathPlannerAuto("[Path]5pC2 Path"));
-    
+    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+
+    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    autoChooser.addOption("new 4p test path", new PathPlannerAuto("[Path][New]4p auto"));
+
+    /* Path tuning */
+    autoChooser.addOption("1 Meter", new PathPlannerAuto("1meter"));
     autoChooser.addOption("Rotate 180", new PathPlannerAuto("Rotate 180"));
-    autoChooser.addOption("new 4p test path", new PathPlannerAuto("[Path] - 2 - 4p auto NEW"));
 
     
 
@@ -207,13 +233,17 @@ public class RobotContainer {
 
     /* Sets the intake automatically to up or down */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)
-      .onTrue(new IntakeUp(pivotIntakeSubsystem, 0.5)
+      .onTrue(new IntakeUp(pivotIntakeSubsystem, 0.4)
     );
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDown)
-      .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
+      .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
     );
+    
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDownLeft)
-      .whileTrue(pivotIntakeSubsystem.intakeDownPPID()
+      .whileTrue(pivotIntakeSubsystem.intakeUpPID_CMD()
+    );
+    new POVButton(operatorController.getHID(), Constants.OIConstants.dPadRight)
+      .whileTrue(pivotIntakeSubsystem.intakeDownPID_CMD()
     );
     
     // /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    

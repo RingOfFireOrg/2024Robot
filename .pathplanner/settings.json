@@ -15,15 +15,14 @@
   ],
   "autoFolders": [
     "5p Auto Testing",
-    "FullPaths",
     "BottomTesting",
     "TestFullPaths",
     "testing",
     "top testing"
   ],
-  "defaultMaxVel": 4.60248,
+  "defaultMaxVel": 4.8,
   "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
-  "maxModuleSpeed": 4.6
+  "maxModuleSpeed": 4.8
 }

@@ -12,16 +12,14 @@ public class IntakeSubsystem extends SubsystemBase {
     IDLE
   }
 
-  //private VictorSP intakeWheels;
   private PWMSparkMax intakeWheelsSPK;
+
   private double intakeWheelsSpeed;
+  private IntakeSubsystemStatus intakeSubsystemStatus;
 
-  IntakeSubsystemStatus intakeSubsystemStatus;
+  
   public IntakeSubsystem() {
-    //intakeWheels = new CANSparkMax(Constants.IDConstants.intakeWheelMotorID,MotorType.kBrushless);
-    //intakeWheels = new VictorSP(1);
-    intakeWheelsSPK = new PWMSparkMax(1);
-
+    intakeWheelsSPK = new PWMSparkMax(1); //TODO: move to constants
   }
 
   @Override
@@ -44,18 +42,18 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
-
+  /* Returns Intake Wheels Motor */
   public PWMSparkMax getIntakeWheelMotor() {
     return intakeWheelsSPK;
   }
 
+  /* Returns Intake Wheels Status */
   public IntakeSubsystemStatus getStatus() {
     return intakeSubsystemStatus;
   }
 
   /* Runs the motor with a limited full speed */
   public void setMotor(double wheelSpeed) {
-    //intakeWheels.set(wheelSpeed/2.3);
     intakeWheelsSPK.set(wheelSpeed/2.3);
   }
 
@@ -64,8 +62,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeWheelsSPK.set(wheelSpeed);
   }
 
-  public void setWheelMotorStop() {
-    //intakeWheels.stopMotor();
+  /* Stops Intake Wheels */
+  public void stopIntakeWheels() {
     intakeWheelsSPK.stopMotor();
   }
 

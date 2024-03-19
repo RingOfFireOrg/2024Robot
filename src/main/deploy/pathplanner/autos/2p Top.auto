@@ -1,0 +1,31 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7271735863212764,
+      "y": 6.667275029355093
+    },
+    "rotation": 60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1TN_TopStart to TopRing"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2TN_TopRing to TopStart"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "top testing",
+  "choreoAuto": false
+}

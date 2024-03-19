@@ -3,34 +3,34 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7271735863212764,
-        "y": 6.667275029355093
+        "x": 0.721462715046572,
+        "y": 4.411953985536204
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7271735863212765,
-        "y": 6.667275029355093
+        "x": 1.4583282994872255,
+        "y": 4.1046482092964185
       },
       "isLocked": false,
-      "linkedName": "TN_TopStart"
+      "linkedName": "BN_BottomStart"
     },
     {
       "anchor": {
-        "x": 7.87374311779035,
-        "y": 7.460326620116567
+        "x": 2.494508933333412,
+        "y": 4.1046482092964185
       },
       "prevControl": {
-        "x": 6.87374311779035,
-        "y": 7.460326620116567
+        "x": 1.494508933333412,
+        "y": 4.1046482092964185
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TN_Center1"
+      "linkedName": "BN_BottomRing"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.35,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -49,9 +49,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "[New]Top Autos",
+  "folder": "[New] Bottom Autos",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

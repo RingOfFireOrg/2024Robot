@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.721462715046572,
+      "y": 4.411953985536204
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BN1_BottomStart to BottomRing"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BN2_BottomRing to BottomStart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BN4_BottomStart to Center 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BN4_Center4 to bottomstart"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BN5_BottomStart to Center5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BN5_Center5 to BottomStart"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "BottomTesting",
+  "choreoAuto": false
+}

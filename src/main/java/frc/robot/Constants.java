@@ -166,15 +166,6 @@ public final class Constants {
         public static final int kAlignWithTargetButton = 5;
         public static final int kResetDirectionButton = 4;
 
-        public static final int kRotate0Button = 3;
-        public static final int kRotate180Button = 2;
-        public static final int kExtendFullButton = 4;
-        public static final int kRetractButton = 1;
-        public static final int kToggleGrabButton = 10;
-        public static final int kReverseGrabButton = 6;
-        public static final int kForwardGrabButton = 5;
-        public static final int kManuelButton = 7;
-
         public static final double kDeadband = 0.05;
     }
 
@@ -209,6 +200,15 @@ public final class Constants {
     }
 
     public static final class IDConstants {
+
+        // once everything finalzises put it into these cus it keeps changinh
+        public final class CAN_ID_CONSTANTS {}
+        public final class PWM_ID_CONSTANTS {}
+        public final class OTHER_ID_CONSTANTS {
+            // DIO Port
+            // USB
+            // Analog port
+        }
 
         //TODO: Update all with new numbers
 
@@ -247,13 +247,5 @@ public final class Constants {
         // 25 - Shooter Wheel 2
         // 26 - Left Climber
         // 27 - Right Climber
-    }
-
-    //delete
-    public enum ModulePosition {
-        FRONT_LEFT,
-        FRONT_RIGHT,
-        BACK_LEFT,
-        BACK_RIGHT
     }
 }

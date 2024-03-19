@@ -11,6 +11,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
@@ -26,20 +27,21 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   
   private CANSparkMax intakePivot;
   // private SparkPIDController intakePivotPidController;
-  // private RelativeEncoder intakePivotEncoder;
-  
+  private RelativeEncoder intakePivotEncoder;
+  PIDController intakePivotPIDController;
+  PivotSubsystemStatus pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
+  NoteSesnorStatus noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
+
+
   //private VictorSP intakePivotCim;
   private DutyCycleEncoder pivotEncoder;
   private AnalogInput noteSensor;
 
 
-  private Rotation2d encoderOffset;
-  private final ArmFeedforward pivotFF;
-  private final ProfiledPIDController profiledPIDController;
-  //private final TrapezoidProfile.Constraints constraints;
+  //private Rotation2d encOffset;
+  // private final ArmFeedforward pivotFF;
+  //private final ProfiledPIDController profiledPIDController;
 
-  PivotSubsystemStatus pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
-  NoteSesnorStatus noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
 
   public enum PivotSubsystemStatus {
     INTAKE_UP,
@@ -56,8 +58,9 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   public PivotIntakeSubsystem() {
     intakePivot = new CANSparkMax(34, MotorType.kBrushless);
     intakePivot.setIdleMode(IdleMode.kCoast);
+    intakePivot.burnFlash();
     // intakePivotPidController = intakePivot.getPIDController();
-    // intakePivotEncoder = intakePivot.getEncoder();
+    intakePivotEncoder = intakePivot.getEncoder();
 
     // intakePivotPidController.setP(0);
     // intakePivotPidController.setI(0);
@@ -69,11 +72,13 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
     pivotEncoder = new DutyCycleEncoder(0); //DIO
 
-    pivotFF = new ArmFeedforward(0.15, 0.25, 1.0, 0.25);
-    profiledPIDController = new ProfiledPIDController
-    (4, 0, 0.015, new Constraints(8, 30));
-    profiledPIDController.disableContinuousInput();
+    // pivotFF = new ArmFeedforward(0.15, 0.25, 1.0, 0.25);
+    // profiledPIDController = new ProfiledPIDController
+    // (4, 0, 0.015, new Constraints(8, 30));
+    // profiledPIDController.disableContinuousInput();
 
+    intakePivotPIDController = new PIDController(0.009, 0, 0);
+    intakePivotPIDController.setTolerance(0.1,0.01);
 
     noteSensor = new AnalogInput(0);
     noteSensor.setAverageBits(4);
@@ -91,11 +96,11 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("piIntake Position", pivotEncoderPos);
     SmartDashboard.putString("piIntake Status", pivotSubsystemStatus.toString());
     SmartDashboard.putNumber("pi Intake Pivot Get Applied output", intakePivot.getAppliedOutput());
-    
-    if ((pivotEncoderPos <= 0.2 && pivotEncoderPos >= 0) ) {
+    SmartDashboard.putNumber("pi Intake Motor Controller encoder", intakePivotEncoder.getPosition());
+    if ((pivotEncoderPos <= 0.3 && pivotEncoderPos >= 0) ) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
     }
-    else if (pivotEncoderPos <= 0.6 && pivotEncoderPos >= 0.4) {
+    else if (pivotEncoderPos <= 0.8 && pivotEncoderPos >= 0.58) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_DOWN;
     }
     else {
@@ -120,69 +125,115 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   }
 
 
-
+  /* -----------------------------------------------  */
   public PivotSubsystemStatus getIntakeStatus() {
     return pivotSubsystemStatus;
   }
-
   public NoteSesnorStatus getNoteSesnorStatus() {
     return noteSesnorStatus;
   }
-
   public CANSparkMax returnIntakePivotMotor() {
     return intakePivot;
   }
   public DutyCycleEncoder returnIntakePivotEncoder() {
     return pivotEncoder;
   }
+  /* ------------------------------------------------ */
 
-  public Command intakeDownPPID() {
-    return setIntakePivotPos(new Rotation2d(-1.5708));
-  }  
+
+
+
+ /*-------------------------------------------------- */
+  /* Method Using Built in motor encoder */
+  public void toPosition(double targetPosition) {     
+    SmartDashboard.putNumber("to_position", intakePivotPIDController.calculate(
+        intakePivotEncoder.getPosition(), targetPosition));
+    intakePivot.set(
+      intakePivotPIDController.calculate(
+        intakePivotEncoder.getPosition(), targetPosition));
+  }
+
+  /* Method Using External Encoder */
+  public void toPositionABS(double targetPosition) {  
+    SmartDashboard.putNumber("to_positionABS", intakePivotPIDController.calculate(
+        intakePivotEncoder.getPosition(), targetPosition));    
+    intakePivot.set(
+      intakePivotPIDController.calculate(
+        pivotEncoder.get(), targetPosition));
+  }
+
+  //remove if cmd works
+  public void intakeUpPID() {
+    toPositionABS(0.1); // Add Position to Constants
+  }
+
+  //remove if cmd works
+  public void intakeDownPID() {
+    toPositionABS(0.8); // Add Position to Constants
+  }
+
+  public Command intakeUpPID_CMD() {
+
+    return this
+    .run(() -> {toPosition(-0.5);});
+    //.until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP));
+  }
+  public Command intakeDownPID_CMD() {
+
+    return this
+    .run(() -> {toPosition(36);});
+    //.until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_DOWN));
+  }
+
+
+/*-----------------------------------------------------------*/
+
+
+
+/* ------------------ Profiled PID Testing --------------- */
+
+  // public Command intakeDownPPID() {
+  //   return setIntakePivotPos(new Rotation2d(-1.5708));
+  // }  
   
-  public Command intakeUpPPID() {
-    return setIntakePivotPos(new Rotation2d(1.5708));
-  }
+  // public Command intakeUpPPID() {
+  //   return setIntakePivotPos(new Rotation2d(1.5708));
+  // }
 
-  public Command setIntakePivotPos(Rotation2d posRad) {
-    return this.run(
-      () -> {
-        intakePivot.setVoltage(calculateVoltage(posRad));
-      })
-  .finallyDo(() -> intakePivot.setVoltage(0));
-  }
+  // public Command setIntakePivotPos(Rotation2d posRad) {
+  //   return this.run(
+  //     () -> {
+  //       intakePivot.setVoltage(calculateVoltage(posRad));
+  //     })
+  // .finallyDo(() -> intakePivot.setVoltage(0));
+  // }
 
 
-  public double calculateVoltage(Rotation2d angle) {
-    profiledPIDController.setGoal(angle.getRadians());
-    var profileSetpoint = profiledPIDController.getSetpoint();
-    double feedForwardVoltage =
-        pivotFF.calculate(
-            profileSetpoint.position, profileSetpoint.velocity);
-    double feedbackVoltage = profiledPIDController.calculate((pivotEncoder.getAbsolutePosition()*10)* (Math.PI/180));
+  // public double calculateVoltage(Rotation2d angle) {
+  //   profiledPIDController.setGoal(angle.getRadians());
+  //   var profileSetpoint = profiledPIDController.getSetpoint();
+  //   double feedForwardVoltage =
+  //       pivotFF.calculate(
+  //           profileSetpoint.position, profileSetpoint.velocity);
+  //   double feedbackVoltage = profiledPIDController.calculate((pivotEncoder.getAbsolutePosition()*10)* (Math.PI/180));
 
-    return feedForwardVoltage + feedbackVoltage;
-  }
+  //   return feedForwardVoltage + feedbackVoltage;
+  // }
 
-  /* ------------------------------------- CIM Motor intake ---------------------------------------- */
+
+
+
+
+  /* ------------------------------------- Open Loop Cycle Movement ---------------------------------------- */
   public void setPivotMotor(double speed) {
     intakePivot.set(speed);
     //intakePivotCim.set(speed);
   }
 
-  public void intakeDown() {
-    if (pivotEncoder.getAbsolutePosition() < 0.7) {
-      //intakePivotCim.set(0.7);
-      intakePivot.set(0.7);
-
-    } 
-  }
-
   public void intakeDownStatus() {
     while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_DOWN) {
-//      intakePivotCim.set(-0.7);
+      //intakePivotCim.set(-0.7);
       intakePivot.set(0.7);
-
     } 
   }
 
@@ -195,8 +246,5 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   }
   /* ----------------------------------------------------------------------------------------- */
 
-  // public void setRefernecePositionControl(double rotations) {
-  //   intakePivotPidController.setReference(rotations, CANSparkMax.ControlType.kPosition);
-  // }
 
 }

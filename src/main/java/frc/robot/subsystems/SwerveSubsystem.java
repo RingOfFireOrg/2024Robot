@@ -97,14 +97,11 @@ public class SwerveSubsystem extends SubsystemBase {
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                 new PIDConstants(8, 0.0, 1), // Translation PID constants
                 new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
-                4.6, // Max module speed, in m/s
+                4.8, // Max module speed, in m/s
                 Units.inchesToMeters(15.909905), // Drive base radius in meters. Distance from robot center to furthest module.
-                new ReplanningConfig() // Default path replanning config. See the API for the options here
+                new ReplanningConfig() 
         ),
         () -> {
-            // Boolean supplier that controls when the path will be mirrored for the red alliance
-            // This will flip the path being followed to the red side of the field.
-            // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
 
             // var alliance = DriverStation.getAlliance();
             //     if (alliance.isPresent()) {

@@ -5,8 +5,6 @@
 package frc.robot.commands.TeleopCommands;
 
 import java.util.function.Supplier;
-
-import edu.wpi.first.wpilibj.shuffleboard.SuppliedValueWidget;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.KrakenShooterSubsystem;
 
@@ -30,7 +28,6 @@ public class KrakenShooterTeleop extends Command {
   @Override
   public void end(boolean interrupted) {}
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
