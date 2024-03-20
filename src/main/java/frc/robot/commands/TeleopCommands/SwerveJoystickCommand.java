@@ -20,26 +20,8 @@ public class SwerveJoystickCommand extends Command {
     private final Supplier<Double> xSpdFunctionField, ySpdFunctionField, xSpdFunctionRobot, ySpdFunctionRobot, turningSpdFunctionLeft, turningSpdFunctionRight;
     private final Supplier<Boolean> fieldOrientedFunction, alignFunction, resetDirection, aButton, bButton, xButton, yButton;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
-
-    // delete
-    // public final double cameraHeight = Units.inchesToMeters(5);// replace number with height of camera on robot
-    // public final double targetHeight = Units.feetToMeters(5);// replace number with height of targets
-    // public final double cameraPitch = Units.degreesToRadians(65);// replace number with angle of camera
-    //PhotonCamera camera = new PhotonCamera("gloworm");
-
     private final XboxController driveController = new XboxController(0);
-
-    //delete
-    // final double linearP = 0.0;
-    // final double linearD = 0.0;
-
-    // final double angularP = 0.1;
-    // final double angularD = 0.005;
-    // PIDController turnController = new PIDController(angularP, 0, angularD);
-    boolean manuelMode = false;
-    boolean fieldOrientTrue = true;
     double speedDivide = 2;
-    //String speedValue = "None"; //delete
     
 
     public SwerveJoystickCommand(SwerveSubsystem swerveSubsystem, 
@@ -80,13 +62,6 @@ public class SwerveJoystickCommand extends Command {
         this.fieldOrientedFunction = fieldOrientedFunction;
         this.alignFunction = alignButton;
         this.resetDirection = resetDirectionButton;
-
-
-        //delete
-        //this.manuel = manuelButton;
-
-        //this.manuelPivotPOV = manuelPivotPOV;
-        //this.manuelTelescopePOV = manuelPivotPOV;
 
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);

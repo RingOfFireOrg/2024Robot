@@ -15,7 +15,6 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
@@ -29,13 +28,12 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   // private SparkPIDController intakePivotPidController;
   private RelativeEncoder intakePivotEncoder;
   PIDController intakePivotPIDController;
+  PIDController intakePivotPIDController_ABS;
   PivotSubsystemStatus pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
   NoteSesnorStatus noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
-
-
-  //private VictorSP intakePivotCim;
   private DutyCycleEncoder pivotEncoder;
   private AnalogInput noteSensor;
+  private ProfiledPIDController intakePivotPPIDController;
 
 
   //private Rotation2d encOffset;
@@ -60,7 +58,6 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     intakePivot.setIdleMode(IdleMode.kCoast);
     intakePivot.burnFlash();
     // intakePivotPidController = intakePivot.getPIDController();
-    intakePivotEncoder = intakePivot.getEncoder();
 
     // intakePivotPidController.setP(0);
     // intakePivotPidController.setI(0);
@@ -68,19 +65,30 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     // intakePivotPidController.setFF(0);
     // intakePivotPidController.setOutputRange(-1, 1);
     
-    //intakePivotCim = new VictorSP(0); //PWM
 
-    pivotEncoder = new DutyCycleEncoder(0); //DIO
 
     // pivotFF = new ArmFeedforward(0.15, 0.25, 1.0, 0.25);
     // profiledPIDController = new ProfiledPIDController
     // (4, 0, 0.015, new Constraints(8, 30));
     // profiledPIDController.disableContinuousInput();
 
+    /* Creating Instance of a PID Controller using the Built in Encoder */
+    intakePivotEncoder = intakePivot.getEncoder();
     intakePivotPIDController = new PIDController(0.009, 0, 0);
     intakePivotPIDController.setTolerance(0.1,0.01);
 
-    noteSensor = new AnalogInput(0);
+    /* Creating Instance of a PID Controller using the Absolute Encoder */
+    pivotEncoder = new DutyCycleEncoder(0); //TODO: DIO, move to constants
+    intakePivotPIDController_ABS = new PIDController(1, 0, 0.2);
+    intakePivotPIDController_ABS.setTolerance(0.05,0.01);
+
+    intakePivotPPIDController = new ProfiledPIDController
+    (3.3, 0, 0.3,
+    new TrapezoidProfile.Constraints(20,20));
+    intakePivotPPIDController.setTolerance(0.009, 0.07);
+
+    //TODO: find out what average bits mean cus idk
+    noteSensor = new AnalogInput(0); //TODO: move to constants
     noteSensor.setAverageBits(4);
 
     
@@ -91,16 +99,18 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+
+    /* Sending Intake Position Data */
     double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
     SmartDashboard.putNumber("piIntake Position", pivotEncoderPos);
     SmartDashboard.putString("piIntake Status", pivotSubsystemStatus.toString());
     SmartDashboard.putNumber("pi Intake Pivot Get Applied output", intakePivot.getAppliedOutput());
     SmartDashboard.putNumber("pi Intake Motor Controller encoder", intakePivotEncoder.getPosition());
-    if ((pivotEncoderPos <= 0.3 && pivotEncoderPos >= 0) ) {
+
+    if ((pivotEncoderPos <= 0.4 && pivotEncoderPos >= 0) ) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
     }
-    else if (pivotEncoderPos <= 0.8 && pivotEncoderPos >= 0.58) {
+    else if (pivotEncoderPos <= 1 && pivotEncoderPos >= 0.82) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_DOWN;
     }
     else {
@@ -109,6 +119,9 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
 
 
+    /* Sending Note Sensor Data */
+    SmartDashboard.putString("ns_Note Sensor Status", noteSesnorStatus.toString());
+    SmartDashboard.putNumber("ns_Note Sensor Value", noteSensor.getValue());
 
     if (noteSensor.getValue() > 1000 ) {
       noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
@@ -119,8 +132,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     else {
       noteSesnorStatus = NoteSesnorStatus.VALUE_OUT_OF_BOUNDS;
     }
-    SmartDashboard.putString("ns_Note Sensor Status", noteSesnorStatus.toString());
-    SmartDashboard.putNumber("ns_Note Sensor Value", noteSensor.getValue());
+
 
   }
 
@@ -144,45 +156,49 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
 
  /*-------------------------------------------------- */
+
   /* Method Using Built in motor encoder */
   public void toPosition(double targetPosition) {     
-    SmartDashboard.putNumber("to_position", intakePivotPIDController.calculate(
-        intakePivotEncoder.getPosition(), targetPosition));
+    SmartDashboard.putNumber("pi_to_position", intakePivotPIDController.calculate(intakePivotEncoder.getPosition(), targetPosition));
     intakePivot.set(
       intakePivotPIDController.calculate(
         intakePivotEncoder.getPosition(), targetPosition));
+    // -5 to 34 (Assuming reset is up)
   }
+
+  public Command intakeUpPID() {
+    return this
+    .run(() -> {toPosition(-0.5);}) //TODO: move to constants
+    .until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP));
+  }
+
+  public Command intakeDownPID() {
+    return this
+    .run(() -> {toPosition(36);})//TODO: move to constants
+    .until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_DOWN));
+  }
+
 
   /* Method Using External Encoder */
   public void toPositionABS(double targetPosition) {  
-    SmartDashboard.putNumber("to_positionABS", intakePivotPIDController.calculate(
-        intakePivotEncoder.getPosition(), targetPosition));    
+    SmartDashboard.putNumber("pi_to_positionABS", intakePivotPIDController.calculate( intakePivotEncoder.getPosition(), targetPosition));    
     intakePivot.set(
-      intakePivotPIDController.calculate(
+      intakePivotPIDController_ABS.calculate(
         pivotEncoder.get(), targetPosition));
   }
 
-  //remove if cmd works
-  public void intakeUpPID() {
-    toPositionABS(0.1); // Add Position to Constants
-  }
-
-  //remove if cmd works
-  public void intakeDownPID() {
-    toPositionABS(0.8); // Add Position to Constants
-  }
-
-  public Command intakeUpPID_CMD() {
-
+  public Command intakeUpPID_ABS() {
     return this
-    .run(() -> {toPosition(-0.5);});
-    //.until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP));
+    .run(() -> {toPositionABS(0.4);})//TODO: move to constants
+    .until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP))
+    .finallyDo(() -> stopMotor());
   }
-  public Command intakeDownPID_CMD() {
 
+  public Command intakeDownPID_ABS() {
     return this
-    .run(() -> {toPosition(36);});
-    //.until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_DOWN));
+    .run(() -> {toPositionABS(0.85);})//TODO: move to constants
+    .until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_DOWN))
+    .finallyDo(() -> stopMotor());
   }
 
 
@@ -192,6 +208,38 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
 /* ------------------ Profiled PID Testing --------------- */
 
+
+  public void toPositionPPID(double goal) {
+    SmartDashboard.putNumber("pi_PPID TO poisition", intakePivotPPIDController.calculate(
+        pivotEncoder.getAbsolutePosition(), goal));
+    intakePivot.set(
+      intakePivotPPIDController.calculate(
+        pivotEncoder.getAbsolutePosition(), goal));
+  }
+
+  public Command intakeUpPPID() {
+    return this
+    .run(() -> toPositionPPID(0.4))
+    .until(() -> pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP)
+    .finallyDo(() -> stopMotor())
+    ;
+  }
+
+  public Command intakeDownPPID() {
+    return this
+    .run(() -> toPositionPPID(0.85))
+    .until(() -> pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_DOWN)
+    .finallyDo(() -> stopMotor())
+    ;
+  }
+
+  // public void voltagePPID(double goal) {
+  //   intakePivot.setVoltage(
+  //     intakePivotPPIDController
+  //     .calculate(pivotEncoder.getAbsolutePosition(), goal)
+  //     + //feedforward here(?)
+  //   );
+  // }
   // public Command intakeDownPPID() {
   //   return setIntakePivotPos(new Rotation2d(-1.5708));
   // }  
@@ -225,26 +273,28 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
 
   /* ------------------------------------- Open Loop Cycle Movement ---------------------------------------- */
+
   public void setPivotMotor(double speed) {
     intakePivot.set(speed);
-    //intakePivotCim.set(speed);
   }
 
   public void intakeDownStatus() {
     while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_DOWN) {
-      //intakePivotCim.set(-0.7);
       intakePivot.set(0.7);
     } 
   }
 
   public void intakeUpStatus() {
     while (getIntakeStatus() != PivotSubsystemStatus.INTAKE_UP) {
-      //intakePivotCim.set(0.7);
       intakePivot.set(0.7);
-
     } 
   }
-  /* ----------------------------------------------------------------------------------------- */
+
+  public void stopMotor() {
+    intakePivot.stopMotor();
+  }
+  
+  /* ----------------------------------------------------------------------------------------------------- */
 
 
 }

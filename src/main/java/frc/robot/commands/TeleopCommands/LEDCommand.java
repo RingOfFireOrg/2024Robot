@@ -1,16 +1,36 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.commands.TeleopCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LEDSubsystem;
 
 public class LEDCommand extends Command {
-  /** Creates a new LEDCommand. */
+  
   LEDSubsystem ledSubsystem;
   String pattern;
+
+
+
+
+
+
+
+
+
+
+// do not use
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public LEDCommand(LEDSubsystem ledSubsystem, String pattern) {
     addRequirements(ledSubsystem);
@@ -25,7 +45,8 @@ public class LEDCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.setLed(pattern);
+    //ledSubsystem.setLed(pattern);
+    ledSubsystem.setLEDRGB(0, 0, 0);
   }
 
   // Called once the command ends or is interrupted.

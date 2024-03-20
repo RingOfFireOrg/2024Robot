@@ -137,13 +137,16 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(0), krakenShooterSubsystem));
 
     /* Intake Wheel Commands */
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.65), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.85), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
     /* Intake Pivot Commands */
-    NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.5));
-    NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.5));
+    // NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.5));
+    // NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.5));
+
+    NamedCommands.registerCommand("IntakeUp", pivotIntakeSubsystem.intakeUpPPID());
+    NamedCommands.registerCommand("IntakeDown", pivotIntakeSubsystem.intakeDownPPID());
 
     /* LED Command */
     NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> krakenShooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
@@ -180,7 +183,7 @@ public class RobotContainer {
       Bottom 2p C4 (Preload, Centerline4)
       Bottom 3pC4 (Preload, BottomRing, Centerline4)
       Bottom 3p C4C5 (Preload, Centerline4, Centerline5)
-      Bottom 4p (Preload, BottomRing, Centerline4, Centerline5) - WILL RUN OUT OF TIME
+      Bottom 4p (Preload, BottomRing, Centerline4, Centerline5) - WILL RUN OUT OF TIME, only use so we can pick up and start with an extra note 
      */
 
     // make sure to add a wait command at the end of every single auto
@@ -188,6 +191,7 @@ public class RobotContainer {
     autoChooser.setDefaultOption("Shoot No Movement", new PathPlannerAuto("IntakeTransferTest"));
     autoChooser.addOption("Nothing", new InstantCommand());
     autoChooser.addOption("Taxi", new PathPlannerAuto("Taxi"));
+
     /* Pembroke Tuned Autos */
     autoChooser.addOption("4 Piece", new PathPlannerAuto("MiddleFull"));
     autoChooser.addOption("3 Middle Left", new PathPlannerAuto("Middle3pLeft"));
@@ -198,16 +202,21 @@ public class RobotContainer {
 
     /* New Pathing Testing  */
     autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
 
-    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("new 4p test path", new PathPlannerAuto("[Path][New]4p auto"));
+    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    //autoChooser.addOption("new 4p test auto", new PathPlannerAuto("[Auto][New]4p Auto"));
+    autoChooser.addOption("new 2p", new PathPlannerAuto("[Auto][New]2p MiddleRing"));
+    autoChooser.addOption("Intake Test", new PathPlannerAuto("IntakeMoveTest"));
+    autoChooser.addOption("2p Bottom", new PathPlannerAuto("2 botoom"));
+    
+    autoChooser.addOption("NEW 3p Middle Bottom", new PathPlannerAuto("[Auto][New]3p MiddleRingBottomRing"));
 
     /* Path tuning */
     autoChooser.addOption("1 Meter", new PathPlannerAuto("1meter"));
-    autoChooser.addOption("Rotate 180", new PathPlannerAuto("Rotate 180"));
+    autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));
 
     
 
@@ -216,11 +225,12 @@ public class RobotContainer {
 
 
 
-  /* Creates button Bindings*/
+  /* Create button Bindings*/
   private void configureButtonBindings() {
 
     // use "controller.getHID()" to use it as a standard XboxContoller instead of CommandXboxController
 
+    
     /* Runs the Shooter at a speed desirable for Amping */
     // new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
     //   .whileTrue(new AmpSpeedsRaw(shooterSubsystem));
@@ -228,10 +238,15 @@ public class RobotContainer {
     // /* Spins Intake in and intake wheels to intake from source faster */
     // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
     //   .whileTrue(new InstantCommand(() -> intakeSubsystem.setMotorFull(-0.3))
-    //   .alongWith(new InstantCommand(() -> shooterSubsystem.setMotor(-0.4)))
+    //   .alongWith(new InstantCommand(() -> krakenShooterSubsystem.setRPM(-1500))))
+    //   .onFalse(new InstantCommand(() -> intakeSubsystem.stopIntakeWheels())
+    //   .alongWith(new InstantCommand(() -> krakenShooterSubsystem.stopMotors()))
     // );
 
-    /* Sets the intake automatically to up or down */
+
+
+    
+    /* Open Loop Control Intake */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)
       .onTrue(new IntakeUp(pivotIntakeSubsystem, 0.4)
     );
@@ -239,12 +254,25 @@ public class RobotContainer {
       .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
     );
     
-    new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDownLeft)
-      .whileTrue(pivotIntakeSubsystem.intakeUpPID_CMD()
-    );
-    new POVButton(operatorController.getHID(), Constants.OIConstants.dPadRight)
-      .whileTrue(pivotIntakeSubsystem.intakeDownPID_CMD()
-    );
+    /* PID Closed Loop Control (Motor Encoder) */
+    // new POVButton(operatorController.getHID(), Constants.OIConstants.dPadLeft)
+    //   .whileTrue(pivotIntakeSubsystem.intakeUpPID()
+    // );
+    // new POVButton(operatorController.getHID(), Constants.OIConstants.dPadRight)
+    //   .whileTrue(pivotIntakeSubsystem.intakeDownPID()
+    // );
+
+
+    // /* PID Closed Loop Control (Absolute Encoder) */
+    // new POVButton(operatorController.getHID(), Constants.OIConstants.dPadLeft)
+    //   //.whileTrue(pivotIntakeSubsystem.intakeUpPID()
+    //   .onTrue(pivotIntakeSubsystem.intakeUpPPID()
+    // );
+    // new POVButton(operatorController.getHID(), Constants.OIConstants.dPadRight)
+    //   //.whileTrue(pivotIntakeSubsystem.intakeDownPID()
+    //   .onTrue(pivotIntakeSubsystem.intakeDownPPID()
+
+    // );
     
     // /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    
     // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 

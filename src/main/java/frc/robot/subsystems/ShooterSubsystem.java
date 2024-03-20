@@ -76,9 +76,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
     //getSpeedBottom = shooterMotorTop.getBusVoltage() * shooterMotorTop.getAppliedOutput();
-    getRPMVelocityTop = shooterTopEncoder.getVelocity();
-    getRPMVelocityBottom = shooterBottomEncoder.getVelocity();
-    SmartDashboard.putNumber("sShooter Motor Voltage", getSpeedBottom);
+    getRPMVelocityTop = shooterTopEncoder.getVelocity()*-1;
+    getRPMVelocityBottom = shooterBottomEncoder.getVelocity()*-1;
+    //SmartDashboard.putNumber("sShooter Motor Voltage", getSpeedBottom);
     SmartDashboard.putString("sShooter Status", shooterSubsystemStatus.toString());
     SmartDashboard.putNumber("sVelocity RPM TOP (periodic)", getRPMVelocityTop);
     SmartDashboard.putNumber("sVelocity RPM Bottom  (periodic)", getRPMVelocityBottom);

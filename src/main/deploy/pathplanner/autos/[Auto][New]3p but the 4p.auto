@@ -98,9 +98,15 @@
                             }
                           },
                           {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeUp"
+                            }
+                          },
+                          {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.3
+                              "waitTime": 0.1
                             }
                           },
                           {
@@ -173,9 +179,15 @@
                             }
                           },
                           {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeUp"
+                            }
+                          },
+                          {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.3
+                              "waitTime": 0.1
                             }
                           },
                           {
@@ -202,56 +214,55 @@
                             "data": {
                               "commands": [
                                 {
-                                  "type": "parallel",
+                                  "type": "named",
                                   "data": {
-                                    "commands": [
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "IntakeDown"
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "IntakeIn"
-                                        }
-                                      },
-                                      {
-                                        "type": "path",
-                                        "data": {
-                                          "pathName": "5_MiddleStart to TopRing"
-                                        }
-                                      }
-                                    ]
+                                    "name": "IntakeDown"
                                   }
                                 },
                                 {
-                                  "type": "parallel",
+                                  "type": "named",
                                   "data": {
-                                    "commands": [
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "IntakeUp"
-                                        }
-                                      },
-                                      {
-                                        "type": "named",
-                                        "data": {
-                                          "name": "IntakeIn"
-                                        }
-                                      },
-                                      {
-                                        "type": "path",
-                                        "data": {
-                                          "pathName": "6_TopRing to MiddleStart"
-                                        }
-                                      }
-                                    ]
+                                    "name": "IntakeIn"
+                                  }
+                                },
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "C3_MiddleStart_ Centerline3"
                                   }
                                 }
                               ]
+                            }
+                          },
+                          {
+                            "type": "parallel",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "IntakeUp"
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "IntakeIn"
+                                  }
+                                },
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "C3_Centerline3 to MiddleStart"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeUp"
                             }
                           },
                           {

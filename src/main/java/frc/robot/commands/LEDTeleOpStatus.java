@@ -4,7 +4,7 @@ import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import frc.robot.Constants;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
 import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
@@ -37,7 +37,6 @@ public class LEDTeleOpStatus extends Command {
 
   @Override
   public void initialize() {
-    ledSubsystem.setLed(pattern);
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       allianceRed = (alliance.get() == DriverStation.Alliance.Red);
@@ -47,9 +46,7 @@ public class LEDTeleOpStatus extends Command {
 
   @Override
   public void execute() {
-    // if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN) {
-    //   //orange?
-    // }
+
     if (shooterStatus.get() == KrakenShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
     }
@@ -64,25 +61,24 @@ public class LEDTeleOpStatus extends Command {
     else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN && noteSensorStatus.get() == NoteSesnorStatus.NOTE_DECTECTED) {
       ledSubsystem.setLEDRGB(0, 255, 0);
     }
-    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN) {
-      //red blink
+    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN && noteSensorStatus.get() != NoteSesnorStatus.NOTE_DECTECTED) {
+      ledSubsystem.blink(255, 0, 0, 1);
+    }
+    else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && noteSensorStatus.get() != NoteSesnorStatus.NOTE_DECTECTED) {
+      ledSubsystem.setLEDRGB(255, 0, 0);
     }
     else {
-      // Alliance Color LEDS
       if (allianceRed) {
-        //TODO: make Orange Gradient pattern - NEEDS to be distcint from red so it does not get confused with shooter, but also from when intake is down
-        ledSubsystem.shiftingOrange_BAR();
-        //ledSubsystem.setLEDRGB(Constants.LEDConstants.pyrotechOrange[0], Constants.LEDConstants.pyrotechOrange[1], Constants.LEDConstants.pyrotechOrange[2]);
+        //ledSubsystem.shiftingOrange_BAR();
+        ledSubsystem.setLEDRGB(Constants.LEDConstants.PyroTechOrange[0], Constants.LEDConstants.PyroTechOrange[1], Constants.LEDConstants.PyroTechOrange[2]);
       }
       else {
-        ledSubsystem.blueGradient();
+        //ledSubsystem.blueGradient();
+        ledSubsystem.setLEDRGB(Constants.LEDConstants.CryoTechPurple[0], Constants.LEDConstants.CryoTechPurple[1], Constants.LEDConstants.CryoTechPurple[2]);
+
       }
     }
   }
-
-
-
-
 
 
   @Override

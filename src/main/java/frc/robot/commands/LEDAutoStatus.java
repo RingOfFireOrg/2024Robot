@@ -28,7 +28,6 @@ public class LEDAutoStatus extends Command {
 
   @Override
   public void initialize() {
-    ledSubsystem.setLed(pattern);
     var alliance = DriverStation.getAlliance();
     if (alliance.isPresent()) {
       allianceRed = (alliance.get() == DriverStation.Alliance.Red);

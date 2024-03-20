@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -21,11 +22,11 @@ public class LEDSubsystem extends SubsystemBase {
   private int hue;
   private int hue2;
 
+
+  // All of these numbers are wrong now the we only have the top strip 😭
   private int ledSegment1 = 31;
   private int ledSegment2 = 41;
   private int ledSegment3 = 31;
-
-
   int ledLengthBar = 31+41+31;
   int ledSegment1Start = 0; // Left bar
   int ledSegment2Start = 31; // top Bar
@@ -33,14 +34,15 @@ public class LEDSubsystem extends SubsystemBase {
   int ledSegmentTotal = 31+41+31;
   int ledLegnthBoard = 0;
 
-  public LEDSubsystem() {
+  /* Lengths for TEMPORARY (hopefully) strip */
+  int ledSegment = 42 + 5;
+  int ledSegmentStart = 5;
 
-    m_led = new AddressableLED(8);
+  public LEDSubsystem() {
+    m_led = new AddressableLED(8); // Move to constants
 
     m_ledBuffer = new AddressableLEDBuffer(ledLengthBar);
     m_led.setLength(m_ledBuffer.getLength());
-
-    // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
   }
@@ -49,51 +51,6 @@ public class LEDSubsystem extends SubsystemBase {
   public void periodic() {
     m_led.setData(m_ledBuffer);
   }
-
-
-  
-
-  public void setLed(String pattern) {  //remove
-    if (pattern == "rainbow") {
-      rainbow();
-    }
-    else if (pattern == "redGradient") {
-      redGradient();
-    }
-    else if (pattern == "redChase") {
-      redChase();
-    }
-    else if (pattern == "blueGradient" ) {
-      blueGradient();
-    }
-  }
-
-
-
-  public enum ledModes { //remove
-    rainbow,
-    redGradient,
-    redChase,
-    blueGradient
-  }
-
-  public void setLedCase(ledModes ledMode) { //remove
-    switch (ledMode) {
-      case rainbow:
-        rainbow();
-        break;
-      case redGradient:
-        redGradient();
-        break;
-      case redChase:
-        redChase();
-        break;
-      case blueGradient:
-        blueGradient();
-        break;
-    }
-  }
-
 
   // --------------------------------- SET RGB FUNCTIONS ------------------------------------- \\
 
@@ -119,6 +76,13 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
 
+  public void setLEDRGB_TEMP(int red, int green, int blue) {
+    for (var i = ledSegmentStart; i < ledSegment; i++) {
+      m_ledBuffer.setRGB(i, red, green, blue);
+    }    
+    m_led.setData(m_ledBuffer);
+  }
+
 
   public void setLEDHSV(int h, int s, int v) {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -128,13 +92,43 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   /*  -------------------------------- Blinking Pattern --------------------------------------- */   
-  
-  public void blink(double red, double green, double blue, double delay) {}
-
+    
+  public void blink(int red, int green, int blue,  double delay) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setRGB(i, red, green, blue);
+    }
+    m_led.setData(m_ledBuffer);
+    Timer.delay(delay);
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      m_ledBuffer.setRGB(i, 0, 0, 0);
+    }
+    m_led.setData(m_ledBuffer);
+    Timer.delay(delay);
+  } 
   public void blink_BAR(double red, double green, double blue, double delay) {}
 
 
   // ------------------------------------ Red chase ------------------------------------------------- \\                        
+
+  public void redMove() {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      final var hue = (m_rainbowFirstPixelHue + (i * 255 / 30)) % 255;
+      m_ledBuffer.setRGB(i, 255-hue, 0, 0);
+    }
+    m_rainbowFirstPixelHue += 6;
+    m_rainbowFirstPixelHue %= 255;
+    m_led.setData(m_ledBuffer);
+  } 
+
+  public void redMove(double speed) {
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      final var hue = (m_rainbowFirstPixelHue + (i * 255 / 30)) % 255;
+      m_ledBuffer.setRGB(i, 255-hue, 0, 0);
+    }
+    m_rainbowFirstPixelHue += speed/1000;
+    m_rainbowFirstPixelHue %= 255;
+    m_led.setData(m_ledBuffer);
+  } 
 
   public void redMoveSplit() {
     for (var i = 0; i < ledSegment2Start; i++) {
@@ -238,97 +232,7 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
   
-  
-
-  public void gradientTest() {
-    // For every pixel
-    var range = 255;
-
-    if (variable2 == true) {
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-
-      final var hue = (m_rainbowFirstPixelHue + (i * range / m_ledBuffer.getLength()/2 )) % range;
-
-      m_ledBuffer.setRGB(i, 252, variable3 - hue, 3);
-      //m_ledBuffer.setHSV(i, m_rainbowFirstPixelHue, m_rainbowFirstPixelHue, variable1);(i, 252, hue, 3);
-
-      }
-      variable1 += 1;
-      if (variable1 == m_ledBuffer.getLength()) {
-        variable2 = false;
-        variable3 = hue;
-      }
-    }
-    else {
-
-      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-
-      final var hue = (m_rainbowFirstPixelHue + (i * range / m_ledBuffer.getLength()/2 )) % range;
-
-      m_ledBuffer.setRGB(i, 252, variable3-hue, 3);
-      //m_ledBuffer.setHSV(i, m_rainbowFirstPixelHue, m_rainbowFirstPixelHue, variable1);(i, 252, hue, 3);
-
-      }
-      variable1 -= 1;
-      if (variable1 == 0) {
-        variable2 = true;
-        variable3 = hue;
-      }
-    }
-
-
-
-
-
-
-    m_rainbowFirstPixelHue += 1;
-    m_rainbowFirstPixelHue %= range;
-
-    m_led.setData(m_ledBuffer);
-  }
- 
-  
-  
-  public void redGradient() {
-    // For every pixel
-    var step = 1;
-    var range = m_ledBuffer.getLength()*step;
-
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-
-      final var hue = (m_rainbowFirstPixelHue + (i * range / m_ledBuffer.getLength()/2 )) % range;
-
-      m_ledBuffer.setRGB(i, 252, hue, 3);
-      //m_ledBuffer.setHSV(i, m_rainbowFirstPixelHue, m_rainbowFirstPixelHue, variable1);(i, 252, hue, 3);
-
-    }
-    if (variable1 == m_ledBuffer.getLength()) {
-      variable2 = false;
-    }
-    else if (variable1 == 0) {
-      variable2 = true;
-    }
-
-    if (variable2 == true) {
-      m_rainbowFirstPixelHue += step;
-      variable1 += step;
-      m_rainbowFirstPixelHue %= range;
-      variable1 %= range;
-    }
-    else {
-      m_rainbowFirstPixelHue -= step;
-      variable1 -= step;
-      m_rainbowFirstPixelHue %= range;
-      variable1 %= range;
-    }
-    m_rainbowFirstPixelHue %= range;
-
-    m_led.setData(m_ledBuffer);
-  }
-
-
-
-
+    
   public void blueGradient() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
@@ -341,43 +245,5 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
 
   }
-
-
-  public void random1() {
-    // For every pixel
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
-      m_ledBuffer.setHSV(i, hue, 255, 128);
-    }
-    m_rainbowFirstPixelHue += 3;
-    m_rainbowFirstPixelHue %= 180;
-    m_led.setData(m_ledBuffer);
-  }  
-
-  public void whiteChase() {
-    // For every pixel
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
-      m_ledBuffer.setRGB(i, 255-hue, 255-hue, 255-hue);
-    }
-    m_rainbowFirstPixelHue += 3;
-    m_rainbowFirstPixelHue %= 180;
-    m_led.setData(m_ledBuffer);
-  }  
-
-  public void redChase() {
-    // red chase with dimming black
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      final var hue = (m_rainbowFirstPixelHue + (i * 255 / m_ledBuffer.getLength())) % 255;
-      m_ledBuffer.setRGB(i, 255-hue, 0, 0);
-    }
-    m_rainbowFirstPixelHue += 3;
-    m_rainbowFirstPixelHue %= 255;
-    m_led.setData(m_ledBuffer);
-  }   
-
- 
-  
-
 
 }

@@ -16,6 +16,12 @@
           "data": {
             "pathName": "Rotation"
           }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
         }
       ]
     }

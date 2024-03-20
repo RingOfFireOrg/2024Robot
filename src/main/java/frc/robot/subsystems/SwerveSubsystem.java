@@ -95,9 +95,9 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                new PIDConstants(8, 0.0, 1), // Translation PID constants
-                new PIDConstants(3, 0.0, 0.3), // Rotation PID constants
-                4.8, // Max module speed, in m/s
+                new PIDConstants(8, 0.0, 0.3), // Translation PID constants
+                new PIDConstants(5, 0.0, 0), // Rotation PID constants
+                4.6, // Max module speed, in m/s
                 Units.inchesToMeters(15.909905), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() 
         ),
@@ -334,8 +334,6 @@ public class SwerveSubsystem extends SubsystemBase {
         }
     }
 
-
-
     public void drive(SwerveModuleState... desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
         frontLeft.setDesiredState(desiredStates[0]);
@@ -343,9 +341,6 @@ public class SwerveSubsystem extends SubsystemBase {
         backLeft.setDesiredState(desiredStates[2]);
         backRight.setDesiredState(desiredStates[3]);
     }
-
-    
-
 
     public Command resetGyro() {
         return this.runOnce(() ->  this.zeroHeading());

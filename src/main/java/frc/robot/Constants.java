@@ -182,14 +182,13 @@ public final class Constants {
 
 
 
-        public static int[] colorSet1 = {};
         public static int[] noteColor = {}; //Find a suitable orange
         
-        public static int[] pyrotechRed = {}; //Find a suitable color
-        public static int[] pyrotechOrange = {0,0,0}; //Find a suitable color
+        public static int[] PyroTechRed = {105, 3, 12}; //Find a suitable color
+        public static int[] PyroTechOrange = {250, 64, 2}; 
 
-        int[] cryoTechBlue = {}; //Find a suitable color - // for blue alliance
-        int[] cryotechTeal = {}; //Find a suitable color - // for blue alliance
+        public static int[] CryoTechBlue = {44, 2, 186}; 
+        public static int[] CryoTechPurple = {115, 76, 245}; 
 
         int[] loadingRed = {}; 
         int[] readyGreen = {}; 
