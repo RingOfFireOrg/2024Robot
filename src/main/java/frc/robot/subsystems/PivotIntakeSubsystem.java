@@ -83,7 +83,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     intakePivotPIDController_ABS.setTolerance(0.05,0.01);
 
     intakePivotPPIDController = new ProfiledPIDController
-    (3.3, 0, 0.3,
+    (3.8, 0, 0.5,
     new TrapezoidProfile.Constraints(20,20));
     intakePivotPPIDController.setTolerance(0.009, 0.07);
 

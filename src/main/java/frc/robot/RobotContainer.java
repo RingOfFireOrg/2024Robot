@@ -137,7 +137,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(0), krakenShooterSubsystem));
 
     /* Intake Wheel Commands */
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.85), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.65), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
@@ -168,13 +168,14 @@ public class RobotContainer {
     /*    Planned Auto List
       DONE - Anywhere 1p (Preload)
 
-      Middle 2p (Preload, MiddleRing)
-      Middle 3p Up (Preload, MiddleRing, TopRing)
-      Middle 3p Down (Preload, MiddleRing, BottomRing)
-      Middle 4p (Preload, MiddleRing, TopRing, BottomRing)
-      Middle 4p Up (Preload, MiddleRing, TopRing, Centerline2)
-      Middle 4p Down (Preload, MiddleRing, BottomRing, Centerline2)
-      Middle 5p (Preload, MiddleRing, TopRing, BottomRing, Centerline2)
+      2) DONE - Middle 2p (Preload, MiddleRing)
+      3) Middle 3p Up (Preload, MiddleRing, TopRing)
+      4) DONE -Middle 3p Down (Preload, MiddleRing, BottomRing)
+      5) Middle 4p (Preload, MiddleRing, TopRing, BottomRing)
+      6) Middle 4p Up (Preload, MiddleRing, TopRing, Centerline3)
+      7) Middle 4p Down (Preload, MiddleRing, BottomRing, Centerline3)
+
+      8) Middle 5p (Preload, MiddleRing, TopRing, BottomRing, Centerline2)
 
       Top 2p (Preload, TopRing)
       Top 3p (Preload, TopRing, Centerline1)
@@ -193,21 +194,31 @@ public class RobotContainer {
     autoChooser.addOption("Taxi", new PathPlannerAuto("Taxi"));
 
     /* Pembroke Tuned Autos */
-    autoChooser.addOption("4 Piece", new PathPlannerAuto("MiddleFull"));
-    autoChooser.addOption("3 Middle Left", new PathPlannerAuto("Middle3pLeft"));
-    autoChooser.addOption("2 Middle", new PathPlannerAuto("Middle1"));
-    autoChooser.addOption("2 Left", new PathPlannerAuto("Left2p"));
-    autoChooser.addOption("2 Right", new PathPlannerAuto("Right2p"));
-    autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
+    // autoChooser.addOption("4 Piece", new PathPlannerAuto("MiddleFull"));
+    // autoChooser.addOption("3 Middle Left", new PathPlannerAuto("Middle3pLeft"));
+    // autoChooser.addOption("2 Middle", new PathPlannerAuto("Middle1"));
+    // autoChooser.addOption("2 Left", new PathPlannerAuto("Left2p"));
+    // autoChooser.addOption("2 Right", new PathPlannerAuto("Right2p"));
+    // autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
     /* New Pathing Testing  */
-    autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
     // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
     // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
     // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
 
+    autoChooser.addOption("2) Middle 2p", new PathPlannerAuto("2) Middle 2p P-MR"));
+    autoChooser.addOption("3) Middle 3p Up", new PathPlannerAuto("3) Middle 3p Up"));
+    autoChooser.addOption("4) Middle 3p DOWN", new PathPlannerAuto("4) Middle 3p DOWN"));
+    autoChooser.addOption("5) Midlle 4p", new PathPlannerAuto("5) Middle 4p Middle"));
+    autoChooser.addOption("6) Middle 4p Up C3", new PathPlannerAuto("6) Middle 4p Up C3"));
+    autoChooser.addOption("7) Middle 4p Down C3", new PathPlannerAuto("7) Middle 4p Down C3"));
     autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    //autoChooser.addOption("new 4p test auto", new PathPlannerAuto("[Auto][New]4p Auto"));
+    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
+  
+  //autoChooser.addOption("new 4p test auto", new PathPlannerAuto("[Auto][New]4p Auto"));
     autoChooser.addOption("new 2p", new PathPlannerAuto("[Auto][New]2p MiddleRing"));
     autoChooser.addOption("Intake Test", new PathPlannerAuto("IntakeMoveTest"));
     autoChooser.addOption("2p Bottom", new PathPlannerAuto("2 botoom"));
@@ -235,10 +246,10 @@ public class RobotContainer {
     // new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
     //   .whileTrue(new AmpSpeedsRaw(shooterSubsystem));
 
-    // /* Spins Intake in and intake wheels to intake from source faster */
+    /* Spins Intake in and intake wheels to intake from source faster */
     // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
     //   .whileTrue(new InstantCommand(() -> intakeSubsystem.setMotorFull(-0.3))
-    //   .alongWith(new InstantCommand(() -> krakenShooterSubsystem.setRPM(-1500))))
+    //   .alongWith(new KrakenShooterTeleop(krakenShooterSubsystem,() -> -1200.0)))
     //   .onFalse(new InstantCommand(() -> intakeSubsystem.stopIntakeWheels())
     //   .alongWith(new InstantCommand(() -> krakenShooterSubsystem.stopMotors()))
     // );

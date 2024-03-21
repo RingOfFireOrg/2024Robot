@@ -64,8 +64,8 @@ public final class Constants {
         public static final boolean kFrontRightDriveAbsoluteEncoderReversed = true;
         public static final boolean kBackRightDriveAbsoluteEncoderReversed = true;
 
-        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (-2.15370902619144); //offset in radians - CanCoder 9
-        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (-1.684310905098434+Math.PI); //offset in radians - CanCoder 10
+        public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (Math.PI +1.009359358428752); //offset in radians - CanCoder 9
+        public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (-1.684310905098434+Math.PI);//(Math.PI - 1.704252655340947); //offset in radians - CanCoder 10
         public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (2.96671884377083 + Math.PI); //offset in radians - CanCoder 11
         //public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0); 
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (-0.47860200582032); //offset in radians - CanCoder 12

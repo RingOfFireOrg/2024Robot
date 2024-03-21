@@ -143,6 +143,7 @@ public class SwerveModule {
 
         SmartDashboard.putNumber("Swerve[" + encId + "] state", getAbsoluteEncoderRad());
         SmartDashboard.putNumber("Module[" + encId + "]", state.angle.getDegrees());
+        SmartDashboard.putNumber("swerve_[" + encId + "] Velocity", driveMotor.getEncoder().getVelocity());
    
 
         if (Math.abs(state.speedMetersPerSecond) < 0.001) {

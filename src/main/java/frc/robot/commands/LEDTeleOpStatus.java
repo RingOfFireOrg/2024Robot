@@ -55,14 +55,15 @@ public class LEDTeleOpStatus extends Command {
       //Make a RED pattern that is pointing Upwards
     }
     else if (shooterStatus.get() == KrakenShooterSubsystemStatus.REVERSE) {
-      ledSubsystem.redMoveSplit_REVERSE();
+      //ledSubsystem.redMoveSplit_REVERSE();
+      ledSubsystem.redMoveSplit();
       //Make a RED pattern that is pointing downwards
     }
     else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN && noteSensorStatus.get() == NoteSesnorStatus.NOTE_DECTECTED) {
       ledSubsystem.setLEDRGB(0, 255, 0);
     }
     else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && intakeStatus.get() == IntakeSubsystemStatus.INTAKE_IN && noteSensorStatus.get() != NoteSesnorStatus.NOTE_DECTECTED) {
-      ledSubsystem.blink(255, 0, 0, 1);
+      ledSubsystem.redMoveSplit();
     }
     else if (pivotIntakeStatus.get() == PivotSubsystemStatus.INTAKE_DOWN && noteSensorStatus.get() != NoteSesnorStatus.NOTE_DECTECTED) {
       ledSubsystem.setLEDRGB(255, 0, 0);

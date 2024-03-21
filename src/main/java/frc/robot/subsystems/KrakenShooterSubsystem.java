@@ -58,6 +58,8 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     double rotorvelocity  = shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
     SmartDashboard.putNumber("krshooter_rpm Kraken Rotor Top shooter", rotorvelocity);
     SmartDashboard.putNumber("krshooter_rps Kraken Rotor Top shooter", rotorvelocity/60);
+    SmartDashboard.putString("kr_Shooter Status", krakenShooterSubsystemStatus.toString());
+
 
     if (rotorvelocity >= 3200 ) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.READY;
@@ -71,6 +73,7 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     else {  
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.IDLE;
     }
+
   }
 
 

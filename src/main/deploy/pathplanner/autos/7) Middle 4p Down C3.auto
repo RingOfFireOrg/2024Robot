@@ -118,7 +118,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 0.35
                             }
                           }
                         ]
@@ -199,7 +199,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 0.35
                             }
                           }
                         ]
@@ -260,15 +260,9 @@
                             }
                           },
                           {
-                            "type": "named",
-                            "data": {
-                              "name": "IntakeUp"
-                            }
-                          },
-                          {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.3
+                              "waitTime": 0.2
                             }
                           },
                           {
@@ -280,7 +274,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 10.0
                             }
                           }
                         ]

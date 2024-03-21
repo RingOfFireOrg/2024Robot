@@ -25,9 +25,7 @@ public class ClimberTeleop extends Command {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // climberSubsystem.setLeftMotor(Leftspeed.get()/1.4);
-    // climberSubsystem.setRightMotor(Rightspeed.get()/1.4);
+  public void execute() {;
     climberSubsystem.setBothMotors(Leftspeed.get(), Rightspeed.get());
   }
 

@@ -95,9 +95,9 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                new PIDConstants(8, 0.0, 0.3), // Translation PID constants
-                new PIDConstants(5, 0.0, 0), // Rotation PID constants
-                4.6, // Max module speed, in m/s
+                new PIDConstants(9, 0.0, 0.5), // Translation PID constants
+                new PIDConstants(6, 0.0, 0.5), // Rotation PID constants
+                4.4, // Max module speed, in m/s
                 Units.inchesToMeters(15.909905), // Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() 
         ),
@@ -141,7 +141,6 @@ public class SwerveSubsystem extends SubsystemBase {
         if(temp < 0) {
             temp = temp + 360; 
         }
-        SmartDashboard.putNumber("COMPARE - Gyro Angle",temp);
         return temp;
         // should be the same as: return (gyro.getAngle() % 360);
 
@@ -264,6 +263,8 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("FR Motor Temp", frontRight.returnDriveMotorTemp());
         SmartDashboard.putNumber("BL Motor Temp", backLeft.returnDriveMotorTemp());
         SmartDashboard.putNumber("BR Motor Temp", backRight.returnDriveMotorTemp());
+
+        //SmartDashboard.putString("Swerve Current Command", this.getCurrentCommand().toString());
     }
 
     public void stopModules() {
