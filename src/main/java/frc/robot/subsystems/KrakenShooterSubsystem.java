@@ -6,6 +6,7 @@ import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -60,6 +61,7 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("krshooter_rps Kraken Rotor Top shooter", rotorvelocity/60);
     SmartDashboard.putString("kr_Shooter Status", krakenShooterSubsystemStatus.toString());
 
+    //SmartDashboard.putNumber("kr_Amp RPM", 900);
 
     if (rotorvelocity >= 3200 ) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.READY;
@@ -100,5 +102,19 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   public void stopMotors(){
     shooterMotorTop.stopMotor();
   }
+
+
+  public Command ampSpeed() {
+    return this.run(() -> setRPM(-SmartDashboard.getNumber("kr_Amp RPM", 500)));
+  }
+
+  public Command intakeSpeed() {
+    return this.run(() -> setRPM(1300));
+  }
+
+  public Command stopMotorsCMD() {
+    return this.runOnce(() -> stopMotors());
+  }
+  
 
 }

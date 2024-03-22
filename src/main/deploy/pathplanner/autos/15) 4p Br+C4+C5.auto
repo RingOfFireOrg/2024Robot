@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3235236938753967,
-      "y": 5.550083606492732
+      "x": 0.7365015087811937,
+      "y": 4.46444742621149
     },
-    "rotation": 0.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -66,7 +66,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "1_MiddleStart to MiddleRing"
+                                    "pathName": "BN1_BottomStart to BottomRing"
                                   }
                                 }
                               ]
@@ -91,7 +91,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "2_MiddleRing to MiddleStart"
+                                    "pathName": "BN2_BottomRing to BottomStart"
                                   }
                                 }
                               ]
@@ -147,7 +147,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "3_MiddleStart to BottomRing"
+                                    "pathName": "BN4_BottomStart to Center 4"
                                   }
                                 }
                               ]
@@ -172,7 +172,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "4_BottomRing to Middle Start"
+                                    "pathName": "BN4_Center4 to bottomstart"
                                   }
                                 }
                               ]
@@ -228,7 +228,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "5_MiddleStart to TopRing"
+                                    "pathName": "BN5_BottomStart to Center5"
                                   }
                                 }
                               ]
@@ -253,7 +253,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "6_TopRing to MiddleStart"
+                                    "pathName": "BN5_Center5 to BottomStart"
                                   }
                                 }
                               ]
@@ -295,6 +295,6 @@
       ]
     }
   },
-  "folder": "5p Auto Testing",
+  "folder": "BottomTesting",
   "choreoAuto": false
 }

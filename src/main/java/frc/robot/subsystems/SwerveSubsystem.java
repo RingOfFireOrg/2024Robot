@@ -135,7 +135,7 @@ public class SwerveSubsystem extends SubsystemBase {
     // }
     public double getHeading() {
         //double temp = Math.IEEEremainder(gyro.getAngle(), 360);
-        SmartDashboard.putNumber("COMPARE - Direct Get Angle", gyro.getAngle());
+        SmartDashboard.putNumber("swerve_Direct Get Angle", gyro.getAngle());
 
         double temp = (gyro.getAngle() % 360);
         if(temp < 0) {
@@ -150,7 +150,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // ---------------------------------------------------------------------------------------------------------------
     public Pose2d getPose() {
-        SmartDashboard.putString( "  Get Pose meters ", odometer.getPoseMeters().toString()); 
+        SmartDashboard.putString( "swerve_Get Pose meters ", odometer.getPoseMeters().toString()); 
         return odometer.getPoseMeters();
     }
 
@@ -207,7 +207,7 @@ public class SwerveSubsystem extends SubsystemBase {
         return gyro.getRoll();
     }
     public Rotation2d getRotation2d() {
-        SmartDashboard.putNumber("R2d robot heading",  Rotation2d.fromDegrees(getHeading()).getDegrees());
+        //SmartDashboard.putNumber("R2d robot heading",  Rotation2d.fromDegrees(getHeading()).getDegrees());
         return Rotation2d.fromDegrees(getHeading());
     }
 
@@ -252,17 +252,17 @@ public class SwerveSubsystem extends SubsystemBase {
     public void periodic() {
         odometer.update(getRotation2d(), getSwerveModulePosition());
         
-        SmartDashboard.putNumber("Robot Heading", getHeading());
-        SmartDashboard.putNumber("Robot Theta", getPose().getRotation().getDegrees());
-        SmartDashboard.putNumber("FL Robot Tranlsation", frontLeft.getDrivePosition());
-        SmartDashboard.putNumber("FR Robot Tranlsation", frontRight.getDrivePosition());
-        SmartDashboard.putNumber("BL Robot Tranlsation", backLeft.getDrivePosition());
-        SmartDashboard.putNumber("BR Robot Tranlsation", backRight.getDrivePosition());
+        SmartDashboard.putNumber("swerve_Robot Heading", getHeading());
+        SmartDashboard.putNumber("swerve_Robot Theta", getPose().getRotation().getDegrees());
+        SmartDashboard.putNumber("swerve_FL Robot Tranlsation", frontLeft.getDrivePosition());
+        SmartDashboard.putNumber("swerve_FR Robot Tranlsation", frontRight.getDrivePosition());
+        SmartDashboard.putNumber("swerve_BL Robot Tranlsation", backLeft.getDrivePosition());
+        SmartDashboard.putNumber("swerve_BR Robot Tranlsation", backRight.getDrivePosition());
 
-        SmartDashboard.putNumber("FL Motor Temp", frontLeft.returnDriveMotorTemp());
-        SmartDashboard.putNumber("FR Motor Temp", frontRight.returnDriveMotorTemp());
-        SmartDashboard.putNumber("BL Motor Temp", backLeft.returnDriveMotorTemp());
-        SmartDashboard.putNumber("BR Motor Temp", backRight.returnDriveMotorTemp());
+        SmartDashboard.putNumber("swerve_FL Motor Temp", frontLeft.returnDriveMotorTemp());
+        SmartDashboard.putNumber("swerve_FR Motor Temp", frontRight.returnDriveMotorTemp());
+        SmartDashboard.putNumber("swerve_BL Motor Temp", backLeft.returnDriveMotorTemp());
+        SmartDashboard.putNumber("swerve_BR Motor Temp", backRight.returnDriveMotorTemp());
 
         //SmartDashboard.putString("Swerve Current Command", this.getCurrentCommand().toString());
     }

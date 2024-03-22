@@ -17,7 +17,6 @@ import frc.robot.commands.LEDTeleOpStatus;
 import frc.robot.commands.AutoCommands.IntakeDown;
 import frc.robot.commands.AutoCommands.IntakeUp;
 import frc.robot.commands.AutoCommands.TransferCMD;
-import frc.robot.commands.TeleopCommands.AmpSpeedsRaw;
 import frc.robot.commands.TeleopCommands.ClimberTeleop;
 import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
@@ -137,9 +136,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(0), krakenShooterSubsystem));
 
     /* Intake Wheel Commands */
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.65), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.8), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
+
+    /* Only use for Centerline auto to try and shoot the last shot extremely fast */
+    NamedCommands.registerCommand("IntakeOutBlitz", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.9), intakeSubsystem));
 
     /* Intake Pivot Commands */
     // NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.5));
@@ -169,11 +171,11 @@ public class RobotContainer {
       DONE - Anywhere 1p (Preload)
 
       2) DONE - Middle 2p (Preload, MiddleRing)
-      3) Middle 3p Up (Preload, MiddleRing, TopRing)
-      4) DONE -Middle 3p Down (Preload, MiddleRing, BottomRing)
-      5) Middle 4p (Preload, MiddleRing, TopRing, BottomRing)
-      6) Middle 4p Up (Preload, MiddleRing, TopRing, Centerline3)
-      7) Middle 4p Down (Preload, MiddleRing, BottomRing, Centerline3)
+      3) DONE - Middle 3p Up (Preload, MiddleRing, TopRing)
+      4) DONE - Middle 3p Down (Preload, MiddleRing, BottomRing)
+      5) DONE - Middle 4p (Preload, MiddleRing, TopRing, BottomRing)
+      6) DONE - Middle 4p Up (Preload, MiddleRing, TopRing, Centerline3)
+      7) DONE -Middle 4p Down (Preload, MiddleRing, BottomRing, Centerline3)
 
       8) Middle 5p (Preload, MiddleRing, TopRing, BottomRing, Centerline2)
 
@@ -191,7 +193,7 @@ public class RobotContainer {
 
     autoChooser.setDefaultOption("Shoot No Movement", new PathPlannerAuto("IntakeTransferTest"));
     autoChooser.addOption("Nothing", new InstantCommand());
-    autoChooser.addOption("Taxi", new PathPlannerAuto("Taxi"));
+    // autoChooser.addOption("Taxi", new PathPlannerAuto("Taxi"));
 
     /* Pembroke Tuned Autos */
     // autoChooser.addOption("4 Piece", new PathPlannerAuto("MiddleFull"));
@@ -202,32 +204,26 @@ public class RobotContainer {
     // autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
     /* New Pathing Testing  */
-    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    // autoChooser.addOption("5p", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-
     autoChooser.addOption("2) Middle 2p", new PathPlannerAuto("2) Middle 2p P-MR"));
     autoChooser.addOption("3) Middle 3p Up", new PathPlannerAuto("3) Middle 3p Up"));
     autoChooser.addOption("4) Middle 3p DOWN", new PathPlannerAuto("4) Middle 3p DOWN"));
     autoChooser.addOption("5) Midlle 4p", new PathPlannerAuto("5) Middle 4p Middle"));
     autoChooser.addOption("6) Middle 4p Up C3", new PathPlannerAuto("6) Middle 4p Up C3"));
     autoChooser.addOption("7) Middle 4p Down C3", new PathPlannerAuto("7) Middle 4p Down C3"));
-    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-    autoChooser.addOption("5p path", new PathPlannerAuto("[Path] - 1 - 5pC2 Path"));
-  
-  //autoChooser.addOption("new 4p test auto", new PathPlannerAuto("[Auto][New]4p Auto"));
-    autoChooser.addOption("new 2p", new PathPlannerAuto("[Auto][New]2p MiddleRing"));
+
+    autoChooser.addOption("9) Top 2p", new PathPlannerAuto("9) Top 2p"));
+    autoChooser.addOption("10) Top 3p", new PathPlannerAuto("10) Top 3p"));
+
+    autoChooser.addOption("11) 2p BR", new PathPlannerAuto("11) 2p BR"));
+    autoChooser.addOption("12) 2p C4", new PathPlannerAuto("12) 2p C4"));
+    autoChooser.addOption("13) 3p Br+C4", new PathPlannerAuto("13) 3p Br+C4"));
+    autoChooser.addOption("14) 3p C4+C5", new PathPlannerAuto("14) 3p C4+C5"));
+    autoChooser.addOption("15) 4p Br+C4+C5", new PathPlannerAuto("15) 4p Br+C4+C5"));
     autoChooser.addOption("Intake Test", new PathPlannerAuto("IntakeMoveTest"));
-    autoChooser.addOption("2p Bottom", new PathPlannerAuto("2 botoom"));
-    
-    autoChooser.addOption("NEW 3p Middle Bottom", new PathPlannerAuto("[Auto][New]3p MiddleRingBottomRing"));
 
     /* Path tuning */
-    autoChooser.addOption("1 Meter", new PathPlannerAuto("1meter"));
-    autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));
+    autoChooser.addOption("Taxi", new PathPlannerAuto("1meter"));
+    //autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));
 
     
 
@@ -243,20 +239,19 @@ public class RobotContainer {
 
     
     /* Runs the Shooter at a speed desirable for Amping */
-    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
-    //   .whileTrue(new AmpSpeedsRaw(shooterSubsystem));
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
+      .whileTrue(krakenShooterSubsystem.ampSpeed()
+    );
 
     /* Spins Intake in and intake wheels to intake from source faster */
-    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
-    //   .whileTrue(new InstantCommand(() -> intakeSubsystem.setMotorFull(-0.3))
-    //   .alongWith(new KrakenShooterTeleop(krakenShooterSubsystem,() -> -1200.0)))
-    //   .onFalse(new InstantCommand(() -> intakeSubsystem.stopIntakeWheels())
-    //   .alongWith(new InstantCommand(() -> krakenShooterSubsystem.stopMotors()))
-    // );
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
+      .whileTrue(intakeSubsystem.setMotorSpeeds(0.3)
+      .alongWith(krakenShooterSubsystem.intakeSpeed()))
+      .onFalse(intakeSubsystem.stopIntakeWheel()
+      .alongWith(krakenShooterSubsystem.stopMotorsCMD())
+    );
 
 
-
-    
     /* Open Loop Control Intake */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)
       .onTrue(new IntakeUp(pivotIntakeSubsystem, 0.4)

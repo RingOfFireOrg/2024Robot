@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,6 +27,7 @@ public class ClimberSubsystem extends SubsystemBase {
     RIGHT_ONLY,
     NEITHER
   }
+  
   public enum LeftClimberStatus {
     LIMIT,
     MOVABLE
@@ -33,6 +36,7 @@ public class ClimberSubsystem extends SubsystemBase {
     LIMIT,
     MOVABLE
   }
+
   ClimberControlStatus climberControlStatus = ClimberControlStatus.NEITHER;
 
   public ClimberSubsystem() {
@@ -57,8 +61,8 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void setBothMotors(double speed, double speed2) {
-    leftClimberPWM.set(speed);
-    rightClimberSPK.set(speed2);
+    leftClimberPWM.set(MathUtil.applyDeadband(speed, 0.1));
+    rightClimberSPK.set((MathUtil.applyDeadband(speed2, 0.1)));
   }
 
   public void setLeftMotor(double speed) {

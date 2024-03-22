@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5890502690096286,
-        "y": 4.393839333133212
+        "x": 2.528154752195015,
+        "y": 4.273533556011657
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8819434878230816,
-        "y": 5.100946114319759
+        "x": 1.821047971008468,
+        "y": 4.980640337198204
       },
       "isLocked": false,
       "linkedName": "5_BottomRing"
@@ -35,7 +35,19 @@
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 4.5,
+        "maxAcceleration": 5.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,
@@ -51,7 +63,7 @@
   "reversed": false,
   "folder": "[New]5 Piece middle Cope",
   "previewStartingState": {
-    "rotation": -45.0,
+    "rotation": -20.0,
     "velocity": 0.0
   },
   "useDefaultConstraints": true

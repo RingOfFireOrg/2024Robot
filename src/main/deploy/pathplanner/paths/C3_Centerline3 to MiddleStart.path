@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.094028352636312,
-        "y": 4.376333332273105
+        "x": 6.816373990529734,
+        "y": 4.023876956519567
       },
       "isLocked": false,
       "linkedName": "5_Centerline3"
@@ -20,12 +20,12 @@
         "y": 4.097305368134887
       },
       "prevControl": {
-        "x": 5.413676808297129,
-        "y": 4.0668277954245085
+        "x": 6.449231932453132,
+        "y": 3.5539351221815147
       },
       "nextControl": {
-        "x": 4.951292335500593,
-        "y": 4.2147908267194
+        "x": 3.772220059372945,
+        "y": 4.840291476778489
       },
       "isLocked": false,
       "linkedName": "5_Centerline 3 lineup"
@@ -48,7 +48,7 @@
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 1.2,
+      "minWaypointRelativePos": 0.05,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 4.5,

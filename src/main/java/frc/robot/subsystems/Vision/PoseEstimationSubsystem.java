@@ -52,7 +52,7 @@ public class PoseEstimationSubsystem extends SubsystemBase {
     this.swerveSubsystem = swerveSubsystem;
     AprilTagFieldLayout layout;
     try {
-      layout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+      layout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
       var alliance = DriverStation.getAlliance();
       layout.setOrigin(alliance.get() == DriverStation.Alliance.Blue ?
           OriginPosition.kBlueAllianceWallRightSide : OriginPosition.kRedAllianceWallRightSide);

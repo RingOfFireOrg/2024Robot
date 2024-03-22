@@ -3,14 +3,12 @@
   "robotLength": 0.84,
   "holonomicMode": true,
   "pathFolders": [
-    "[New] Bottom Autos",
-    "RR",
     "Testing Paths",
+    "[New] Bottom Autos",
     "[New]5 Piece middle Cope",
     "[New]Top Autos",
     "kFullpaths",
     "x2p Paths",
-    "xBottom3pPaths",
     "xMiddle4pPaths"
   ],
   "autoFolders": [

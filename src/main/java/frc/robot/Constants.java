@@ -93,23 +93,13 @@ public final class Constants {
 
         public static final double kDriveBaseRadius = 0;
 
-        // public static final double kMaxSpeedMetersPerSecond = 0.5;
-        // public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI*0.5;
-        // public static final double kMaxAccelerationMetersPerSecondSquared = 0.25;
-        // public static final double kMaxAngularAccelerationRadiansPerSecondSquared = Math.PI/4;
         public static final double kPXController = 0.75; //multiplier for controller PID control
         public static final double kPYController = 0.75; //multiplier for controller PID control
         public static final double kPThetaController = 1.75; //multiplier for controller PID control
 
-        // public static final TrapezoidProfile.Constraints kThetaControllerConstraints = //
-        //         new TrapezoidProfile.Constraints(
-        //                 kMaxAngularSpeedRadiansPerSecond,
-        //                 kMaxAngularAccelerationRadiansPerSecondSquared);
     }
 
     public static final class OIConstants {
-
-        // add k to the start of all the variables? dosen't rlly matter tbh
 
         public static final int driverControllerPort = 0;
         public static final int operatorControllerPort = 1;
@@ -138,7 +128,7 @@ public final class Constants {
 
         //Dpad ID and Angles
 
-        public static final int DPadId = 0; //Controllers only have one POV
+        public static final int DPadId = 0; 
         
         public static final int dPadUp = 0;
         public static final int dPadUpRight = 45;

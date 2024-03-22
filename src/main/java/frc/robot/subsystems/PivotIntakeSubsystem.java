@@ -11,8 +11,10 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -34,7 +36,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   private DutyCycleEncoder pivotEncoder;
   private AnalogInput noteSensor;
   private ProfiledPIDController intakePivotPPIDController;
-
+  SimpleMotorFeedforward intakFeedforward;
 
   //private Rotation2d encOffset;
   // private final ArmFeedforward pivotFF;
@@ -83,9 +85,12 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     intakePivotPIDController_ABS.setTolerance(0.05,0.01);
 
     intakePivotPPIDController = new ProfiledPIDController
-    (3.8, 0, 0.5,
+    (3.5, 0, 0.4,
     new TrapezoidProfile.Constraints(20,20));
     intakePivotPPIDController.setTolerance(0.009, 0.07);
+
+    intakFeedforward = new SimpleMotorFeedforward(0.155, 0.2, 1.0);
+
 
     //TODO: find out what average bits mean cus idk
     noteSensor = new AnalogInput(0); //TODO: move to constants
@@ -214,12 +219,14 @@ public class PivotIntakeSubsystem extends SubsystemBase {
         pivotEncoder.getAbsolutePosition(), goal));
     intakePivot.set(
       intakePivotPPIDController.calculate(
-        pivotEncoder.getAbsolutePosition(), goal));
+        pivotEncoder.getAbsolutePosition(), goal)+ intakFeedforward.calculate(intakePivotPPIDController.getSetpoint().velocity));
   }
 
   public Command intakeUpPPID() {
     return this
     .run(() -> toPositionPPID(0.4))
+   // .until(() -> intakePivotPIDController.atSetpoint())
+
     .until(() -> pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP)
     .finallyDo(() -> stopMotor())
     ;
@@ -228,11 +235,18 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   public Command intakeDownPPID() {
     return this
     .run(() -> toPositionPPID(0.85))
+   // .until(() -> intakePivotPIDController.atSetpoint())
+
     .until(() -> pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_DOWN)
     .finallyDo(() -> stopMotor())
     ;
   }
 
+  // public void voltagePPID() {
+  //   intakePivot.setVoltage(
+  //     intakePivotPPIDController.calculate(pivotEncoder.getDistance())
+  //         + m_feedforward.calculate(m_controller.getSetpoint().velocity));
+  // }
   // public void voltagePPID(double goal) {
   //   intakePivot.setVoltage(
   //     intakePivotPPIDController
