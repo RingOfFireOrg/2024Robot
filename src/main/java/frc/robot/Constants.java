@@ -66,7 +66,7 @@ public final class Constants {
 
         public static final double kFrontLeftDriveAbsoluteEncoderOffsetRad = (Math.PI +1.009359358428752); //offset in radians - CanCoder 9
         public static final double kFrontRightDriveAbsoluteEncoderOffsetRad = (-1.684310905098434+Math.PI);//(Math.PI - 1.704252655340947); //offset in radians - CanCoder 10
-        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (2.96671884377083 + Math.PI); //offset in radians - CanCoder 11
+        public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (2.96671884377083 - .227 + Math.PI + .139626);//(2.96671884377083 + Math.PI); //offset in radians - CanCoder 11
         //public static final double kBackLeftDriveAbsoluteEncoderOffsetRad = (0); 
         public static final double kBackRightDriveAbsoluteEncoderOffsetRad = (-0.47860200582032); //offset in radians - CanCoder 12
 
@@ -103,7 +103,7 @@ public final class Constants {
 
         public static final int driverControllerPort = 0;
         public static final int operatorControllerPort = 1;
-        public static final int operatorSpareControllerPort = 2; 
+        public static final int climberControllerPort = 2; 
 
         //  Axis 
         public static final int leftStickX = 0;
@@ -211,7 +211,7 @@ public final class Constants {
         public static final int frontRightCANcoder = 10;
 
         public static final int backLeftDriveMotor = 5;
-        public static final int backLeftDTurnMotor = 6;
+        public static final int backLeftTurnMotor = 6;
         public static final int backLeftCANcoder = 11;
 
         public static final int backRightDriveMotor = 7;
