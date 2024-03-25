@@ -28,6 +28,7 @@ import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 
 
 public class RobotContainer {
@@ -35,14 +36,13 @@ public class RobotContainer {
   public SwerveSubsystem swerveSubsystem = new SwerveSubsystem();
   public IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   public PivotIntakeSubsystem pivotIntakeSubsystem = new PivotIntakeSubsystem();
-  //public ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   public KrakenShooterSubsystem krakenShooterSubsystem = new KrakenShooterSubsystem();
   public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   //public LimeLight limeLightSubsystem = new LimeLight();
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
-  XboxController climberController = new XboxController(OIConstants.operatorSpareControllerPort); 
+  XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -246,10 +246,12 @@ public class RobotContainer {
     /* Spins Intake in and intake wheels to intake from source faster */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
       .whileTrue(intakeSubsystem.setMotorSpeeds(0.3)
-      .alongWith(krakenShooterSubsystem.intakeSpeed()))
+        .alongWith(krakenShooterSubsystem.intakeSpeed())
+        //.onlyWhile(() -> pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED)
+      )
       .onFalse(intakeSubsystem.stopIntakeWheel()
-      .alongWith(krakenShooterSubsystem.stopMotorsCMD())
-    );
+        .alongWith(krakenShooterSubsystem.stopMotorsCMD())
+      );
 
 
     /* Open Loop Control Intake */
