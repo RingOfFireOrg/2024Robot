@@ -28,6 +28,7 @@ import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 
 
@@ -251,8 +252,16 @@ public class RobotContainer {
       )
       .onFalse(intakeSubsystem.stopIntakeWheel()
         .alongWith(krakenShooterSubsystem.stopMotorsCMD())
-      );
+    );
 
+
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
+      .whileTrue(krakenShooterSubsystem.rpmCMD(-3200)
+      .andThen(intakeSubsystem.setMotorSpeeds(-0.6).withTimeout(1))
+      .unless(() -> krakenShooterSubsystem.getStatus() != KrakenShooterSubsystemStatus.READY)
+      .andThen(intakeSubsystem.stopIntakeWheel())
+      .alongWith(krakenShooterSubsystem.stopMotorsCMD())
+    );
 
     /* Open Loop Control Intake */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)

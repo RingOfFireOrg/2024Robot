@@ -63,7 +63,7 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
     //SmartDashboard.putNumber("kr_Amp RPM", 900);
 
-    if (rotorvelocity >= 3200 ) {
+    if (rotorvelocity >= 3000 ) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.READY;
     }
     else if (rotorvelocity >= 100) {
@@ -106,6 +106,10 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
   public Command ampSpeed() {
     return this.run(() -> setRPM(-SmartDashboard.getNumber("kr_Amp RPM", 500)));
+  }
+
+  public Command rpmCMD(double rpm) {
+    return this.run(() -> setRPM(rpm));
   }
 
   public Command intakeSpeed() {

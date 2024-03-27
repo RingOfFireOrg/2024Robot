@@ -13,12 +13,37 @@ public class ShooterSubsystem extends SubsystemBase {
 
 
 
+
+
+
+
+
+
+
+
+
   /*
     This Subsystem will be here just in case we switch back to neos or need it for refrence, 
     but the motor controllers have been switched to talonfx, so KrakenShooterSubsystem is the most up to date one
   */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   private CANSparkMax shooterMotorTop; 
   private CANSparkMax shooterMotorBottom;
   private SparkPIDController shooterMotorTopPIDController;    
