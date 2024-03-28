@@ -23,8 +23,22 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     REVERSE,
     IDLE
   }
-
   KrakenShooterSubsystemStatus krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.IDLE;
+
+
+  /* ---------- */
+  //Distance, TopSpeed, BottomSpeed
+  private final double[][] speedTable = {
+    {1.0, 3200, 3200},
+    {1.0, 3200, 3200},
+    {1.0, 3200, 3200}
+  };
+
+  
+  /* ---------- */
+
+
+
   public KrakenShooterSubsystem() {
     shooterMotorTop = new TalonFX(30);
     shooterMotorBottom = new TalonFX(31);
@@ -41,35 +55,41 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     slot0Configs.kI = 0; 
     slot0Configs.kD = 0.0001; 
 
-    var leftMotionMagicConfig = shooterConfig.MotionMagic;
-    leftMotionMagicConfig.MotionMagicAcceleration = 200; // ?
-    leftMotionMagicConfig.MotionMagicJerk = 4000; // ?????
+    var MotionMagicConfig = shooterConfig.MotionMagic;
+    MotionMagicConfig.MotionMagicAcceleration = 200; // ?
+    MotionMagicConfig.MotionMagicJerk = 4000; // ?????
 
     shooterMotorTop.getConfigurator().apply(shooterConfig);
+    shooterMotorBottom.getConfigurator().apply(shooterConfig);
 
 
     /* Follow the Top Shooter */
-    shooterMotorBottom.setControl(new Follower(30, false));  
+    //shooterMotorBottom.setControl(new Follower(30, false));  
   }
 
 
   @Override
   public void periodic() {
     
-    double rotorvelocity  = shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
-    SmartDashboard.putNumber("krshooter_rpm Kraken Rotor Top shooter", rotorvelocity);
-    SmartDashboard.putNumber("krshooter_rps Kraken Rotor Top shooter", rotorvelocity/60);
+    double rotorvelocityTOP = shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
+    SmartDashboard.putNumber("kr_Top rpm", rotorvelocityTOP);
+    SmartDashboard.putNumber("kr_Top rps", rotorvelocityTOP/60);
+    double rotorVelocityBOTTOM  = shooterMotorBottom.getRotorVelocity().getValueAsDouble()*60;
+    SmartDashboard.putNumber("kr_Bottom rpm", rotorVelocityBOTTOM);
+    SmartDashboard.putNumber("kr_Bottom rps", rotorVelocityBOTTOM/60);
+    
+    
     SmartDashboard.putString("kr_Shooter Status", krakenShooterSubsystemStatus.toString());
 
     //SmartDashboard.putNumber("kr_Amp RPM", 900);
 
-    if (rotorvelocity >= 3000 ) {
+    if (rotorvelocityTOP >= -3000 && rotorVelocityBOTTOM >= -3000) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.READY;
     }
-    else if (rotorvelocity >= 100) {
+    else if (rotorvelocityTOP >= -100 && rotorVelocityBOTTOM >= -100) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.REVING;
     }
-    else if (rotorvelocity <= -100) {
+    else if (rotorvelocityTOP <= 100 && rotorVelocityBOTTOM <= 100) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.REVERSE;
     }
     else {  
@@ -85,27 +105,40 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
   public void setVelocity(double velocity){
     shooterMotorTop.setControl(mmvv.withVelocity(velocity*(maxRPMTeleOp/60)));
+    shooterMotorBottom.setControl(mmvv.withVelocity(velocity*(maxRPMTeleOp/60)));
   }
 
   public void setRPM(double rpm){
     shooterMotorTop.setControl(mmvv.withVelocity(rpm/60));
+    shooterMotorBottom.setControl(mmvv.withVelocity(rpm/60));
+  }
+
+  public void setRPM(double rpmTop, double rpmBottom){
+    shooterMotorTop.setControl(mmvv.withVelocity(rpmTop/60));
+    shooterMotorBottom.setControl(mmvv.withVelocity(rpmBottom/60));
   }
 
   public void setRPS(double rps){
     shooterMotorTop.setControl(mmvv.withVelocity(rps));
+    shooterMotorBottom.setControl(mmvv.withVelocity(rps));
+
   }
 
   public void setMotor(double speed){
     shooterMotorTop.set(speed);
+    shooterMotorBottom.set(speed);
   }
 
   public void stopMotors(){
     shooterMotorTop.stopMotor();
+    shooterMotorBottom.stopMotor();
   }
 
 
   public Command ampSpeed() {
-    return this.run(() -> setRPM(-SmartDashboard.getNumber("kr_Amp RPM", 500)));
+    return this.run(() -> setRPM(
+      (-SmartDashboard.getNumber("kr_Amp RPM Top", 500)),
+      (-SmartDashboard.getNumber("kr_Amp RPM Bottom", 500))));
   }
 
   public Command rpmCMD(double rpm) {
