@@ -160,6 +160,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("TransferRingToShooter", new InstantCommand());
     //NamedCommands.registerCommand("Shoot", new ShootCMD(krakenShooterSubsystem));
     NamedCommands.registerCommand("Transfer", new TransferCMD(intakeSubsystem));
+
+
+    NamedCommands.registerCommand("Note Check", pivotIntakeSubsystem.noteCheckCMD());
+    NamedCommands.registerCommand("Note Check Timer", pivotIntakeSubsystem.noteCheckTimerCMD());
+
   }
 
 

@@ -4,25 +4,23 @@
 
 package frc.robot.subsystems;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 
 public class PivotIntakeSubsystem extends SubsystemBase {
   
@@ -37,6 +35,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   private AnalogInput noteSensor;
   private ProfiledPIDController intakePivotPPIDController;
   SimpleMotorFeedforward intakFeedforward;
+  Timer timer;
 
   //private Rotation2d encOffset;
   // private final ArmFeedforward pivotFF;
@@ -309,6 +308,27 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   }
   
   /* ----------------------------------------------------------------------------------------------------- */
+  
+  public Command noteCheckCMD() {
+    return new WaitUntilCommand(() -> noteSesnorStatus == NoteSesnorStatus.NOTE_DECTECTED);
+  }
+
+  public Command noteCheckTimerCMD() {
+    return new WaitUntilCommand(() -> noteTimer());
+  }
+
+  public boolean noteTimer() {
+    if(noteSesnorStatus == NoteSesnorStatus.NOTE_DECTECTED) {
+      timer.reset();
+      while (timer.hasElapsed(0.20) == false) {
+        if (noteSesnorStatus != NoteSesnorStatus.NOTE_DECTECTED) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
+
 
 
 }

@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.323523693875397,
+        "y": 5.550083606492732
+      },
+      "isLocked": false,
+      "linkedName": "5_MiddleStart"
+    },
+    {
+      "anchor": {
+        "x": 3.306495915317413,
+        "y": 5.550083606492732
+      },
+      "prevControl": {
+        "x": 2.306495915317413,
+        "y": 5.550083606492732
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "STATE_OverKill_MiddleRing"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.3,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "States pickup",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
