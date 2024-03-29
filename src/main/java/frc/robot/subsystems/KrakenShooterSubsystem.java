@@ -62,6 +62,11 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     shooterMotorTop.getConfigurator().apply(shooterConfig);
     shooterMotorBottom.getConfigurator().apply(shooterConfig);
 
+    SmartDashboard.putNumber("kr_Amp RPM Top", 500);
+    SmartDashboard.putNumber("kr_Amp RPM Bottom", 500);
+
+    SmartDashboard.putNumber("kr_Top Table Test", 500);
+    SmartDashboard.putNumber("kr_Bottom Table Test", 500);
 
     /* Follow the Top Shooter */
     //shooterMotorBottom.setControl(new Follower(30, false));  
@@ -71,7 +76,7 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     
-    double rotorvelocityTOP = shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
+    double rotorvelocityTOP = -shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
     SmartDashboard.putNumber("kr_Top rpm", rotorvelocityTOP);
     SmartDashboard.putNumber("kr_Top rps", rotorvelocityTOP/60);
     double rotorVelocityBOTTOM  = shooterMotorBottom.getRotorVelocity().getValueAsDouble()*60;
@@ -81,15 +86,19 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     
     SmartDashboard.putString("kr_Shooter Status", krakenShooterSubsystemStatus.toString());
 
+
+
+
+
     //SmartDashboard.putNumber("kr_Amp RPM", 900);
 
-    if (rotorvelocityTOP >= -3000 && rotorVelocityBOTTOM >= -3000) {
+    if (rotorvelocityTOP >= 3000 && rotorVelocityBOTTOM >= 3000) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.READY;
     }
-    else if (rotorvelocityTOP >= -100 && rotorVelocityBOTTOM >= -100) {
+    else if (rotorvelocityTOP >= 100 && rotorVelocityBOTTOM >= 100) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.REVING;
     }
-    else if (rotorvelocityTOP <= 100 && rotorVelocityBOTTOM <= 100) {
+    else if (rotorvelocityTOP <= -100 && rotorVelocityBOTTOM <= -100) {
       krakenShooterSubsystemStatus = KrakenShooterSubsystemStatus.REVERSE;
     }
     else {  
@@ -138,7 +147,14 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   public Command ampSpeed() {
     return this.run(() -> setRPM(
       (-SmartDashboard.getNumber("kr_Amp RPM Top", 500)),
-      (-SmartDashboard.getNumber("kr_Amp RPM Bottom", 500))));
+      (-SmartDashboard.getNumber("kr_Amp RPM Bottom", 500))
+      ));
+  }
+
+  public Command changeSpeed() {
+    return this.run(() -> setRPM(
+      (-SmartDashboard.getNumber("kr_Top Table Test", 500)),
+      (-SmartDashboard.getNumber("kr_Bottom Table Test", 500))));
   }
 
   public Command rpmCMD(double rpm) {

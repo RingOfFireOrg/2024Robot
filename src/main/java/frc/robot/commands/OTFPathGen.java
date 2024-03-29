@@ -36,6 +36,7 @@ public class OTFPathGen extends Command {
   public void execute() {
 
     Pose2d currentPose = swerveSubsystem.getPose();
+    // Get Startpos from Photon Camera
     Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
     Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)), new Rotation2d());
 

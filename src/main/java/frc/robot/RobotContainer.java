@@ -249,6 +249,11 @@ public class RobotContainer {
       .whileTrue(krakenShooterSubsystem.ampSpeed()
     );
 
+    /* Speed Testing */
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
+      .whileTrue(krakenShooterSubsystem.changeSpeed()
+    );
+
     /* Spins Intake in and intake wheels to intake from source faster */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
       .whileTrue(intakeSubsystem.setMotorSpeeds(0.3)
@@ -260,13 +265,13 @@ public class RobotContainer {
     );
 
 
-    new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
-      .whileTrue(krakenShooterSubsystem.rpmCMD(-3200)
-      .andThen(intakeSubsystem.setMotorSpeeds(-0.6).withTimeout(1))
-      .unless(() -> krakenShooterSubsystem.getStatus() != KrakenShooterSubsystemStatus.READY)
-      .andThen(intakeSubsystem.stopIntakeWheel())
-      .alongWith(krakenShooterSubsystem.stopMotorsCMD())
-    );
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
+    //   .whileTrue(krakenShooterSubsystem.rpmCMD(-3200)
+    //   .andThen(intakeSubsystem.setMotorSpeeds(-0.6).withTimeout(1))
+    //   //.unless(() -> krakenShooterSubsystem.getStatus() != KrakenShooterSubsystemStatus.READY)
+    //   .andThen(intakeSubsystem.stopIntakeWheel())
+    //   .alongWith(krakenShooterSubsystem.stopMotorsCMD())
+    // );
 
     /* Open Loop Control Intake */
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadUp)

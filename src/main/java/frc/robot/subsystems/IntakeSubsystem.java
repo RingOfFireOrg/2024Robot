@@ -55,7 +55,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   /* Runs the motor with a limited full speed */
   public void setMotor(double wheelSpeed) {
-    intakeWheelsSPK.set(wheelSpeed/2.3);
+    intakeWheelsSPK.set(wheelSpeed/1.5);
   }
 
   /* Runs the motor at max speed, but may shred notes/wheels */
