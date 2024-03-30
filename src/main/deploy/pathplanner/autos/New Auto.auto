@@ -14,30 +14,6 @@
         {
           "type": "path",
           "data": {
-            "pathName": "STATE1_MiddleStart to MiddleRing"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "STATE2_MiddleRing to Middle"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "STATE3_Middle to BottomRing"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "STATE4_BottomRing to Middle"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
             "pathName": "STATEC3_Middle to C3"
           }
         },

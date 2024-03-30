@@ -146,6 +146,7 @@ public final class Constants {
 
         // ------Above are new for this season-----
         //delete
+
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
 
@@ -236,5 +237,9 @@ public final class Constants {
         // 25 - Shooter Wheel 2
         // 26 - Left Climber
         // 27 - Right Climber
+    }
+
+    public static final class VisionConstants {
+        public static final String backCamera = "NoteCamera";
     }
 }

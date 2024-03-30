@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.LEDTeleOpStatus;
+import frc.robot.commands.SwerveNoteTrack;
 import frc.robot.commands.AutoCommands.IntakeDown;
 import frc.robot.commands.AutoCommands.IntakeUp;
 import frc.robot.commands.AutoCommands.TransferCMD;
@@ -162,7 +163,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("Transfer", new TransferCMD(intakeSubsystem));
 
 
-    NamedCommands.registerCommand("Note Check", pivotIntakeSubsystem.noteCheckCMD());
+    NamedCommands.registerCommand("Note Check", new InstantCommand());
+    //NamedCommands.registerCommand("Note Check", pivotIntakeSubsystem.noteCheckCMD());
     NamedCommands.registerCommand("Note Check Timer", pivotIntakeSubsystem.noteCheckTimerCMD());
 
   }
@@ -209,7 +211,7 @@ public class RobotContainer {
     // autoChooser.addOption("2 Right", new PathPlannerAuto("Right2p"));
     // autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
-    /* New Pathing Testing  */
+    /* Wake County Pathing Testing  */
     autoChooser.addOption("2) Middle 2p", new PathPlannerAuto("2) Middle 2p P-MR"));
     autoChooser.addOption("3) Middle 3p Up", new PathPlannerAuto("3) Middle 3p Up"));
     autoChooser.addOption("4) Middle 3p DOWN", new PathPlannerAuto("4) Middle 3p DOWN"));
@@ -243,11 +245,13 @@ public class RobotContainer {
 
     // use "controller.getHID()" to use it as a standard XboxContoller instead of CommandXboxController
 
+    /* Auto Pickup */
+    new JoystickButton(driverController, Constants.OIConstants.leftBumper)
+      .whileTrue(new SwerveNoteTrack(swerveSubsystem));
     
     /* Runs the Shooter at a speed desirable for Amping */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
-      .whileTrue(krakenShooterSubsystem.ampSpeed()
-    );
+      .whileTrue(krakenShooterSubsystem.ampSpeed());
 
     /* Speed Testing */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
@@ -263,6 +267,8 @@ public class RobotContainer {
       .onFalse(intakeSubsystem.stopIntakeWheel()
         .alongWith(krakenShooterSubsystem.stopMotorsCMD())
     );
+
+
 
 
     // new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)

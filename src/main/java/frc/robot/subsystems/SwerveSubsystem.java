@@ -21,8 +21,10 @@ import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.subsystems.Vision.LimelightHelpers;
 
 public class SwerveSubsystem extends SubsystemBase {
     private final SwerveModule frontLeft = new SwerveModule
@@ -292,7 +294,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
-    public SwerveModuleState[] getModuleStates() { //ij
+    public SwerveModuleState[] getModuleStates() { 
         return new SwerveModuleState[] {
             frontLeft.getState(),
             frontRight.getState(),
@@ -348,7 +350,17 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
+    /* ------------- */
 
+    public double noteTrackTranslationSpeed() {
+        return LimelightHelpers.getTY(Constants.VisionConstants.backCamera) / 100;
+    }
+
+    public double noteTrackRotSpeed() {
+        return LimelightHelpers.getTX(Constants.VisionConstants.backCamera) / 100;
+    }
+  
+    /* ------------- */
 }
     
     
