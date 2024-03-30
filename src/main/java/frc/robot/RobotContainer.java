@@ -211,7 +211,7 @@ public class RobotContainer {
     // autoChooser.addOption("2 Right", new PathPlannerAuto("Right2p"));
     // autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
-    /* Wake County Pathing Testing  */
+    /* Wake County Autos */
     autoChooser.addOption("2) Middle 2p", new PathPlannerAuto("2) Middle 2p P-MR"));
     autoChooser.addOption("3) Middle 3p Up", new PathPlannerAuto("3) Middle 3p Up"));
     autoChooser.addOption("4) Middle 3p DOWN", new PathPlannerAuto("4) Middle 3p DOWN"));

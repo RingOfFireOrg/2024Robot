@@ -5,9 +5,13 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 
 public class KrakenShooterSubsystem extends SubsystemBase {
@@ -17,6 +21,8 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   private final MotionMagicVelocityVoltage mmvv = new MotionMagicVelocityVoltage(0);
   private final double maxRPM = 6000; 
   private final double maxRPMTeleOp = 3200;
+
+
   public enum KrakenShooterSubsystemStatus {
     READY,
     REVING,
@@ -27,12 +33,19 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
 
   /* ---------- */
-  //Distance, TopSpeed, BottomSpeed
+  //Distance(meters), TopMotorSpeed, BottomMotorSpeed
+
+  //Bottom inc -> farther angle
+  InterpolatingDoubleTreeMap topShooterRPMTreeMap = new InterpolatingDoubleTreeMap();
+  InterpolatingDoubleTreeMap bottomShooterRPMTreeMap = new InterpolatingDoubleTreeMap();
   private final double[][] speedTable = {
     {1.0, 3200, 3200},
     {1.0, 3200, 3200},
     {1.0, 3200, 3200}
   };
+
+  
+  
 
   
   /* ---------- */
@@ -56,18 +69,25 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     slot0Configs.kD = 0.0001; 
 
     var MotionMagicConfig = shooterConfig.MotionMagic;
-    MotionMagicConfig.MotionMagicAcceleration = 200; // ?
-    MotionMagicConfig.MotionMagicJerk = 4000; // ?????
+    MotionMagicConfig.MotionMagicAcceleration = 200; 
+    MotionMagicConfig.MotionMagicJerk = 4000; 
 
     shooterMotorTop.getConfigurator().apply(shooterConfig);
     shooterMotorBottom.getConfigurator().apply(shooterConfig);
 
-    SmartDashboard.putNumber("kr_Amp RPM Top", 500);
-    SmartDashboard.putNumber("kr_Amp RPM Bottom", 500);
+    SmartDashboard.getNumber("kr_Amp RPM Top", 500);
+    SmartDashboard.getNumber("kr_Amp RPM Bottom", 500);
 
-    SmartDashboard.putNumber("kr_Top Table Test", 500);
-    SmartDashboard.putNumber("kr_Bottom Table Test", 500);
+    SmartDashboard.getNumber("kr_Top Table Test", 500);
+    SmartDashboard.getNumber("kr_Bottom Table Test", 500);
 
+    for (double[] pair : speedTable) {
+      topShooterRPMTreeMap.put(pair[0], pair[1]);
+    }
+
+    for (double[] pair : speedTable) {
+      bottomShooterRPMTreeMap.put(pair[0], pair[2]);
+    }
     /* Follow the Top Shooter */
     //shooterMotorBottom.setControl(new Follower(30, false));  
   }
@@ -143,6 +163,9 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     shooterMotorBottom.stopMotor();
   }
 
+  public double getRPMfromDistance(InterpolatingDoubleTreeMap treeMap, double distance) {
+    return treeMap.get(distance);
+  }
 
   public Command ampSpeed() {
     return this.run(() -> setRPM(
@@ -155,6 +178,20 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     return this.run(() -> setRPM(
       (-SmartDashboard.getNumber("kr_Top Table Test", 500)),
       (-SmartDashboard.getNumber("kr_Bottom Table Test", 500))));
+  }
+
+  public Command sendableSpeed() {
+    return this.run(() -> setRPM(
+      (-SmartDashboard.getNumber("kr_Top Table Test", 500)),
+      (-SmartDashboard.getNumber("kr_Bottom Table Test", 500))));
+  }
+
+  public Command distanceShot(double distance) {
+    return this.run(() -> setRPM(
+      (getRPMfromDistance(topShooterRPMTreeMap, distance)),
+      (getRPMfromDistance(bottomShooterRPMTreeMap, distance))
+    ));
+    //return new InstantCommand();
   }
 
   public Command rpmCMD(double rpm) {
