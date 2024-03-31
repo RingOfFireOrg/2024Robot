@@ -38,13 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "STATEC3_Middle to C3"
+            "pathName": "STATE5_Middle to TopRing"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "STATEC3_C3 to middle"
+            "pathName": "STATE6_TopRing to Middle"
           }
         }
       ]

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.function.Supplier;
+
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVelocityVoltage;
@@ -187,15 +189,26 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   }
 
   public Command distanceShot(double distance) {
-    return this.run(() -> setRPM(
-      (getRPMfromDistance(topShooterRPMTreeMap, distance)),
-      (getRPMfromDistance(bottomShooterRPMTreeMap, distance))
-    ));
-    //return new InstantCommand();
+    if (distance != 999) {
+      return this.run(() -> setRPM(
+        (getRPMfromDistance(topShooterRPMTreeMap, distance)),
+        (getRPMfromDistance(bottomShooterRPMTreeMap, distance))
+      ));
+    }
+
+    return new InstantCommand();
   }
 
   public Command rpmCMD(double rpm) {
     return this.run(() -> setRPM(rpm));
+  }
+
+  public Command rpmCMD(double rpmTop, double rpmBottom) {
+    return this.run(() -> setRPM(rpmTop, rpmBottom));
+  }
+
+  public Command rpmCMD(Supplier<Double> rpmTop, Supplier<Double> rpmBottom) {
+    return this.run(() -> setRPM(rpmTop.get(), rpmBottom.get()));
   }
 
   public Command intakeSpeed() {

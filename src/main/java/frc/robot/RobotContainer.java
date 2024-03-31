@@ -1,9 +1,15 @@
 package frc.robot;
 
+import java.util.Map;
+
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,10 +33,12 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
+import frc.robot.subsystems.Vision.LimelightHelpers;
 
 
 public class RobotContainer {
@@ -41,16 +49,32 @@ public class RobotContainer {
   public KrakenShooterSubsystem krakenShooterSubsystem = new KrakenShooterSubsystem();
   public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   //public LimeLight limeLightSubsystem = new LimeLight();
+  public PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
+  //TODO Comment out
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
   XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
+  
+  
+  ShuffleboardTab codeTestTab = Shuffleboard.getTab("Code Testing");
+
+  GenericEntry amp_topShooter = codeTestTab
+    .add("(A)Top Shooter", 900)
+    // .withWidget(BuiltInWidgets.kNumberSlider)
+    // .withProperties(Map.of("min", -1000, "max", 1000))
+    .getEntry();
+
+  GenericEntry amp_bottomShooter = codeTestTab
+    .add("(A)Bottom Shooter", 500)
+    // .withWidget(BuiltInWidgets.kNumberSlider)
+    // .withProperties(Map.of("min", -1000, "max", 1000))
+    .getEntry();
 
 
   public RobotContainer() {
-
     namedCommands();
     populateAutoChooser();
     defaultCommands();
@@ -251,7 +275,11 @@ public class RobotContainer {
     
     /* Runs the Shooter at a speed desirable for Amping */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
-      .whileTrue(krakenShooterSubsystem.ampSpeed());
+      .whileTrue(krakenShooterSubsystem.rpmCMD(
+        () -> amp_topShooter.getDouble(500),
+        () -> amp_bottomShooter.getDouble(500)
+      )
+    );
 
     /* Speed Testing */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
@@ -267,6 +295,14 @@ public class RobotContainer {
       .onFalse(intakeSubsystem.stopIntakeWheel()
         .alongWith(krakenShooterSubsystem.stopMotorsCMD())
     );
+
+
+    //TODO: comment out
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
+      .whileTrue(krakenShooterSubsystem.distanceShot(
+        photonVisionSubsystem.getMeters(7, 7)
+      ))
+    ;
 
 
 

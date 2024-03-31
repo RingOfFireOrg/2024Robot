@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.528154752195015,
-        "y": 4.273533556011657
+        "x": 2.542840434518079,
+        "y": 4.376333332273105
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.821047971008468,
-        "y": 4.980640337198204
+        "x": 1.8357336533315318,
+        "y": 5.083440113459652
       },
       "isLocked": false,
       "linkedName": "5_BottomRing"
@@ -63,7 +63,7 @@
   "reversed": false,
   "folder": "[New]5 Piece middle Cope",
   "previewStartingState": {
-    "rotation": -20.0,
+    "rotation": -45.0,
     "velocity": 0.0
   },
   "useDefaultConstraints": true
