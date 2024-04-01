@@ -243,7 +243,7 @@ public class RobotContainer {
     autoChooser.addOption("2) Middle 2p", new PathPlannerAuto("2) Middle 2p P-MR"));
     autoChooser.addOption("3) Middle 3p Up", new PathPlannerAuto("3) Middle 3p Up"));
     autoChooser.addOption("4) Middle 3p DOWN", new PathPlannerAuto("4) Middle 3p DOWN"));
-    autoChooser.addOption("5) Midlle 4p", new PathPlannerAuto("5) Middle 4p Middle"));
+    autoChooser.addOption("5) Middle 4p", new PathPlannerAuto("5) Middle 4p Middle"));
     autoChooser.addOption("6) Middle 4p Up C3", new PathPlannerAuto("6) Middle 4p Up C3"));
     autoChooser.addOption("7) Middle 4p Down C3", new PathPlannerAuto("7) Middle 4p Down C3"));
 
