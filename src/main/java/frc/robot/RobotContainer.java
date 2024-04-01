@@ -163,7 +163,11 @@ public class RobotContainer {
 
     /* Intake Wheel Commands */
     NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.8), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeInSlowly", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.5), intakeSubsystem));
+
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeOutSlowly", new InstantCommand( () -> intakeSubsystem.setMotor(-0.6), intakeSubsystem));
+
     NamedCommands.registerCommand("IntakeOff", new InstantCommand( () -> intakeSubsystem.setMotor(0), intakeSubsystem));
 
     /* Only use for Centerline auto to try and shoot the last shot extremely fast */
@@ -252,7 +256,10 @@ public class RobotContainer {
     autoChooser.addOption("14) 3p C4+C5", new PathPlannerAuto("14) 3p C4+C5"));
     autoChooser.addOption("15) 4p Br+C4+C5", new PathPlannerAuto("15) 4p Br+C4+C5"));
     autoChooser.addOption("Intake Test", new PathPlannerAuto("IntakeMoveTest"));
+    autoChooser.addOption("STATE_TEST", new PathPlannerAuto("Middle Path est"));
+    autoChooser.addOption("STATE_TEST2", new PathPlannerAuto("STATE_2p MiddleRing Race"));
 
+    
     /* Path tuning */
     autoChooser.addOption("Taxi", new PathPlannerAuto("1meter"));
     //autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));

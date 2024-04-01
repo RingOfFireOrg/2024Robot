@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7271735863212765,
-        "y": 6.667275029355093
+        "x": 1.5295283542266556,
+        "y": 7.25472706759367
       },
       "isLocked": false,
       "linkedName": "TN_TopStart"
     },
     {
       "anchor": {
-        "x": 7.87374311779035,
-        "y": 7.460326620116567
+        "x": 8.2,
+        "y": 7.68061185496253
       },
       "prevControl": {
-        "x": 6.87374311779035,
-        "y": 7.460326620116567
+        "x": 7.199999999999999,
+        "y": 7.68061185496253
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,7 +35,19 @@
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 4.3,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.5,

@@ -71,12 +71,6 @@
                                 }
                               ]
                             }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Note Check"
-                            }
                           }
                         ]
                       }
@@ -151,12 +145,6 @@
                                   }
                                 }
                               ]
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Note Check"
                             }
                           }
                         ]
@@ -233,12 +221,6 @@
                                 }
                               ]
                             }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "Note Check"
-                            }
                           }
                         ]
                       }
@@ -283,7 +265,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.35
+                        "waitTime": 10.0
                       }
                     }
                   ]

@@ -41,8 +41,8 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   InterpolatingDoubleTreeMap topShooterRPMTreeMap = new InterpolatingDoubleTreeMap();
   InterpolatingDoubleTreeMap bottomShooterRPMTreeMap = new InterpolatingDoubleTreeMap();
   private final double[][] speedTable = {
-    {1.0, 3200, 3200},
-    {1.0, 3200, 3200},
+    {1.29, -3200, -2500},
+    {1.91, -5550, -750},
     {1.0, 3200, 3200}
   };
 

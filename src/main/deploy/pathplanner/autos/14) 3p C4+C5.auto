@@ -60,7 +60,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "IntakeIn"
+                                    "name": "IntakeInSlowly"
                                   }
                                 },
                                 {
@@ -85,7 +85,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "IntakeIn"
+                                    "name": "IntakeInSlowly"
                                   }
                                 },
                                 {
@@ -107,87 +107,6 @@
                             "type": "wait",
                             "data": {
                               "waitTime": 0.1
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "IntakeOut"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.5
-                            }
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "type": "sequential",
-                      "data": {
-                        "commands": [
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "IntakeDown"
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "IntakeIn"
-                                  }
-                                },
-                                {
-                                  "type": "path",
-                                  "data": {
-                                    "pathName": "BN5_BottomStart to Center5"
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "parallel",
-                            "data": {
-                              "commands": [
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "IntakeUp"
-                                  }
-                                },
-                                {
-                                  "type": "named",
-                                  "data": {
-                                    "name": "IntakeIn"
-                                  }
-                                },
-                                {
-                                  "type": "path",
-                                  "data": {
-                                    "pathName": "BN5_Center5 to BottomStart"
-                                  }
-                                }
-                              ]
-                            }
-                          },
-                          {
-                            "type": "named",
-                            "data": {
-                              "name": "IntakeUp"
-                            }
-                          },
-                          {
-                            "type": "wait",
-                            "data": {
-                              "waitTime": 0.3
                             }
                           },
                           {
