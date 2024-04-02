@@ -5,6 +5,7 @@ import java.util.function.Supplier;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
@@ -39,13 +40,18 @@ public class SwerveNoteTrack extends Command {
 
     @Override
     public void execute() {
+        SmartDashboard.putBoolean("LL_backCam test", LimelightHelpers.getTV(Constants.VisionConstants.backCamera));
 
-        if (LimelightHelpers.getTV(Constants.VisionConstants.backCamera) == true) {
+        //if (LimelightHelpers.getTV(Constants.VisionConstants.backCamera) == true) {
     
             double xSpeed = swerveSubsystem.noteTrackTranslationSpeed();
             //double ySpeed = ySpdFunctionRobot.get()/speedDivide; //idk how to move over the speed multipliers from SwerveJoystick to this
             double ySpeed = 0;
             double turningSpeed = swerveSubsystem.noteTrackRotSpeed();
+
+            SmartDashboard.putNumber("LL_xspeed", xSpeed);
+            SmartDashboard.putNumber("LL_turnspeed", turningSpeed);
+
 
             xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
             ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
@@ -64,7 +70,7 @@ public class SwerveNoteTrack extends Command {
             
             SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
             swerveSubsystem.setModuleStates(moduleStates);
-        }
+       // }
 
     }
 

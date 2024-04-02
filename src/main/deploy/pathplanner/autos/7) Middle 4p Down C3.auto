@@ -85,7 +85,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "IntakeIn"
+                                    "name": "IntakeInSlowly"
                                   }
                                 },
                                 {
@@ -166,7 +166,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "IntakeIn"
+                                    "name": "IntakeInSlowly"
                                   }
                                 },
                                 {
@@ -247,7 +247,7 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "IntakeIn"
+                                    "name": "IntakeInSlowly"
                                   }
                                 },
                                 {
@@ -268,7 +268,7 @@
                           {
                             "type": "named",
                             "data": {
-                              "name": "IntakeOutBlitz"
+                              "name": "IntakeOut"
                             }
                           },
                           {

@@ -1,5 +1,6 @@
 package frc.robot;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.pathplanner.lib.auto.NamedCommands;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
@@ -33,12 +35,12 @@ import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
-import frc.robot.subsystems.PhotonVisionSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 import frc.robot.subsystems.Vision.LimelightHelpers;
+import frc.robot.subsystems.Vision.PhotonVisionSubsystem;
 
 
 public class RobotContainer {
@@ -50,28 +52,29 @@ public class RobotContainer {
   public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   //public LimeLight limeLightSubsystem = new LimeLight();
   public PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
-  //TODO Comment out
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
   XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
-  
+  // SendableChooser<String> AutoGenerator2ndNote = new SendableChooser<>();
+  // SendableChooser<String> AutoGenerator3rdNote = new SendableChooser<>();
+  // SendableChooser<String> AutoGenerator4thNote = new SendableChooser<>();
+
   
   ShuffleboardTab codeTestTab = Shuffleboard.getTab("Code Testing");
+  ShuffleboardTab generateAutoTab = Shuffleboard.getTab("Generate Auto");
 
   GenericEntry amp_topShooter = codeTestTab
     .add("(A)Top Shooter", 900)
-    // .withWidget(BuiltInWidgets.kNumberSlider)
-    // .withProperties(Map.of("min", -1000, "max", 1000))
     .getEntry();
 
   GenericEntry amp_bottomShooter = codeTestTab
     .add("(A)Bottom Shooter", 500)
-    // .withWidget(BuiltInWidgets.kNumberSlider)
-    // .withProperties(Map.of("min", -1000, "max", 1000))
     .getEntry();
+
+  
 
 
   public RobotContainer() {
@@ -162,8 +165,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("ShootOffRPM", new InstantCommand( () -> krakenShooterSubsystem.setRPM(0), krakenShooterSubsystem));
 
     /* Intake Wheel Commands */
-    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.8), intakeSubsystem));
-    NamedCommands.registerCommand("IntakeInSlowly", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.5), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeIn", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.6), intakeSubsystem));
+    NamedCommands.registerCommand("IntakeInSlowly", new InstantCommand( () -> intakeSubsystem.setMotorFull(0.2), intakeSubsystem));
 
     NamedCommands.registerCommand("IntakeOut", new InstantCommand( () -> intakeSubsystem.setMotor(-1), intakeSubsystem));
     NamedCommands.registerCommand("IntakeOutSlowly", new InstantCommand( () -> intakeSubsystem.setMotor(-0.6), intakeSubsystem));
@@ -176,7 +179,6 @@ public class RobotContainer {
     /* Intake Pivot Commands */
     // NamedCommands.registerCommand("IntakeUp", new IntakeUp(pivotIntakeSubsystem, 0.5));
     // NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.5));
-
     NamedCommands.registerCommand("IntakeUp", pivotIntakeSubsystem.intakeUpPPID());
     NamedCommands.registerCommand("IntakeDown", pivotIntakeSubsystem.intakeDownPPID());
 
@@ -262,14 +264,75 @@ public class RobotContainer {
     
     /* Path tuning */
     autoChooser.addOption("Taxi", new PathPlannerAuto("1meter"));
-    //autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));
+    // autoChooser.addOption("Middle Genearator", middleCommands());
+    // //autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));
 
-    
+    // autoChooser.addOption(null, getAutonomousCommand());
+
+    // AutoGenerator2ndNote.setDefaultOption("None", "None");
+    // AutoGenerator2ndNote.addOption("TopRing", "TopRing");
+    // AutoGenerator2ndNote.addOption("MiddleRing", "MiddleRing");
+    // AutoGenerator2ndNote.addOption("BottomRing", "BottomRing");
+    // AutoGenerator2ndNote.addOption("Centerline 1", "Centerline 1");
+    // AutoGenerator2ndNote.addOption("Centerline 2", "Centerline 2");
+    // AutoGenerator2ndNote.addOption("Centerline 3", "Centerline 3");
+    // AutoGenerator2ndNote.addOption("Centerline 4", "Centerline 4");
+    // AutoGenerator2ndNote.addOption("Centerline 5", "Centerline 5");
+
+    // AutoGenerator3rdNote.setDefaultOption("None", "None");
+    // AutoGenerator3rdNote.addOption("TopRing", "TopRing");
+    // AutoGenerator3rdNote.addOption("MiddleRing", "MiddleRing");
+    // AutoGenerator3rdNote.addOption("BottomRing", "BottomRing");
+    // AutoGenerator3rdNote.addOption("Centerline 1", "Centerline 1");
+    // AutoGenerator3rdNote.addOption("Centerline 2", "Centerline 2");
+    // AutoGenerator3rdNote.addOption("Centerline 3", "Centerline 3");
+    // AutoGenerator3rdNote.addOption("Centerline 4", "Centerline 4");
+    // AutoGenerator3rdNote.addOption("Centerline 5", "Centerline 5");
+
+    // AutoGenerator4thNote.setDefaultOption("None", "None");
+    // AutoGenerator4thNote.addOption("TopRing", "TopRing");
+    // AutoGenerator4thNote.addOption("MiddleRing", "MiddleRing");
+    // AutoGenerator4thNote.addOption("BottomRing", "BottomRing");
+    // AutoGenerator4thNote.addOption("Centerline 1", "Centerline 1");
+    // AutoGenerator4thNote.addOption("Centerline 2", "Centerline 2");
+    // AutoGenerator4thNote.addOption("Centerline 3", "Centerline 3");
+    // AutoGenerator4thNote.addOption("Centerline 4", "Centerline 4");
+    // AutoGenerator4thNote.addOption("Centerline 5", "Centerline 5");
 
     SmartDashboard.putData(autoChooser);
+    // SmartDashboard.putData(AutoGenerator2ndNote);
+    // SmartDashboard.putData(AutoGenerator3rdNote);
+    // SmartDashboard.putData(AutoGenerator4thNote);
+
+    generateAutoTab.add(autoChooser).withPosition(0, 0).withProperties(null);
   }
 
+  // private Command middleCommands() {
 
+  //   HashMap<String, Command> middleHashMap = new HashMap<String, Command>();
+    
+  //   middleHashMap.put("None", new InstantCommand());
+  //   middleHashMap.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
+  //   middleHashMap.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
+  //   middleHashMap.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
+
+  //   middleHashMap.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
+  //   middleHashMap.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
+  //   middleHashMap.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
+  //   middleHashMap.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
+  //   //middleHashMap.put("Centerline 5", new PathPlannerAuto("STATE_2p MiddleRing Race"));
+  //   middleHashMap.put("Centerline 5", new InstantCommand());
+
+                
+
+  //   return new SequentialCommandGroup
+  //   (
+  //     new InstantCommand(), //preload
+  //     middleHashMap.get(AutoGenerator2ndNote.getSelected()), // 1st piece
+  //     middleHashMap.get(AutoGenerator3rdNote.getSelected()), //2nd piece
+  //     middleHashMap.get(AutoGenerator4thNote.getSelected()) //3rd piece
+  //   );
+  // }
 
   /* Create button Bindings*/
   private void configureButtonBindings() {

@@ -3,6 +3,7 @@
   "robotLength": 0.84,
   "holonomicMode": true,
   "pathFolders": [
+    "Path Genning",
     "States",
     "Testing Paths",
     "[New] Bottom Autos",
@@ -15,8 +16,9 @@
   "autoFolders": [
     "5p Auto Testing",
     "BottomTesting",
-    "statemiddle",
+    "xPathGenning",
     "TestFullPaths",
+    "statemiddle",
     "testing",
     "top testing"
   ],

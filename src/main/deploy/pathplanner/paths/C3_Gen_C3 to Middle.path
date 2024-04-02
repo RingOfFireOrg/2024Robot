@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3235236938753967,
-        "y": 5.550083606492732
+        "x": 7.903114482436479,
+        "y": 4.067934003488759
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.744319180946055,
-        "y": 5.727416105995004
+        "x": 6.90311448243648,
+        "y": 4.067934003488759
       },
       "isLocked": false,
-      "linkedName": "5_MiddleStart"
+      "linkedName": "STATE_C3 End"
     },
     {
       "anchor": {
@@ -20,28 +20,28 @@
         "y": 4.332276285303912
       },
       "prevControl": {
-        "x": 2.6466066531775283,
-        "y": 4.332276285303912
+        "x": 6.0170147239956195,
+        "y": 3.505088856083811
       },
       "nextControl": {
-        "x": 5.916606653177529,
-        "y": 4.332276285303912
+        "x": 3.9967229845014254,
+        "y": 5.05187471913405
       },
       "isLocked": false,
       "linkedName": "STATE_C3 Lineup"
     },
     {
       "anchor": {
-        "x": 7.903114482436479,
-        "y": 4.067934003488759
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
       },
       "prevControl": {
-        "x": 7.483114482436479,
-        "y": 4.067934003488759
+        "x": 2.3235236938753965,
+        "y": 5.550083606492732
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "STATE_C3 End"
+      "linkedName": "5_MiddleStart"
     }
   ],
   "rotationTargets": [],
@@ -55,11 +55,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "States",
+  "folder": "Path Genning",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

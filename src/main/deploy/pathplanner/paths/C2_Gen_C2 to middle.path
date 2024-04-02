@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.947171529405214,
+        "y": 5.800844517610019
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.1671715294052145,
+        "y": 5.800844517610019
+      },
+      "isLocked": false,
+      "linkedName": "GEN_C2_END"
+    },
+    {
+      "anchor": {
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
+      },
+      "prevControl": {
+        "x": 9.155204028028205,
+        "y": 7.769178724698385
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "5_MiddleStart"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.3,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Path Genning",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

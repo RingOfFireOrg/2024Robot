@@ -27,7 +27,7 @@ public class LEDSubsystem extends SubsystemBase {
   private int ledSegment1 = 31;
   private int ledSegment2 = 41;
   private int ledSegment3 = 31;
-  int ledLengthBar = 31+41+31;
+  int ledLengthBar = 30;
   int ledSegment1Start = 0; // Left bar
   int ledSegment2Start = 31; // top Bar
   int ledSegment3Start = 31+41; // Right Bar

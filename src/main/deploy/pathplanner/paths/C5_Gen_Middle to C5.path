@@ -8,40 +8,56 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.744319180946055,
-        "y": 5.727416105995004
+        "x": 2.3235236938753965,
+        "y": 5.550083606492732
       },
       "isLocked": false,
       "linkedName": "5_MiddleStart"
     },
     {
       "anchor": {
-        "x": 4.936606653177528,
-        "y": 4.332276285303912
+        "x": 4.907235288531401,
+        "y": 4.082619685811823
       },
       "prevControl": {
-        "x": 2.6466066531775283,
-        "y": 4.332276285303912
+        "x": 4.407088913448123,
+        "y": 6.245546777391901
       },
       "nextControl": {
-        "x": 5.916606653177529,
-        "y": 4.332276285303912
+        "x": 5.132526448478823,
+        "y": 3.1083282031180937
       },
       "isLocked": false,
-      "linkedName": "STATE_C3 Lineup"
+      "linkedName": "GEN_C5_Lineup1"
     },
     {
       "anchor": {
-        "x": 7.903114482436479,
-        "y": 4.067934003488759
+        "x": 7.066030590021825,
+        "y": 2.7902796413821807
       },
       "prevControl": {
-        "x": 7.483114482436479,
-        "y": 4.067934003488759
+        "x": 6.565884214938544,
+        "y": 4.953206732962259
+      },
+      "nextControl": {
+        "x": 7.291321749969248,
+        "y": 1.8159881586884519
+      },
+      "isLocked": false,
+      "linkedName": "GEN_C5_Lineup2"
+    },
+    {
+      "anchor": {
+        "x": 8.108714034959377,
+        "y": 1.101426174229809
+      },
+      "prevControl": {
+        "x": 8.27025541436532,
+        "y": 1.0353378510373061
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "STATE_C3 End"
+      "linkedName": "GEN_C5_END"
     }
   ],
   "rotationTargets": [],
@@ -55,11 +71,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -60.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "States",
+  "folder": "Path Genning",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

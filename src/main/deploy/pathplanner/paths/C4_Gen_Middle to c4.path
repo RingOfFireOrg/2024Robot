@@ -8,40 +8,40 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.744319180946055,
-        "y": 5.727416105995004
+        "x": 2.323523693875397,
+        "y": 5.550083606492732
       },
       "isLocked": false,
       "linkedName": "5_MiddleStart"
     },
     {
       "anchor": {
-        "x": 4.936606653177528,
-        "y": 4.332276285303912
+        "x": 6.772316943560543,
+        "y": 3.3483355696586177
       },
       "prevControl": {
-        "x": 2.6466066531775283,
-        "y": 4.332276285303912
+        "x": 6.823705525717567,
+        "y": 4.046446745349059
       },
       "nextControl": {
-        "x": 5.916606653177529,
-        "y": 4.332276285303912
+        "x": 6.716523625790059,
+        "y": 2.5903862931947095
       },
       "isLocked": false,
-      "linkedName": "STATE_C3 Lineup"
+      "linkedName": "GEN_C4_LINEUP"
     },
     {
       "anchor": {
-        "x": 7.903114482436479,
-        "y": 4.067934003488759
+        "x": 7.947171529405671,
+        "y": 2.437823265628643
       },
       "prevControl": {
-        "x": 7.483114482436479,
-        "y": 4.067934003488759
+        "x": 6.947171529405671,
+        "y": 2.437823265628643
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "STATE_C3 End"
+      "linkedName": "GEN_C4_End"
     }
   ],
   "rotationTargets": [],
@@ -55,11 +55,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "States",
+  "folder": "Path Genning",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

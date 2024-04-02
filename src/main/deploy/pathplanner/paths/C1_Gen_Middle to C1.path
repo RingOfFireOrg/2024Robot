@@ -8,40 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.744319180946055,
-        "y": 5.727416105995004
+        "x": 3.996722984501426,
+        "y": 5.28684563630308
       },
       "isLocked": false,
       "linkedName": "5_MiddleStart"
     },
     {
       "anchor": {
-        "x": 4.936606653177528,
-        "y": 4.332276285303912
+        "x": 7.917800164759543,
+        "y": 7.416269573147376
       },
       "prevControl": {
-        "x": 2.6466066531775283,
-        "y": 4.332276285303912
-      },
-      "nextControl": {
-        "x": 5.916606653177529,
-        "y": 4.332276285303912
-      },
-      "isLocked": false,
-      "linkedName": "STATE_C3 Lineup"
-    },
-    {
-      "anchor": {
-        "x": 7.903114482436479,
-        "y": 4.067934003488759
-      },
-      "prevControl": {
-        "x": 7.483114482436479,
-        "y": 4.067934003488759
+        "x": 5.377177122869452,
+        "y": 7.563126396378017
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "STATE_C3 End"
+      "linkedName": "GEN_C1_END"
     }
   ],
   "rotationTargets": [],
@@ -55,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "States",
+  "folder": "Path Genning",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
