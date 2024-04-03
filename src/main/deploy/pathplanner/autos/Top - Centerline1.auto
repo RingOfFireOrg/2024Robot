@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3235236938753967,
-      "y": 5.550083606492732
+      "x": 0.7271735863212764,
+      "y": 6.667275029355093
     },
-    "rotation": 0
+    "rotation": 60.0
   },
   "command": {
     "type": "sequential",
@@ -22,7 +22,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "C2_Gen_Middle to C2"
+                        "pathName": "C1_Gen_ Top to C1"
                       }
                     },
                     {
@@ -47,7 +47,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "C2_Gen_C2 to middle"
+                        "pathName": "C1_Gen_ C1 to Top"
                       }
                     },
                     {
@@ -95,6 +95,6 @@
       ]
     }
   },
-  "folder": "xPathGenning Middle",
+  "folder": "xPathGenning Top",
   "choreoAuto": false
 }

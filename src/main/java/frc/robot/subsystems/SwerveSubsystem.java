@@ -352,13 +352,13 @@ public class SwerveSubsystem extends SubsystemBase {
 
     /* ------------- */
 
-    public double noteTrackTranslationSpeed() {
-        SmartDashboard.putNumber(getName(), getHeading());
-        return LimelightHelpers.getTY(Constants.VisionConstants.backCamera) / 10;
+    public double noteTrackTranslationSpeed(double modifier) {
+        SmartDashboard.putNumber("LL_TY", LimelightHelpers.getTY(Constants.VisionConstants.NoteCamera));
+        return LimelightHelpers.getTY(Constants.VisionConstants.NoteCamera) / modifier;
     }
 
-    public double noteTrackRotSpeed() {
-        return LimelightHelpers.getTX(Constants.VisionConstants.backCamera) / 10;
+    public double noteTrackRotSpeed(double modifier) {
+        return LimelightHelpers.getTX(Constants.VisionConstants.NoteCamera) / modifier;
     }
   
     /* ------------- */

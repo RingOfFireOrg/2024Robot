@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -125,11 +126,6 @@ public class RobotContainer {
       () -> driverController.getRawButton(OIConstants.kResetDirectionButton)
     ));
 
-    // shooterSubsystem.setDefaultCommand(new ShooterTeleop(
-    //   shooterSubsystem, 
-    //   () -> (- operatorController.getRightTriggerAxis()) 
-    // ));
-
     krakenShooterSubsystem.setDefaultCommand(
       new KrakenShooterTeleop(krakenShooterSubsystem, () -> (operatorController.getLeftTriggerAxis() -  operatorController.getRightTriggerAxis()))
     );
@@ -181,6 +177,14 @@ public class RobotContainer {
     // NamedCommands.registerCommand("IntakeDown", new IntakeDown(pivotIntakeSubsystem, 0.5));
     NamedCommands.registerCommand("IntakeUp", pivotIntakeSubsystem.intakeUpPPID());
     NamedCommands.registerCommand("IntakeDown", pivotIntakeSubsystem.intakeDownPPID());
+
+    // NamedCommands.registerCommand("Auto Pickup Note", 
+    //   new SwerveNoteTrack(swerveSubsystem)
+    //   .alongWith(intakeSubsystem.setMotorSpeeds(0.6))
+    //   .until(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
+    //   .withTimeout(1)
+    // );
+
 
     /* LED Command */
     NamedCommands.registerCommand("Auto LEDS",new LEDAutoStatus(ledSubsystem, () -> krakenShooterSubsystem.getStatus(), () -> pivotIntakeSubsystem.getIntakeStatus(), () -> intakeSubsystem.getStatus()));
@@ -264,10 +268,8 @@ public class RobotContainer {
     
     /* Path tuning */
     autoChooser.addOption("Taxi", new PathPlannerAuto("1meter"));
-    // autoChooser.addOption("Middle Genearator", middleCommands());
-    // //autoChooser.addOption("Rotate 180( & move 2 meters)", new PathPlannerAuto("Rotate 180"));
+    //autoChooser.addOption("Middle Genearator", middleCommands());
 
-    // autoChooser.addOption(null, getAutonomousCommand());
 
     // AutoGenerator2ndNote.setDefaultOption("None", "None");
     // AutoGenerator2ndNote.addOption("TopRing", "TopRing");
@@ -304,35 +306,41 @@ public class RobotContainer {
     // SmartDashboard.putData(AutoGenerator3rdNote);
     // SmartDashboard.putData(AutoGenerator4thNote);
 
-    generateAutoTab.add(autoChooser).withPosition(0, 0).withProperties(null);
+    generateAutoTab.add(autoChooser).withPosition(0, 0);
+    // generateAutoTab.add(AutoGenerator2ndNote).withPosition(0, 1);
+    // generateAutoTab.add(AutoGenerator3rdNote).withPosition(0, 2);
+    // generateAutoTab.add(AutoGenerator4thNote).withPosition(0, 3);
+
   }
 
   // private Command middleCommands() {
 
-  //   HashMap<String, Command> middleHashMap = new HashMap<String, Command>();
+  //   HashMap<String, Command> middleHashMap = new HashMap<>();
     
   //   middleHashMap.put("None", new InstantCommand());
   //   middleHashMap.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
   //   middleHashMap.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
   //   middleHashMap.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
-
   //   middleHashMap.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
   //   middleHashMap.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
   //   middleHashMap.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
   //   middleHashMap.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
-  //   //middleHashMap.put("Centerline 5", new PathPlannerAuto("STATE_2p MiddleRing Race"));
   //   middleHashMap.put("Centerline 5", new InstantCommand());
 
-                
+  //   return new ParallelCommandGroup(
+  //     krakenShooterSubsystem.rpmCMD(3100),
+  //     new SequentialCommandGroup
+  //     (
+  //       new PathPlannerAuto("Middle - Preload"), //preload
+  //       middleHashMap.get(AutoGenerator2ndNote.getSelected()), // 1st piece
+  //       middleHashMap.get(AutoGenerator3rdNote.getSelected()), //2nd piece
+  //       middleHashMap.get(AutoGenerator4thNote.getSelected()) //3rd piece
+  //     )
 
-  //   return new SequentialCommandGroup
-  //   (
-  //     new InstantCommand(), //preload
-  //     middleHashMap.get(AutoGenerator2ndNote.getSelected()), // 1st piece
-  //     middleHashMap.get(AutoGenerator3rdNote.getSelected()), //2nd piece
-  //     middleHashMap.get(AutoGenerator4thNote.getSelected()) //3rd piece
   //   );
   // }
+
+
 
   /* Create button Bindings*/
   private void configureButtonBindings() {
@@ -341,7 +349,10 @@ public class RobotContainer {
 
     /* Auto Pickup */
     new JoystickButton(driverController, Constants.OIConstants.leftBumper)
-      .whileTrue(new SwerveNoteTrack(swerveSubsystem));
+      .whileTrue(new SwerveNoteTrack(swerveSubsystem)
+      .alongWith(intakeSubsystem.setMotorSpeeds(0.6))
+      .unless(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
+    );
     
     /* Runs the Shooter at a speed desirable for Amping */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)
@@ -448,8 +459,13 @@ public class RobotContainer {
 
 
   public Command getAutonomousCommand() {
-    //return new PathPlannerAuto("MiddleFull"); //IntakeTransferTest
+    /* Run a Specicfic PathPlanner Auto */
+    //return new PathPlannerAuto("MiddleFull");
+
+    /* Run no Auto */
     //return new InstantCommand();
-    return autoChooser.getSelected(); // <- Selectable Auto Command  
+
+    /* Use Sendable Chooser to Select */
+    return autoChooser.getSelected();  
   }
 }

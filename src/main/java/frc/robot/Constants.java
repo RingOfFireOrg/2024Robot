@@ -240,6 +240,9 @@ public final class Constants {
     }
 
     public static final class VisionConstants {
-        public static final String backCamera = "limelight-notecam";
+        public static final String NoteCamera = "limelight-notecam";
+
+        public static final double translationModifier = 30;
+        public static final double roatationModifier= 35;
     }
 }

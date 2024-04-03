@@ -38,14 +38,14 @@ public class OTFPathGen extends Command {
     Pose2d currentPose = swerveSubsystem.getPose();
     // Get Startpos from Photon Camera
     Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-    Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)), new Rotation2d());
+    Pose2d endPos = new Pose2d(currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)), new Rotation2d(Units.degreesToRadians(0)));
 
     List<Translation2d> bezierPoints = PathPlannerPath.bezierFromPoses(startPos, endPos);
     PathPlannerPath path = new PathPlannerPath(
       bezierPoints, 
       new PathConstraints(
         4.0, 4.0, 
-        Units.degreesToRadians(360), Units.degreesToRadians(540)
+        Units.degreesToRadians(720), Units.degreesToRadians(540)
       ),  
       new GoalEndState(0.0, currentPose.getRotation())
     );

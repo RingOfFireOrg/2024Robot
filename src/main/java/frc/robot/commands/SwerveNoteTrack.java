@@ -17,20 +17,14 @@ public class SwerveNoteTrack extends Command {
 
     private final SwerveSubsystem swerveSubsystem;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
-    double speedDivide = 2;
     
 
     public SwerveNoteTrack(SwerveSubsystem swerveSubsystem){
-
         this.swerveSubsystem = swerveSubsystem;
-
-
-
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
         addRequirements(swerveSubsystem);
-
     }
 
     @Override
@@ -40,17 +34,25 @@ public class SwerveNoteTrack extends Command {
 
     @Override
     public void execute() {
-        SmartDashboard.putBoolean("LL_backCam test", LimelightHelpers.getTV(Constants.VisionConstants.backCamera));
 
-        //if (LimelightHelpers.getTV(Constants.VisionConstants.backCamera) == true) {
+        SmartDashboard.putBoolean("LL_backCam Has Note", LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera));
+
+        //if (LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera) == true) {
     
-            double xSpeed = swerveSubsystem.noteTrackTranslationSpeed();
-            //double ySpeed = ySpdFunctionRobot.get()/speedDivide; //idk how to move over the speed multipliers from SwerveJoystick to this
             double ySpeed = 0;
-            double turningSpeed = swerveSubsystem.noteTrackRotSpeed();
 
-            SmartDashboard.putNumber("LL_xspeed", xSpeed);
-            SmartDashboard.putNumber("LL_turnspeed", turningSpeed);
+            double turningSpeed = swerveSubsystem.noteTrackRotSpeed(Constants.VisionConstants.roatationModifier);
+            //double turningSpeed = 0;
+            
+            double xSpeed = swerveSubsystem.noteTrackTranslationSpeed(Constants.VisionConstants.translationModifier) - ((turningSpeed)/4);
+            // //turningSpeed > 0.5 ? xSpeed = 0 : xSpeed;
+            if (turningSpeed > 0.3) {
+                xSpeed = 0;
+            }
+            //double xSpeed = 0;
+
+            SmartDashboard.putNumber("LL_xSpeed", xSpeed);
+            SmartDashboard.putNumber("LL_turnSpeed", turningSpeed);
 
 
             xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
@@ -65,6 +67,8 @@ public class SwerveNoteTrack extends Command {
             ChassisSpeeds chassisSpeeds;
             chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); //robot centric
 
+            SmartDashboard.putNumber("LL_xSpeed post calc", xSpeed);
+            SmartDashboard.putNumber("LL_turnSpeed post calc", turningSpeed);
             // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
             //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());  //Field Centric
             

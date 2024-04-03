@@ -21,7 +21,6 @@ public class SwerveNoteTrackFull extends Command {
     private final PivotIntakeSubsystem pivotIntakeSubsystem;
     private final IntakeSubsystem intakeSubsystem;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
-    double speedDivide = 2;
     
 
     public SwerveNoteTrackFull(
@@ -48,9 +47,7 @@ public class SwerveNoteTrackFull extends Command {
 
     @Override
     public void initialize() {
-        if (pivotIntakeSubsystem.getIntakeStatus() != PivotSubsystemStatus.INTAKE_DOWN) {
-            pivotIntakeSubsystem.intakeDownPPID();
-        }
+
         
     }
 
@@ -58,31 +55,30 @@ public class SwerveNoteTrackFull extends Command {
     public void execute() {
         intakeSubsystem.setMotorFull(0.7);
 
-        if (LimelightHelpers.getTV(Constants.VisionConstants.backCamera) == true) {
-    
-            double xSpeed = swerveSubsystem.noteTrackTranslationSpeed();
-            //double ySpeed = ySpdFunctionRobot.get()/speedDivide; //idk how to move over the speed multipliers from SwerveJoystick to this
-            double ySpeed = 0;
-            double turningSpeed = swerveSubsystem.noteTrackRotSpeed();
+            if (LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera) == true) {
+        
+                double xSpeed = swerveSubsystem.noteTrackTranslationSpeed(10);
+                double ySpeed = 0;
+                double turningSpeed = swerveSubsystem.noteTrackRotSpeed(30);
 
-            xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
-            ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-            turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+                xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
+                ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
+                turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
-            xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-            ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-            turningSpeed = turningLimiter.calculate(turningSpeed)
-                    * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+                xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+                ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+                turningSpeed = turningLimiter.calculate(turningSpeed)
+                        * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-            ChassisSpeeds chassisSpeeds;
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); //robot centric
+                ChassisSpeeds chassisSpeeds;
+                chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); //robot centric
 
-            // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());  //Field Centric
-            
-            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            swerveSubsystem.setModuleStates(moduleStates);
-        }
+                // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+                //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());  //Field Centric
+                
+                SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+                swerveSubsystem.setModuleStates(moduleStates);
+            }
 
     }
 

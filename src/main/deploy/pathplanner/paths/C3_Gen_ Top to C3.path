@@ -3,38 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.494508933333412,
-        "y": 4.1046482092964185
+        "x": 0.7271735863212764,
+        "y": 6.667275029355093
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.494508933333412,
-        "y": 4.1046482092964185
+        "x": 1.7271735863212765,
+        "y": 6.667275029355093
       },
       "isLocked": false,
-      "linkedName": "BN_BottomRing"
+      "linkedName": "TN_TopStart"
     },
     {
       "anchor": {
-        "x": 0.6777587794889373,
-        "y": 4.611304249442131
+        "x": 7.9324858470826065,
+        "y": 4.126676732781015
       },
       "prevControl": {
-        "x": 1.4338128941860013,
-        "y": 4.303998473202345
+        "x": 6.9324858470826065,
+        "y": 4.126676732781015
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BN_BottomStart"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.5,
-      "rotationDegrees": -60.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -45,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "[New] Bottom Autos",
+  "folder": "Path Genning Top",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
