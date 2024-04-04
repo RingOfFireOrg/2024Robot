@@ -2,6 +2,7 @@ package frc.robot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -38,8 +39,10 @@ import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
 import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
+import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 import frc.robot.subsystems.Vision.LimelightHelpers;
 import frc.robot.subsystems.Vision.PhotonVisionSubsystem;
 
@@ -59,9 +62,13 @@ public class RobotContainer {
   XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
 
   SendableChooser<Command> autoChooser = new SendableChooser<>();
-  // SendableChooser<String> AutoGenerator2ndNote = new SendableChooser<>();
-  // SendableChooser<String> AutoGenerator3rdNote = new SendableChooser<>();
-  // SendableChooser<String> AutoGenerator4thNote = new SendableChooser<>();
+  SendableChooser<String> AutoGenerator2ndNote = new SendableChooser<>();
+  SendableChooser<String> AutoGenerator3rdNote = new SendableChooser<>();
+  SendableChooser<String> AutoGenerator4thNote = new SendableChooser<>();
+
+  HashMap<String, Command> middleHashMap1 = new HashMap<>();
+  HashMap<String, Command> middleHashMap2 = new HashMap<>();
+  HashMap<String, Command> middleHashMap3 = new HashMap<>();
 
   
   ShuffleboardTab codeTestTab = Shuffleboard.getTab("Code Testing");
@@ -178,12 +185,12 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeUp", pivotIntakeSubsystem.intakeUpPPID());
     NamedCommands.registerCommand("IntakeDown", pivotIntakeSubsystem.intakeDownPPID());
 
-    // NamedCommands.registerCommand("Auto Pickup Note", 
-    //   new SwerveNoteTrack(swerveSubsystem)
-    //   .alongWith(intakeSubsystem.setMotorSpeeds(0.6))
-    //   .until(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
-    //   .withTimeout(1)
-    // );
+    NamedCommands.registerCommand("Auto Pickup Note", 
+      new SwerveNoteTrack(swerveSubsystem)
+      .alongWith(intakeSubsystem.setMotorSpeeds(0.7))
+      .until(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
+      .withTimeout(1)
+    );
 
 
     /* LED Command */
@@ -268,77 +275,113 @@ public class RobotContainer {
     
     /* Path tuning */
     autoChooser.addOption("Taxi", new PathPlannerAuto("1meter"));
-    //autoChooser.addOption("Middle Genearator", middleCommands());
 
 
-    // AutoGenerator2ndNote.setDefaultOption("None", "None");
-    // AutoGenerator2ndNote.addOption("TopRing", "TopRing");
-    // AutoGenerator2ndNote.addOption("MiddleRing", "MiddleRing");
-    // AutoGenerator2ndNote.addOption("BottomRing", "BottomRing");
-    // AutoGenerator2ndNote.addOption("Centerline 1", "Centerline 1");
-    // AutoGenerator2ndNote.addOption("Centerline 2", "Centerline 2");
-    // AutoGenerator2ndNote.addOption("Centerline 3", "Centerline 3");
-    // AutoGenerator2ndNote.addOption("Centerline 4", "Centerline 4");
-    // AutoGenerator2ndNote.addOption("Centerline 5", "Centerline 5");
+    autoChooser.addOption("Middle Genearator", middleCommands());
 
-    // AutoGenerator3rdNote.setDefaultOption("None", "None");
-    // AutoGenerator3rdNote.addOption("TopRing", "TopRing");
-    // AutoGenerator3rdNote.addOption("MiddleRing", "MiddleRing");
-    // AutoGenerator3rdNote.addOption("BottomRing", "BottomRing");
-    // AutoGenerator3rdNote.addOption("Centerline 1", "Centerline 1");
-    // AutoGenerator3rdNote.addOption("Centerline 2", "Centerline 2");
-    // AutoGenerator3rdNote.addOption("Centerline 3", "Centerline 3");
-    // AutoGenerator3rdNote.addOption("Centerline 4", "Centerline 4");
-    // AutoGenerator3rdNote.addOption("Centerline 5", "Centerline 5");
 
-    // AutoGenerator4thNote.setDefaultOption("None", "None");
-    // AutoGenerator4thNote.addOption("TopRing", "TopRing");
-    // AutoGenerator4thNote.addOption("MiddleRing", "MiddleRing");
-    // AutoGenerator4thNote.addOption("BottomRing", "BottomRing");
-    // AutoGenerator4thNote.addOption("Centerline 1", "Centerline 1");
-    // AutoGenerator4thNote.addOption("Centerline 2", "Centerline 2");
-    // AutoGenerator4thNote.addOption("Centerline 3", "Centerline 3");
-    // AutoGenerator4thNote.addOption("Centerline 4", "Centerline 4");
-    // AutoGenerator4thNote.addOption("Centerline 5", "Centerline 5");
+    AutoGenerator2ndNote.setDefaultOption("None", "None");
+    AutoGenerator2ndNote.addOption("TopRing", "TopRing");
+    AutoGenerator2ndNote.addOption("MiddleRing", "MiddleRing");
+    AutoGenerator2ndNote.addOption("BottomRing", "BottomRing");
+    AutoGenerator2ndNote.addOption("Centerline 1", "Centerline 1");
+    AutoGenerator2ndNote.addOption("Centerline 2", "Centerline 2");
+    AutoGenerator2ndNote.addOption("Centerline 3", "Centerline 3");
+    AutoGenerator2ndNote.addOption("Centerline 4", "Centerline 4");
+    AutoGenerator2ndNote.addOption("Centerline 5", "Centerline 5");
+
+    AutoGenerator3rdNote.setDefaultOption("None", "None");
+    AutoGenerator3rdNote.addOption("TopRing", "TopRing");
+    AutoGenerator3rdNote.addOption("MiddleRing", "MiddleRing");
+    AutoGenerator3rdNote.addOption("BottomRing", "BottomRing");
+    AutoGenerator3rdNote.addOption("Centerline 1", "Centerline 1");
+    AutoGenerator3rdNote.addOption("Centerline 2", "Centerline 2");
+    AutoGenerator3rdNote.addOption("Centerline 3", "Centerline 3");
+    AutoGenerator3rdNote.addOption("Centerline 4", "Centerline 4");
+    AutoGenerator3rdNote.addOption("Centerline 5", "Centerline 5");
+
+    AutoGenerator4thNote.setDefaultOption("None", "None");
+    AutoGenerator4thNote.addOption("TopRing", "TopRing");
+    AutoGenerator4thNote.addOption("MiddleRing", "MiddleRing");
+    AutoGenerator4thNote.addOption("BottomRing", "BottomRing");
+    AutoGenerator4thNote.addOption("Centerline 1", "Centerline 1");
+    AutoGenerator4thNote.addOption("Centerline 2", "Centerline 2");
+    AutoGenerator4thNote.addOption("Centerline 3", "Centerline 3");
+    AutoGenerator4thNote.addOption("Centerline 4", "Centerline 4");
+    AutoGenerator4thNote.addOption("Centerline 5", "Centerline 5");
 
     SmartDashboard.putData(autoChooser);
-    // SmartDashboard.putData(AutoGenerator2ndNote);
-    // SmartDashboard.putData(AutoGenerator3rdNote);
-    // SmartDashboard.putData(AutoGenerator4thNote);
+    SmartDashboard.putData(AutoGenerator2ndNote);
+    SmartDashboard.putData(AutoGenerator3rdNote);
+    SmartDashboard.putData(AutoGenerator4thNote);
 
-    generateAutoTab.add(autoChooser).withPosition(0, 0);
-    // generateAutoTab.add(AutoGenerator2ndNote).withPosition(0, 1);
-    // generateAutoTab.add(AutoGenerator3rdNote).withPosition(0, 2);
-    // generateAutoTab.add(AutoGenerator4thNote).withPosition(0, 3);
-
+    generateAutoTab.add(autoChooser).withPosition(0, 0).withSize(3, 1);
+    generateAutoTab.add(AutoGenerator2ndNote).withPosition(0, 1).withSize(3, 1);
+    generateAutoTab.add(AutoGenerator3rdNote).withPosition(0, 2).withSize(3, 1);
+    generateAutoTab.add(AutoGenerator4thNote).withPosition(0, 3).withSize(3, 1);
   }
 
-  // private Command middleCommands() {
-
-  //   HashMap<String, Command> middleHashMap = new HashMap<>();
+  private Command middleCommands() {
+    //HashMap<String, Command> middleHashMap = new HashMap<>();
     
-  //   middleHashMap.put("None", new InstantCommand());
-  //   middleHashMap.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
-  //   middleHashMap.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
-  //   middleHashMap.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
-  //   middleHashMap.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
-  //   middleHashMap.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
-  //   middleHashMap.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
-  //   middleHashMap.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
-  //   middleHashMap.put("Centerline 5", new InstantCommand());
+    middleHashMap1.put(null, new InstantCommand());
+    middleHashMap1.put("None", new InstantCommand());
+    middleHashMap1.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
+    middleHashMap1.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
+    middleHashMap1.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
+    middleHashMap1.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
+    middleHashMap1.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
+    middleHashMap1.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
+    middleHashMap1.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
+    middleHashMap1.put("Centerline 5", new InstantCommand());
 
-  //   return new ParallelCommandGroup(
-  //     krakenShooterSubsystem.rpmCMD(3100),
-  //     new SequentialCommandGroup
-  //     (
-  //       new PathPlannerAuto("Middle - Preload"), //preload
-  //       middleHashMap.get(AutoGenerator2ndNote.getSelected()), // 1st piece
-  //       middleHashMap.get(AutoGenerator3rdNote.getSelected()), //2nd piece
-  //       middleHashMap.get(AutoGenerator4thNote.getSelected()) //3rd piece
-  //     )
+    middleHashMap2.put(null, new InstantCommand());
+    middleHashMap2.put("None", new InstantCommand());
+    middleHashMap2.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
+    middleHashMap2.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
+    middleHashMap2.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
+    middleHashMap2.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
+    middleHashMap2.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
+    middleHashMap2.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
+    middleHashMap2.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
+    middleHashMap2.put("Centerline 5", new InstantCommand());
 
-  //   );
-  // }
+
+    middleHashMap3.put(null, new InstantCommand());
+    middleHashMap3.put("None", new InstantCommand());
+    middleHashMap3.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
+    middleHashMap3.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
+    middleHashMap3.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
+    middleHashMap3.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
+    middleHashMap3.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
+    middleHashMap3.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
+    middleHashMap3.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
+    middleHashMap3.put("Centerline 5", new InstantCommand());
+    
+
+    return new ParallelCommandGroup(
+      krakenShooterSubsystem.rpmCMD(3100),
+      new SequentialCommandGroup
+      (
+        
+        new PathPlannerAuto("Middle - Preload").withTimeout(1), //preload
+        middleHashMap1.get(middleMap1().get()), //2nd piece
+        middleHashMap2.get(middleMap2().get()), //3rd piece
+        middleHashMap3.get(middleMap3().get()) //4th piece
+    ));
+  }
+
+  Supplier<String> middleMap1() {
+    return () -> AutoGenerator2ndNote.getSelected();
+  }
+  Supplier<String> middleMap2() {
+    return () -> AutoGenerator3rdNote.getSelected();
+  }
+  Supplier<String> middleMap3() {
+    return () -> AutoGenerator4thNote.getSelected();
+  }
+    
+ // }
 
 
 
@@ -350,7 +393,7 @@ public class RobotContainer {
     /* Auto Pickup */
     new JoystickButton(driverController, Constants.OIConstants.leftBumper)
       .whileTrue(new SwerveNoteTrack(swerveSubsystem)
-      .alongWith(intakeSubsystem.setMotorSpeeds(0.6))
+      .alongWith(intakeSubsystem.setMotorSpeeds(0.8))
       .unless(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
     );
     
@@ -402,6 +445,14 @@ public class RobotContainer {
     );
     new POVButton(operatorController.getHID(), Constants.OIConstants.dPadDown)
       .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
+    );
+
+    new POVButton(climberController, Constants.OIConstants.dPadUp) 
+      .whileTrue(new IntakeUp(pivotIntakeSubsystem, 0.4)
+    );
+
+    new POVButton(climberController, Constants.OIConstants.dPadDown) 
+      .whileTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
     );
     
     /* PID Closed Loop Control (Motor Encoder) */
@@ -456,7 +507,20 @@ public class RobotContainer {
     //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
     //new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
   } 
+  public void autoFlashPickup() {
+    if (
+      pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_DOWN 
+      && pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED
+      && LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera) == true
+    ) {
+      LimelightHelpers.setLEDMode_ForceOn(Constants.VisionConstants.NoteCamera);
+    }
+    else {
+      LimelightHelpers.setLEDMode_ForceOff(Constants.VisionConstants.NoteCamera);
+    }
+  }
 
+  
 
   public Command getAutonomousCommand() {
     /* Run a Specicfic PathPlanner Auto */
@@ -466,6 +530,21 @@ public class RobotContainer {
     //return new InstantCommand();
 
     /* Use Sendable Chooser to Select */
+    System.out.println(autoChooser.getSelected().getName());
+    if (autoChooser.getSelected().getName() == "middleCommands") {
+      System.out.println("Middle Generator Run");
+      return new ParallelCommandGroup(
+      krakenShooterSubsystem.rpmCMD(-3100),
+      new SequentialCommandGroup
+      (
+        
+        new PathPlannerAuto("Middle - Preload").withTimeout(1), //preload
+        middleHashMap1.get(middleMap1().get()), //2nd piece
+        middleHashMap2.get(middleMap2().get()), //3rd piece
+        middleHashMap3.get(middleMap3().get()) //4th piece
+    ));
+    }
+    
     return autoChooser.getSelected();  
   }
 }

@@ -3,54 +3,48 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.343684952128402,
-        "y": 2.4671946302747707
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.813207836069604,
-        "y": 2.057934286070815
+        "x": 4.363865042578029,
+        "y": 5.903644293871772
       },
       "isLocked": false,
-      "linkedName": "BN_Center4"
+      "linkedName": "5_MiddleStart"
     },
     {
       "anchor": {
-        "x": 5.553405310746221,
-        "y": 1.6447964201831808
+        "x": 6.111461239022658,
+        "y": 3.8917058156119895
       },
       "prevControl": {
-        "x": 5.653405310746221,
-        "y": 1.6447964201831808
+        "x": 4.745692782977695,
+        "y": 4.097305368134887
       },
       "nextControl": {
-        "x": 4.313405310746221,
-        "y": 1.6447964201831808
+        "x": 6.400811189745893,
+        "y": 3.848147758513868
       },
       "isLocked": false,
-      "linkedName": "BN_Center4 Lineup"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7365015087811937,
-        "y": 4.479133108534554
+        "x": 7.917800164759543,
+        "y": 5.683359059025811
       },
       "prevControl": {
-        "x": 1.6033367614616234,
-        "y": 3.7533174924544124
+        "x": 7.4038012834522995,
+        "y": 5.28684563630308
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BN_BottomStart"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.15,
-      "rotationDegrees": -60.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -61,13 +55,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.0,
+    "rotation": 43.830860672092605,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "[New] Bottom Autos",
+  "folder": "[New]5 Piece middle Cope",
   "previewStartingState": {
-    "rotation": 37.65,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

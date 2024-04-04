@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,6 +34,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   NoteSesnorStatus noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
   private DutyCycleEncoder pivotEncoder;
   private AnalogInput noteSensor;
+  private DigitalInput noteSensorDIO;
   private ProfiledPIDController intakePivotPPIDController;
   SimpleMotorFeedforward intakFeedforward;
   Timer timer;
@@ -84,18 +86,18 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     intakePivotPIDController_ABS.setTolerance(0.05,0.01);
 
     intakePivotPPIDController = new ProfiledPIDController
-    (3.5, 0, 0.4,
+    (3.5, 0, 0.2,
     new TrapezoidProfile.Constraints(20,20));
     intakePivotPPIDController.setTolerance(0.009, 0.07);
 
-    intakFeedforward = new SimpleMotorFeedforward(0.155, 0.2, 1.0);
+    intakFeedforward = new SimpleMotorFeedforward(0.175, 0.2, 1.0);
 
 
-    //TODO: find out what average bits mean cus idk
     noteSensor = new AnalogInput(0); //TODO: move to constants
     noteSensor.setAverageBits(4);
 
-    
+    noteSensorDIO = new DigitalInput(4);
+
     
     
 
@@ -108,9 +110,8 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
     SmartDashboard.putNumber("piIntake Position", pivotEncoderPos);
     SmartDashboard.putString("piIntake Status", pivotSubsystemStatus.toString());
-    SmartDashboard.putNumber("pi Intake Pivot Get Applied output", intakePivot.getAppliedOutput());
+    SmartDashboard.putNumber("pi_ Intake Pivot Get Applied output", intakePivot.getAppliedOutput());
     SmartDashboard.putNumber("pi Intake Motor Controller encoder", intakePivotEncoder.getPosition());
-
     if ((pivotEncoderPos <= 0.4 && pivotEncoderPos >= 0) ) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
     }
@@ -127,10 +128,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putString("ns_Note Sensor Status", noteSesnorStatus.toString());
     SmartDashboard.putNumber("ns_Note Sensor Value", noteSensor.getValue());
 
-    if (noteSensor.getValue() > 1000 ) {
+    if (noteSensor.getValue() > 1000 || noteSensorDIO.get() == false) {
       noteSesnorStatus = NoteSesnorStatus.NO_NOTE;
     }
-    else if (noteSensor.getValue() < 50) {
+    else if (noteSensor.getValue() < 50 || noteSensorDIO.get() == true) {
       noteSesnorStatus = NoteSesnorStatus.NOTE_DECTECTED;
     }
     else {
@@ -216,6 +217,8 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   public void toPositionPPID(double goal) {
     SmartDashboard.putNumber("pi_PPID TO poisition", intakePivotPPIDController.calculate(
         pivotEncoder.getAbsolutePosition(), goal));
+    SmartDashboard.putNumber("pi_cSet", intakePivot.get());
+      
     intakePivot.set(
       intakePivotPPIDController.calculate(
         pivotEncoder.getAbsolutePosition(), goal)+ intakFeedforward.calculate(intakePivotPPIDController.getSetpoint().velocity));
