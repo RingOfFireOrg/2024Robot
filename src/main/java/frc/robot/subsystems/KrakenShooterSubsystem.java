@@ -176,11 +176,11 @@ public class KrakenShooterSubsystem extends SubsystemBase {
       ));
   }
 
-  public Command changeSpeed() {
-    return this.run(() -> setRPM(
-      (-SmartDashboard.getNumber("kr_Top Table Test", 500)),
-      (-SmartDashboard.getNumber("kr_Bottom Table Test", 500))));
-  }
+  // public Command changeSpeed() {
+  //   return this.run(() -> setRPM(
+  //     (-SmartDashboard.getNumber("kr_Top Table Test", 500)),
+  //     (-SmartDashboard.getNumber("kr_Bottom Table Test", 500))));
+  // }
 
   public Command sendableSpeed() {
     return this.run(() -> setRPM(

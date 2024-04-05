@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7271735863212764,
-        "y": 6.667275029355093
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 5.61073936206421,
-        "y": 7.342319704907993
-      },
-      "isLocked": false,
-      "linkedName": "TN_TopStart"
-    },
-    {
-      "anchor": {
         "x": 8.020599941020992,
         "y": 4.435076061565361
       },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.522829274875043,
+        "y": 6.727071196669454
+      },
+      "isLocked": false,
+      "linkedName": "gen_c3_end_top"
+    },
+    {
+      "anchor": {
+        "x": 0.7271735863212764,
+        "y": 6.667275029355093
+      },
       "prevControl": {
-        "x": 5.524033946100094,
-        "y": 6.726042503963363
+        "x": 5.6107393620642085,
+        "y": 7.342319704907995
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "gen_c3_end_top"
+      "linkedName": "TN_TopStart"
     }
   ],
   "rotationTargets": [],
@@ -51,13 +51,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -48.814074834290295,
+    "rotation": 60.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Path Genning Top",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": -48.81,
     "velocity": 0
   },
   "useDefaultConstraints": true

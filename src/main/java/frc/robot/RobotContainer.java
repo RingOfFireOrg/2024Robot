@@ -84,12 +84,30 @@ public class RobotContainer {
   
 
   GenericEntry amp_topShooter = codeTestTab
-    .add("(A)Top Shooter", 900)
+    .add("(A)Top Shooter", -200)
     .getEntry();
 
   GenericEntry amp_bottomShooter = codeTestTab
-    .add("(A)Bottom Shooter", 500)
+    .add("(A)Bottom Shooter", -650)
     .getEntry();
+
+  GenericEntry longShot_topShooter = codeTestTab
+    .add("Long Shot Top", -4000)
+    .getEntry();
+
+  GenericEntry longShot_bottomShooter = codeTestTab
+    .add("Long Shot Bottom", -1500)
+    .getEntry();
+
+  GenericEntry midLongShot_topShooter = codeTestTab
+    .add("MidLong Shot Top", -3500)
+    .getEntry();
+
+  GenericEntry midLongShot_bottomShooter = codeTestTab
+    .add("MidLong Shot Bottom", -2500)
+    .getEntry();
+
+
 
   String middleGenName = "Middle Generator";
   String bottomGenName = "Bottom Generator";  //TODO: move to constants prob
@@ -358,7 +376,7 @@ public class RobotContainer {
     hashMap.put("Centerline 2",() -> new PathPlannerAuto("Middle - CenterLine2"));
     hashMap.put("Centerline 3",() -> new PathPlannerAuto("Middle - CenterLine3"));
     hashMap.put("Centerline 4",() -> new PathPlannerAuto("Middle - CenterLine4"));
-    hashMap.put("Centerline 5",() -> new InstantCommand());
+    hashMap.put("Centerline 5",() -> new PathPlannerAuto("Middle - CenterLine5"));
   }
 
   private void createAutoMapTop() {}
@@ -400,10 +418,26 @@ public class RobotContainer {
       )
     );
 
-    /* Speed Testing */
-    new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
-      .whileTrue(krakenShooterSubsystem.changeSpeed()
+    /* Long Shot */
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.yButton)
+      .whileTrue(krakenShooterSubsystem.rpmCMD(
+        () -> longShot_topShooter.getDouble(-4000),
+        () -> longShot_bottomShooter.getDouble(-1500)
+      )
     );
+
+    /* Mid Long Shot */
+    new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
+      .whileTrue(krakenShooterSubsystem.rpmCMD(
+        () -> midLongShot_topShooter.getDouble(-3500),
+        () -> midLongShot_bottomShooter.getDouble(-2500)
+      )
+    );
+
+    // /* Speed Testing */
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
+    //   .whileTrue(krakenShooterSubsystem.changeSpeed()
+    // );
 
     /* Spins Intake in and intake wheels to intake from source faster */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
@@ -416,7 +450,7 @@ public class RobotContainer {
     );
 
 
-    //TODO: comment out
+
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
       .whileTrue(krakenShooterSubsystem.distanceShot(
         photonVisionSubsystem.getMeters(7, 7)
@@ -555,10 +589,8 @@ public class RobotContainer {
   }
 
   public void autoFlashShoot() {
-    if (
-      pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_UP 
-      && krakenShooterSubsystem.getStatus() == KrakenShooterSubsystemStatus.READY
-    ) {
+    if (pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_UP 
+      && krakenShooterSubsystem.getStatus() == KrakenShooterSubsystemStatus.READY) {
       photonVisionSubsystem.flashLED();
     }
     else {

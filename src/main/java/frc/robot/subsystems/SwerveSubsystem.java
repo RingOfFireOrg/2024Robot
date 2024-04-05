@@ -279,6 +279,7 @@ public class SwerveSubsystem extends SubsystemBase {
         //SmartDashboard.putString("Swerve Current Command", this.getCurrentCommand().toString());
         field.setRobotPose(getPose());
         publisher.set(getModuleStates());
+        
     }
 
     public void stopModules() {

@@ -46,6 +46,10 @@ public class LEDTeleOpStatus extends Command {
 
   @Override
   public void execute() {
+    var alliance = DriverStation.getAlliance();
+    if (alliance.isPresent() || allianceRed != (alliance.get() == DriverStation.Alliance.Red)) {
+      allianceRed = (alliance.get() == DriverStation.Alliance.Red);
+    }
 
     if (shooterStatus.get() == KrakenShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
