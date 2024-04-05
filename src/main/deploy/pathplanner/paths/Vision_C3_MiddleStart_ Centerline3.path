@@ -3,62 +3,67 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7365015087811937,
-        "y": 4.479133108534554
+        "x": 1.3235236938753967,
+        "y": 5.550083606492732
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5032186573571185,
-        "y": 3.8371480510140517
+        "x": 2.323523693875397,
+        "y": 5.550083606492732
       },
       "isLocked": false,
-      "linkedName": "BN_BottomStart"
+      "linkedName": "5_MiddleStart"
     },
     {
       "anchor": {
-        "x": 5.553405310746221,
-        "y": 1.6447964201831808
+        "x": 5.318434393577196,
+        "y": 4.097305368134887
       },
       "prevControl": {
-        "x": 4.553405310746221,
-        "y": 1.6447964201831808
+        "x": 5.054080489002793,
+        "y": 4.978442820607404
       },
       "nextControl": {
-        "x": 6.553405310746221,
-        "y": 1.6447964201831808
+        "x": 5.347170445562168,
+        "y": 4.001523118650353
       },
       "isLocked": false,
-      "linkedName": "BN_Center4 Lineup"
+      "linkedName": "5_Centerline 3 lineup"
     },
     {
       "anchor": {
-        "x": 8.51991314000517,
-        "y": 2.555308724213156
+        "x": 7.271630142544722,
+        "y": 4.449761743888425
       },
       "prevControl": {
-        "x": 8.007868013856102,
-        "y": 2.1232094430439044
+        "x": 5.719526507688626,
+        "y": 4.449761743888425
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BN_Center4"
+      "linkedName": "5_c3_mid_vision"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.15,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 1.5,
+      "minWaypointRelativePos": 1.45,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 4.3,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    },
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 1.05,
+      "constraints": {
+        "maxVelocity": 4.6,
+        "maxAcceleration": 5.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -73,13 +78,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 37.64762064010769,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "[New] Bottom Autos",
+  "folder": "[New]5 Piece middle Cope",
   "previewStartingState": {
-    "rotation": -60.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

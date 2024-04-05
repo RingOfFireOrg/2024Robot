@@ -139,6 +139,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     }
 
 
+    SmartDashboard.putNumber("AS1_pi_PPID TO poisition", intakePivotPPIDController.calculate(
+      pivotEncoder.getAbsolutePosition(), intakePivotPPIDController.getGoal())+ intakFeedforward.calculate(intakePivotPPIDController.getSetpoint().velocity));
+    SmartDashboard.putNumber("AS1_pi_cSet", intakePivot.get());
+
   }
 
 
@@ -215,9 +219,9 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
 
   public void toPositionPPID(double goal) {
-    SmartDashboard.putNumber("pi_PPID TO poisition", intakePivotPPIDController.calculate(
-        pivotEncoder.getAbsolutePosition(), goal));
-    SmartDashboard.putNumber("pi_cSet", intakePivot.get());
+    // SmartDashboard.putNumber("AS1_pi_PPID TO poisition", intakePivotPPIDController.calculate(
+    //   pivotEncoder.getAbsolutePosition(), goal)+ intakFeedforward.calculate(intakePivotPPIDController.getSetpoint().velocity));
+    // SmartDashboard.putNumber("AS1_pi_cSet", intakePivot.get());
       
     intakePivot.set(
       intakePivotPPIDController.calculate(

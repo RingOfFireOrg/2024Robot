@@ -133,6 +133,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     //SmartDashboard.putString("swerveSubsystem Current Command", m_robotContainer.swerveSubsystem.getCurrentCommand().toString());
     m_robotContainer.autoFlashPickup();
+    m_robotContainer.autoFlashShoot();
     
   }
 

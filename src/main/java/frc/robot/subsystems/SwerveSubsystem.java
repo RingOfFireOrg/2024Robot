@@ -130,7 +130,7 @@ public class SwerveSubsystem extends SubsystemBase {
         PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
 
         SmartDashboard.putData("Field", field);
-        generateAutoTab.add(field).withPosition(6, 0).withSize(4, 3);
+        generateAutoTab.add(field).withPosition(8, 0).withSize(9, 5);
     }
 
     public void zeroHeading() {
@@ -372,6 +372,7 @@ public class SwerveSubsystem extends SubsystemBase {
     public double noteTrackRotSpeed(double modifier) {
         return LimelightHelpers.getTX(Constants.VisionConstants.NoteCamera) / modifier;
     }
+
   
     /* ------------- */
 }

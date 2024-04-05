@@ -101,7 +101,7 @@ public class KrakenShooterSubsystem extends SubsystemBase {
     double rotorvelocityTOP = -shooterMotorTop.getRotorVelocity().getValueAsDouble()*60;
     SmartDashboard.putNumber("kr_Top rpm", rotorvelocityTOP);
     SmartDashboard.putNumber("kr_Top rps", rotorvelocityTOP/60);
-    double rotorVelocityBOTTOM  = shooterMotorBottom.getRotorVelocity().getValueAsDouble()*60;
+    double rotorVelocityBOTTOM  = -shooterMotorBottom.getRotorVelocity().getValueAsDouble()*60;
     SmartDashboard.putNumber("kr_Bottom rpm", rotorVelocityBOTTOM);
     SmartDashboard.putNumber("kr_Bottom rps", rotorVelocityBOTTOM/60);
     
@@ -189,6 +189,7 @@ public class KrakenShooterSubsystem extends SubsystemBase {
   }
 
   public Command distanceShot(double distance) {
+    SmartDashboard.putNumber("Distance Shot Distance", distance);
     if (distance != 999) {
       return this.run(() -> setRPM(
         (getRPMfromDistance(topShooterRPMTreeMap, distance)),

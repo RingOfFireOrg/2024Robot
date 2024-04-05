@@ -147,10 +147,16 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "3TN_TopStart to Center1"
+                                    "pathName": "Vision_ 3TN_TopStart to Center1"
                                   }
                                 }
                               ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Auto Pickup Note"
                             }
                           },
                           {
@@ -172,10 +178,16 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "4TN_Center1 to TopStart"
+                                    "pathName": "Vision_4TN_Center1 to TopStart"
                                   }
                                 }
                               ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeUp"
                             }
                           },
                           {

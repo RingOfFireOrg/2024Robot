@@ -3,59 +3,43 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7365015087811937,
-        "y": 4.479133108534554
+        "x": 0.7271735863212764,
+        "y": 6.667275029355093
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5032186573571185,
-        "y": 3.8371480510140517
+        "x": 1.5295283542266556,
+        "y": 7.25472706759367
       },
       "isLocked": false,
-      "linkedName": "BN_BottomStart"
+      "linkedName": "TN_TopStart"
     },
     {
       "anchor": {
-        "x": 5.553405310746221,
-        "y": 1.6447964201831808
+        "x": 7.199999999999999,
+        "y": 7.68061185496253
       },
       "prevControl": {
-        "x": 4.553405310746221,
-        "y": 1.6447964201831808
-      },
-      "nextControl": {
-        "x": 6.553405310746221,
-        "y": 1.6447964201831808
-      },
-      "isLocked": false,
-      "linkedName": "BN_Center4 Lineup"
-    },
-    {
-      "anchor": {
-        "x": 8.51991314000517,
-        "y": 2.555308724213156
-      },
-      "prevControl": {
-        "x": 8.007868013856102,
-        "y": 2.1232094430439044
+        "x": 6.199999999999999,
+        "y": 7.68061185496253
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BN_Center4"
+      "linkedName": "Vision_c1_top"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.15,
-      "rotationDegrees": 0.0,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 1.5,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.75,
+      "maxWaypointRelativePos": 1.0,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 4.3,
@@ -73,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 37.64762064010769,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "[New] Bottom Autos",
+  "folder": "[New]Top Autos",
   "previewStartingState": {
-    "rotation": -60.0,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

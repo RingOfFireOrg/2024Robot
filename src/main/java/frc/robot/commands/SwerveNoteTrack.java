@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import java.util.function.Supplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -53,6 +54,7 @@ public class SwerveNoteTrack extends Command {
 
             SmartDashboard.putNumber("LL_xSpeed", xSpeed);
             SmartDashboard.putNumber("LL_turnSpeed", turningSpeed);
+            MathUtil.applyDeadband(turningSpeed, xSpeed);
 
 
             xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;

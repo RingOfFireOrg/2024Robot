@@ -45,7 +45,7 @@ public class ClimberSubsystem extends SubsystemBase {
     leftClimberPWM = new PWMSparkMax(5);
     //rightClimberSPK = new PWMSparkMax(6);
 
-    rightClimberSPK.setInverted(true);
+    //rightClimberSPK.setInverted(true);
     leftClimberPWM.setInverted(true);
 
   }

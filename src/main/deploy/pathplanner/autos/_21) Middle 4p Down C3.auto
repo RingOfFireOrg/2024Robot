@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7271735863212764,
-      "y": 6.667275029355093
+      "x": 1.3235236938753967,
+      "y": 5.550083606492732
     },
-    "rotation": 60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -66,7 +66,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "1TN_TopStart to TopRing"
+                                    "pathName": "1_MiddleStart to MiddleRing"
                                   }
                                 }
                               ]
@@ -91,7 +91,7 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "2TN_TopRing to TopStart"
+                                    "pathName": "2_MiddleRing to MiddleStart"
                                   }
                                 }
                               ]
@@ -118,7 +118,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.5
+                              "waitTime": 0.35
                             }
                           }
                         ]
@@ -141,13 +141,13 @@
                                 {
                                   "type": "named",
                                   "data": {
-                                    "name": "IntakeInSlowly"
+                                    "name": "IntakeIn"
                                   }
                                 },
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "3TN_TopStart to Center1"
+                                    "pathName": "3_MiddleStart to BottomRing"
                                   }
                                 }
                               ]
@@ -172,7 +172,94 @@
                                 {
                                   "type": "path",
                                   "data": {
-                                    "pathName": "4TN_Center1 to TopStart"
+                                    "pathName": "4_BottomRing to Middle Start"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeUp"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.1
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "IntakeOut"
+                            }
+                          },
+                          {
+                            "type": "wait",
+                            "data": {
+                              "waitTime": 0.35
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "sequential",
+                      "data": {
+                        "commands": [
+                          {
+                            "type": "parallel",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "IntakeDown"
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "IntakeIn"
+                                  }
+                                },
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "Vision_C3_MiddleStart_ Centerline3"
+                                  }
+                                }
+                              ]
+                            }
+                          },
+                          {
+                            "type": "named",
+                            "data": {
+                              "name": "Auto Pickup Note"
+                            }
+                          },
+                          {
+                            "type": "parallel",
+                            "data": {
+                              "commands": [
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "IntakeUp"
+                                  }
+                                },
+                                {
+                                  "type": "named",
+                                  "data": {
+                                    "name": "IntakeInSlowly"
+                                  }
+                                },
+                                {
+                                  "type": "path",
+                                  "data": {
+                                    "pathName": "Vision_C3_Centerline3 to MiddleStart"
                                   }
                                 }
                               ]
@@ -181,7 +268,7 @@
                           {
                             "type": "wait",
                             "data": {
-                              "waitTime": 0.1
+                              "waitTime": 0.2
                             }
                           },
                           {
@@ -208,6 +295,6 @@
       ]
     }
   },
-  "folder": "top testing",
+  "folder": "5p Auto Testing",
   "choreoAuto": false
 }

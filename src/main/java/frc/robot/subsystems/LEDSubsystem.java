@@ -24,19 +24,16 @@ public class LEDSubsystem extends SubsystemBase {
 
 
   // All of these numbers are wrong now the we only have the top strip 😭
-  private int ledSegment1 = 31;
-  private int ledSegment2 = 41;
-  private int ledSegment3 = 31;
-  int ledLengthBar = 30;
-  int ledSegment1Start = 0; // Left bar
-  int ledSegment2Start = 31; // top Bar
-  int ledSegment3Start = 31+41; // Right Bar
-  int ledSegmentTotal = 31+41+31;
-  int ledLegnthBoard = 0;
+  private int ledSegment1 = 15;
+  private int ledSegment2 = 20;
+  private int ledSegment3 = 15;
 
-  /* Lengths for TEMPORARY (hopefully) strip */
-  int ledSegment = 42 + 5;
-  int ledSegmentStart = 5;
+  int ledLengthBar = ledSegment1 + ledSegment2 +ledSegment3;
+  int ledSegment1Start = 0; // Left bar
+  int ledSegment2Start = ledSegment1; // top Bar
+  int ledSegment3Start = ledSegment1 + ledSegment2; // Right Bar
+  int ledSegmentTotal = ledLengthBar;
+
 
   public LEDSubsystem() {
     m_led = new AddressableLED(8); // Move to constants
@@ -76,12 +73,6 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.setData(m_ledBuffer);
   }
 
-  public void setLEDRGB_TEMP(int red, int green, int blue) {
-    for (var i = ledSegmentStart; i < ledSegment; i++) {
-      m_ledBuffer.setRGB(i, red, green, blue);
-    }    
-    m_led.setData(m_ledBuffer);
-  }
 
 
   public void setLEDHSV(int h, int s, int v) {
@@ -93,19 +84,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   /*  -------------------------------- Blinking Pattern --------------------------------------- */   
     
-  public void blink(int red, int green, int blue,  double delay) {
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, red, green, blue);
-    }
-    m_led.setData(m_ledBuffer);
-    Timer.delay(delay);
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-      m_ledBuffer.setRGB(i, 0, 0, 0);
-    }
-    m_led.setData(m_ledBuffer);
-    Timer.delay(delay);
-  } 
-  public void blink_BAR(double red, double green, double blue, double delay) {}
+
 
 
   // ------------------------------------ Red chase ------------------------------------------------- \\                        

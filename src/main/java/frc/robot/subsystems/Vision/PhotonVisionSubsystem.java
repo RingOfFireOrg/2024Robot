@@ -8,6 +8,7 @@ import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.PhotonUtils;
+import org.photonvision.common.hardware.VisionLEDMode;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
@@ -78,6 +79,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     hasTargets = latestResult.hasTargets();
   
     SmartDashboard.putBoolean("Target Found", hasTargets);
+    SmartDashboard.putString("LED Mode",TomatoSoup.getLEDMode().name());
 
     if (hasTargets) {
       List<PhotonTrackedTarget> targets = latestResult.getTargets();
@@ -180,5 +182,15 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       cameraPitch,
       Units.degreesToRadians(bestTarget.getPitch()
     ));
+  }
+
+
+  public void flashLED() {
+    TomatoSoup.setLED(VisionLEDMode.kOn);
+    
+  }
+
+  public void offLED() {
+    TomatoSoup.setLED(VisionLEDMode.kOff);
   }
 }
