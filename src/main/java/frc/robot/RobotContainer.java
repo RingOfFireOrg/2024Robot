@@ -449,7 +449,17 @@ public class RobotContainer {
         .alongWith(krakenShooterSubsystem.stopMotorsCMD())
     );
 
+    /*auto stop */
 
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
+    //   .whileTrue(intakeSubsystem.setMotorSpeeds(0.3)
+    //     .alongWith(krakenShooterSubsystem.intakeSpeed())
+    //     .onlyWhile(() -> pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED)
+    //     .onlyWhile(() -> pivotIntakeSubsystem.getIntakeStatus() != PivotSubsystemStatus.INTAKE_UP)
+    //   )
+    //   .onFalse(intakeSubsystem.stopIntakeWheel()
+    //     .alongWith(krakenShooterSubsystem.stopMotorsCMD())
+    // );
 
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
       .whileTrue(krakenShooterSubsystem.distanceShot(
