@@ -105,15 +105,15 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   }
 
 
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    var visionEst = photonPoseEstimator.update();
-    double latestTimestamp = TomatoSoup.getLatestResult().getTimestampSeconds();
-    boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
-    if (newResult) {
-      lastEstTimestamp = latestTimestamp;
-    }
-    return visionEst;
-  }
+  // public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
+  //   var visionEst = photonPoseEstimator.update();
+  //   double latestTimestamp = TomatoSoup.getLatestResult().getTimestampSeconds();
+  //   boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
+  //   if (newResult) {
+  //     lastEstTimestamp = latestTimestamp;
+  //   }
+  //   return visionEst;
+  // }
 
 
 

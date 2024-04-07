@@ -56,7 +56,7 @@ public class RobotContainer {
   public KrakenShooterSubsystem krakenShooterSubsystem = new KrakenShooterSubsystem();
   public ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   //public LimeLight limeLightSubsystem = new LimeLight();
-  public PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
+  //public PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
 
   XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
@@ -461,11 +461,11 @@ public class RobotContainer {
     //     .alongWith(krakenShooterSubsystem.stopMotorsCMD())
     // );
 
-    new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
-      .whileTrue(krakenShooterSubsystem.distanceShot(
-        photonVisionSubsystem.getMeters(7, 7)
-      ))
-    ;
+    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.rightBumper)
+    //   .whileTrue(krakenShooterSubsystem.distanceShot(
+    //     photonVisionSubsystem.getMeters(7, 7)
+    //   ))
+    // ;
 
 
 
@@ -598,15 +598,15 @@ public class RobotContainer {
     }
   }
 
-  public void autoFlashShoot() {
-    if (pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_UP 
-      && krakenShooterSubsystem.getStatus() == KrakenShooterSubsystemStatus.READY) {
-      photonVisionSubsystem.flashLED();
-    }
-    else {
-      photonVisionSubsystem.offLED();
-    }
-  }
+  // public void autoFlashShoot() {
+  //   if (pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_UP 
+  //     && krakenShooterSubsystem.getStatus() == KrakenShooterSubsystemStatus.READY) {
+  //     photonVisionSubsystem.flashLED();
+  //   }
+  //   else {
+  //     photonVisionSubsystem.offLED();
+  //   }
+  // }
   /* ------------------------------------------------------------------- */
 
 }

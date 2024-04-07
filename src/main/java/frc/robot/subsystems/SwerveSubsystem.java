@@ -123,7 +123,8 @@ public class SwerveSubsystem extends SubsystemBase {
                 if (alliance.isPresent()) {
                     return alliance.get() == DriverStation.Alliance.Blue;
                 }
-            return alliance.get() == DriverStation.Alliance.Red;            
+            //return alliance.get() == DriverStation.Alliance.Red;    
+            return true;        
         },
         this // Reference to this subsystem to set requirements
         );
