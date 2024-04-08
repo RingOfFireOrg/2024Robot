@@ -3,56 +3,40 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.079342670313249,
-        "y": 4.361647649950041
+        "x": 8.020599941020992,
+        "y": 4.435076061565361
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.801688308206672,
-        "y": 4.009191274196503
+        "x": 5.522829274875043,
+        "y": 6.727071196669454
       },
       "isLocked": false,
-      "linkedName": "5_Centerline3"
+      "linkedName": "gen_c3_end_top"
     },
     {
       "anchor": {
-        "x": 5.318434393577196,
-        "y": 4.097305368134887
+        "x": 0.7271735863212764,
+        "y": 6.667275029355093
       },
       "prevControl": {
-        "x": 6.449231932453132,
-        "y": 3.5539351221815147
-      },
-      "nextControl": {
-        "x": 3.772220059372945,
-        "y": 4.840291476778489
-      },
-      "isLocked": false,
-      "linkedName": "5_Centerline 3 lineup"
-    },
-    {
-      "anchor": {
-        "x": 1.2211290254423093,
-        "y": 5.771473152964195
-      },
-      "prevControl": {
-        "x": 3.3206141962779974,
-        "y": 5.962320270062561
+        "x": 5.6107393620642085,
+        "y": 7.342319704907995
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TN_TopStart"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.05,
-      "maxWaypointRelativePos": 2.0,
+      "minWaypointRelativePos": 0.35,
+      "maxWaypointRelativePos": 0.55,
       "constraints": {
         "maxVelocity": 4.5,
-        "maxAcceleration": 5.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -67,13 +51,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 60.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "[New]5 Piece middle Cope",
+  "folder": "Path Genning Top",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -48.81,
     "velocity": 0
   },
   "useDefaultConstraints": true

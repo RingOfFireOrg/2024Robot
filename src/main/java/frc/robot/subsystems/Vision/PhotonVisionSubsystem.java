@@ -18,6 +18,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -59,6 +61,7 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       new Rotation3d(0,0,0)
     ); 
       //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+  ShuffleboardTab codeTestTab = Shuffleboard.getTab("Code Testing");
 
 
   public PhotonVisionSubsystem() {
@@ -102,15 +105,15 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   }
 
 
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
-    var visionEst = photonPoseEstimator.update();
-    double latestTimestamp = TomatoSoup.getLatestResult().getTimestampSeconds();
-    boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
-    if (newResult) {
-      lastEstTimestamp = latestTimestamp;
-    }
-    return visionEst;
-  }
+  // public Optional<EstimatedRobotPose> getEstimatedGlobalPose() {
+  //   var visionEst = photonPoseEstimator.update();
+  //   double latestTimestamp = TomatoSoup.getLatestResult().getTimestampSeconds();
+  //   boolean newResult = Math.abs(latestTimestamp - lastEstTimestamp) > 1e-5;
+  //   if (newResult) {
+  //     lastEstTimestamp = latestTimestamp;
+  //   }
+  //   return visionEst;
+  // }
 
 
 
@@ -166,9 +169,12 @@ public class PhotonVisionSubsystem extends SubsystemBase {
   }
 
   public double getMeters(int redID, int blueID) {
+    codeTestTab.addBoolean("getmeters_Has target",() -> TomatoSoup.getLatestResult().hasTargets());
     if(TomatoSoup.getLatestResult().hasTargets() == true) {
       PhotonTrackedTarget bestTarget = getBestTarget();
+      codeTestTab.addDouble("getmeters_Target ID", () -> targetID(bestTarget));
       if(targetID(bestTarget) == redID || targetID(bestTarget) == blueID) {
+        codeTestTab.addDouble("getmeters_Return Value", () -> Math.hypot(bestTarget.getBestCameraToTarget().getX(),bestTarget.getBestCameraToTarget().getY()));
         return Math.hypot(bestTarget.getBestCameraToTarget().getX(),bestTarget.getBestCameraToTarget().getY()) ;
       }
     }
