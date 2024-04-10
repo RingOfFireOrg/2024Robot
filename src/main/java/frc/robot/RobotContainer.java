@@ -1,7 +1,6 @@
 package frc.robot;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.function.Supplier;
 
 import com.pathplanner.lib.auto.NamedCommands;
@@ -9,7 +8,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.LEDTeleOpStatus;
@@ -43,9 +42,7 @@ import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
 import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
-import frc.robot.subsystems.ShooterSubsystem.ShooterSubsystemStatus;
 import frc.robot.subsystems.Vision.LimelightHelpers;
-import frc.robot.subsystems.Vision.PhotonVisionSubsystem;
 
 
 public class RobotContainer {
@@ -58,27 +55,18 @@ public class RobotContainer {
   //public LimeLight limeLightSubsystem = new LimeLight();
   //public PhotonVisionSubsystem photonVisionSubsystem = new PhotonVisionSubsystem();
 
-  XboxController driverController = new XboxController(OIConstants.driverControllerPort);
-  CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
-  XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
+  private XboxController driverController = new XboxController(OIConstants.driverControllerPort);
+  private CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
+  private XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
 
-  SendableChooser<Command> autoChooser = new SendableChooser<>();
+  private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
-  SendableChooser<Command> generateAuto = new SendableChooser<>();
+  private SendableChooser<String> AutoGenerator2ndNote = new SendableChooser<>();
+  private SendableChooser<String> AutoGenerator3rdNote = new SendableChooser<>();
+  private SendableChooser<String> AutoGenerator4thNote = new SendableChooser<>();
 
-
-  SendableChooser<String> AutoGenerator2ndNote = new SendableChooser<>();
-  SendableChooser<String> AutoGenerator3rdNote = new SendableChooser<>();
-  SendableChooser<String> AutoGenerator4thNote = new SendableChooser<>();
-
-  // HashMap<String, Command> middleHashMap1 = new HashMap<>();
-  // HashMap<String, Command> middleHashMap2 = new HashMap<>();
-  // HashMap<String, Command> middleHashMap3 = new HashMap<>();
 
   HashMap<String, Supplier<Command>> middleHashMap = new HashMap<>();
-
-
-  
   ShuffleboardTab codeTestTab = Shuffleboard.getTab("Code Testing");
   ShuffleboardTab generateAutoTab = Shuffleboard.getTab("Generate Auto");
   
@@ -108,16 +96,9 @@ public class RobotContainer {
     .getEntry();
 
 
-
-  String middleGenName = "Middle Generator";
-  String bottomGenName = "Bottom Generator";  //TODO: move to constants prob
-  String topGenName = "Top Generator";
-
-
   public RobotContainer() {
     namedCommands();
-    middleGenMap();
-
+    createAutoMapMiddle(middleHashMap);
     populateAutoChooser();
     defaultCommands();
     configureButtonBindings();
@@ -129,7 +110,7 @@ public class RobotContainer {
 
     ledSubsystem.setDefaultCommand(new LEDTeleOpStatus(
       ledSubsystem, 
-      () -> krakenShooterSubsystem.getStatus(),              //Supplier for Shooter Status
+      () -> krakenShooterSubsystem.getStatus(),         //Supplier for Shooter Status
       () -> pivotIntakeSubsystem.getIntakeStatus(),    //Supplier for Intake Pivot Status
       () -> intakeSubsystem.getStatus(),               //Supplier for Intake Wheels
       () -> pivotIntakeSubsystem.getNoteSesnorStatus() //Supplier for InfaredSensor
@@ -248,38 +229,9 @@ public class RobotContainer {
   private void populateAutoChooser() {
 
     Command middleGenInst = new InstantCommand();
-    Command bottomGenInst = new InstantCommand();
-    Command topGenInst = new InstantCommand();
+    middleGenInst.setName(AutoConstants.middleGenName);
 
 
-
-    middleGenInst.setName(middleGenName);
-    bottomGenInst.setName(bottomGenName);
-    topGenInst.setName(topGenName);
-
-    /*    Planned Auto List
-      DONE - Anywhere 1p (Preload)
-
-      2) DONE - Middle 2p (Preload, MiddleRing)
-      3) DONE - Middle 3p Up (Preload, MiddleRing, TopRing)
-      4) DONE - Middle 3p Down (Preload, MiddleRing, BottomRing)
-      5) DONE - Middle 4p (Preload, MiddleRing, TopRing, BottomRing)
-      6) DONE - Middle 4p Up (Preload, MiddleRing, TopRing, Centerline3)
-      7) DONE -Middle 4p Down (Preload, MiddleRing, BottomRing, Centerline3)
-
-      8) Middle 5p (Preload, MiddleRing, TopRing, BottomRing, Centerline2)
-
-      Top 2p (Preload, TopRing)
-      Top 3p (Preload, TopRing, Centerline1)
-
-      Bottom 2p (Preload, BottomRing)
-      Bottom 2p C4 (Preload, Centerline4)
-      Bottom 3pC4 (Preload, BottomRing, Centerline4)
-      Bottom 3p C4C5 (Preload, Centerline4, Centerline5)
-      Bottom 4p (Preload, BottomRing, Centerline4, Centerline5) - WILL RUN OUT OF TIME, only use so we can pick up and start with an extra note 
-     */
-
-    // make sure to add a wait command at the end of every single auto
 
     autoChooser.setDefaultOption("Shoot No Movement", new PathPlannerAuto("IntakeTransferTest"));
     autoChooser.addOption("Nothing", new InstantCommand());
@@ -293,7 +245,7 @@ public class RobotContainer {
     // autoChooser.addOption("2 Right", new PathPlannerAuto("Right2p"));
     // autoChooser.addOption("2 left centerstage", new PathPlannerAuto("Left2p to center"));
 
-    /* Wake County Autos */
+    /* Autos */
     autoChooser.addOption("2) Middle 2p", new PathPlannerAuto("2) Middle 2p P-MR"));
     autoChooser.addOption("3) Middle 3p Up", new PathPlannerAuto("3) Middle 3p Up"));
     autoChooser.addOption("4) Middle 3p DOWN", new PathPlannerAuto("4) Middle 3p DOWN"));
@@ -324,16 +276,6 @@ public class RobotContainer {
     populateGenarators(AutoGenerator3rdNote);
     populateGenarators(AutoGenerator4thNote);
 
-    // AutoGenerator4thNote.setDefaultOption("None", "None");
-    // AutoGenerator4thNote.addOption("TopRing", "TopRing");
-    // AutoGenerator4thNote.addOption("MiddleRing", "MiddleRing");
-    // AutoGenerator4thNote.addOption("BottomRing", "BottomRing");
-    // AutoGenerator4thNote.addOption("Centerline 1", "Centerline 1");
-    // AutoGenerator4thNote.addOption("Centerline 2", "Centerline 2");
-    // AutoGenerator4thNote.addOption("Centerline 3", "Centerline 3");
-    // AutoGenerator4thNote.addOption("Centerline 4", "Centerline 4");
-    // AutoGenerator4thNote.addOption("Centerline 5", "Centerline 5");
-
     SmartDashboard.putData(autoChooser);
     SmartDashboard.putData(AutoGenerator2ndNote);
     SmartDashboard.putData(AutoGenerator3rdNote);
@@ -344,27 +286,6 @@ public class RobotContainer {
     generateAutoTab.add(AutoGenerator3rdNote).withPosition(0, 4).withSize(4, 2);
     generateAutoTab.add(AutoGenerator4thNote).withPosition(0, 6).withSize(4, 2);
   }
-
-  private void middleGenMap() {    // TODO: move to constants
-    createAutoMapMiddle(middleHashMap);
-    // createAutoMapMiddle(middleHashMap2);
-    // createAutoMapMiddle(middleHashMap3);
-
-    
-
-    // middleHashMap3.put(null, new InstantCommand());
-    // middleHashMap3.put("None", new InstantCommand());
-    // middleHashMap3.put("TopRing", new PathPlannerAuto("Middle - mTopRing"));
-    // middleHashMap3.put("MiddleRing", new PathPlannerAuto("Middle - mMiddleRing"));
-    // middleHashMap3.put("BottomRing", new PathPlannerAuto("Middle - mBottomRing"));
-    // middleHashMap3.put("Centerline 1", new PathPlannerAuto("Middle - CenterLine1"));
-    // middleHashMap3.put("Centerline 2", new PathPlannerAuto("Middle - CenterLine2"));
-    // middleHashMap3.put("Centerline 3", new PathPlannerAuto("Middle - CenterLine3"));
-    // middleHashMap3.put("Centerline 4", new PathPlannerAuto("Middle - CenterLine4"));
-    // middleHashMap3.put("Centerline 5", new InstantCommand());
-  }
-
-
 
   private void createAutoMapMiddle(HashMap<String, Supplier<Command>> hashMap) {
     hashMap.put(null, () -> new InstantCommand());
@@ -378,9 +299,6 @@ public class RobotContainer {
     hashMap.put("Centerline 4",() -> new PathPlannerAuto("Middle - CenterLine4"));
     hashMap.put("Centerline 5",() -> new PathPlannerAuto("Middle - CenterLine5"));
   }
-
-  private void createAutoMapTop() {}
-  private void createAutoMapBottom() {}
 
   private void populateGenarators(SendableChooser<String> chooser) {
     chooser.setDefaultOption("None", "None");
@@ -400,8 +318,6 @@ public class RobotContainer {
 
   /* Create button Bindings*/
   private void configureButtonBindings() {
-
-    // use "controller.getHID()" to use it as a standard XboxContoller instead of CommandXboxController
 
     /* Auto Pickup */
     new JoystickButton(driverController, Constants.OIConstants.leftBumper)
@@ -433,11 +349,6 @@ public class RobotContainer {
         () -> midLongShot_bottomShooter.getDouble(-2500)
       )
     );
-
-    // /* Speed Testing */
-    // new JoystickButton(operatorController.getHID(), Constants.OIConstants.aButton)
-    //   .whileTrue(krakenShooterSubsystem.changeSpeed()
-    // );
 
     /* Spins Intake in and intake wheels to intake from source faster */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.leftBumper)
@@ -514,17 +425,6 @@ public class RobotContainer {
 
     // );
     
-    // /* Auto Deploy the Intake */      //Combine both into one if the infared sensor does not work    
-    // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3) 
-    // //.and(() ->(pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
-    // .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
-    //   .alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0))); //Change to Instant Command?
-    
-    /* Intake Auto Stow upon Release */
-    // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3)
-    //   .onFalse(new IntakeUp(pivotIntakeSubsystem, 0.5)
-    //     .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
-
 
     /* Intake Auto Stow using Infared Sensor */
     // operatorController.axisGreaterThan(Constants.OIConstants.leftTrigger, 0.3).and(() -> (pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED))
@@ -532,19 +432,10 @@ public class RobotContainer {
     //     .alongWith(new IntakeTeleop(intakeSubsystem,() -> 0.0)));
     // ;
 
-    // operatorController.axisGreaterThan(0, 0)
-    //     .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.5)
-    //       .alongWith(new IntakeTeleop(intakeSubsystem,() -> 1.0)
-    //     )
-    // .onlyIf(() -> pivotIntakeSubsystem.getNoteSesnorStatus() != NoteSesnorStatus.NOTE_DECTECTED).end(false));
-    // )
-    // ; 
-
+  
 
     
 
-    //new JoystickButton(driverController, Constants.OIConstants.rightBumper).whileTrue(new TurnToClimb(swerveSubsystem));
-    //new JoystickButton(driverController, Constants.OIConstants.leftBumper).whileTrue(new OTFPathGen(swerveSubsystem));
   } 
 
 
@@ -558,8 +449,7 @@ public class RobotContainer {
     //return new InstantCommand();
 
     /* Use Sendable Chooser to Select */
-    if (autoChooser.getSelected().getName() == middleGenName) {
-      //middleGenMap();
+    if (autoChooser.getSelected().getName() == AutoConstants.middleGenName) {
       return new ParallelCommandGroup(
         krakenShooterSubsystem.rpmCMD(-3100),
         new SequentialCommandGroup
@@ -570,12 +460,6 @@ public class RobotContainer {
           middleHashMap.get(AutoGenerator4thNote.getSelected()).get() //4th piece
       ));
     }
-    else if(autoChooser.getSelected().getName() == topGenName) {
-
-    }
-    else if(autoChooser.getSelected().getName() == bottomGenName) {
-
-    }
     return autoChooser.getSelected();  
   }
 
@@ -585,6 +469,8 @@ public class RobotContainer {
 
 
   /* ---------------------------------------------------------------- */
+
+  /* Flash the limelight when the robot is ready to automatically pickup */
   public void autoFlashPickup() {
     if (
       pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_DOWN 
@@ -598,6 +484,7 @@ public class RobotContainer {
     }
   }
 
+  /* Flash the limelight when desired RPM is reached */
   // public void autoFlashShoot() {
   //   if (pivotIntakeSubsystem.getIntakeStatus() == PivotSubsystemStatus.INTAKE_UP 
   //     && krakenShooterSubsystem.getStatus() == KrakenShooterSubsystemStatus.READY) {

@@ -16,7 +16,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -106,10 +105,10 @@ public class SwerveSubsystem extends SubsystemBase {
         this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::driveRobotRelative, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                new PIDConstants(9, 0.0, 0.5), // Translation PID constants
-                new PIDConstants(6, 0.0, 0.5), // Rotation PID constants
-                4.5, // Max module speed, in m/s
-                Units.inchesToMeters(15.909905), // Drive base radius in meters. Distance from robot center to furthest module.
+                new PIDConstants(AutoConstants.kTranslationP, AutoConstants.kTranslationI, AutoConstants.kTranslationD), // Translation PID constants
+                new PIDConstants(AutoConstants.kRotationP, AutoConstants.kRotationI, AutoConstants.kRotationD), // Rotation PID constants
+                AutoConstants.kMaxModuleSpeed, // Max module speed, in m/s
+                AutoConstants.kDriveBaseRadius, /// Drive base radius in meters. Distance from robot center to furthest module.
                 new ReplanningConfig() 
         ),
         () -> {
@@ -123,10 +122,9 @@ public class SwerveSubsystem extends SubsystemBase {
                 if (alliance.isPresent()) {
                     return alliance.get() == DriverStation.Alliance.Blue;
                 }
-            //return alliance.get() == DriverStation.Alliance.Red;    
             return true;        
         },
-        this // Reference to this subsystem to set requirements
+        this 
         );
         PathPlannerLogging.setLogActivePathCallback((poses) -> field.getObject("path").setPoses(poses));
 
@@ -138,25 +136,12 @@ public class SwerveSubsystem extends SubsystemBase {
         gyro.reset();
     }
 
-    // public double getHeading() {
-    //     if(gyro.isMoving() == true) {
-    //         SmartDashboard.putNumber("Gyro Angle",gyro.getAngle());
-    //     }
-    //     return gyro.getAngle();
-    //     //return Math.IEEEremainder(gyro.getAngle(), 360);
-
-    // }
     public double getHeading() {
-        //double temp = Math.IEEEremainder(gyro.getAngle(), 360);
-        SmartDashboard.putNumber("swerve_Direct Get Angle", gyro.getAngle());
-
         double temp = (gyro.getAngle() % 360);
         if(temp < 0) {
             temp = temp + 360; 
         }
         return temp;
-        // should be the same as: return (gyro.getAngle() % 360);
-
     }
 
 
@@ -193,60 +178,20 @@ public class SwerveSubsystem extends SubsystemBase {
 
     // ---------------------------------------------------------------------------------------------------------------
 
-    // public double gyroangle() {
-    //     while(gyro.isMoving()) {
-    //         return gyro.getAngle() % 360;
-    //     }
-    //     return gyro.getAngle();
-    // }
-    // public void setModuleStates(SwerveModuleState[] desiredStates) {
-    //     SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-    //     frontLeft.setDesiredState(desiredStates[0]);
-    //     frontRight.setDesiredState(desiredStates[1]);
-    //     backLeft.setDesiredState(desiredStates[2]);
-    //     backRight.setDesiredState(desiredStates[3]);
-    // }
-
     public void fieldCentricReset() {
         gyro.reset();
     }
-    public double pitchVals() {
-        return gyro.getPitch();
+
+    public AHRS getGyro() {
+        return gyro;
     }
-    public double yawVals() {
-        return gyro.getYaw();
-    }
-    public double rollVals() {
-        return gyro.getRoll();
-    }
+
     public Rotation2d getRotation2d() {
-        //SmartDashboard.putNumber("R2d robot heading",  Rotation2d.fromDegrees(getHeading()).getDegrees());
         return Rotation2d.fromDegrees(getHeading());
     }
 
-    public double getRotation2dButaDouble() {
-
-        return getHeading();
-    }
-
-
-
-    void setModuleStates2(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
-        frontLeft.setDesiredState(desiredStates[0]);
-        frontRight.setDesiredState(desiredStates[1]);
-        backLeft.setDesiredState(desiredStates[2]);
-        backRight.setDesiredState(desiredStates[3]);
-    }
-  
-
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(),getSwerveModulePosition(),pose);
-    }
-
-    public boolean resetOdometry2(Pose2d pose) {
-        odometer.resetPosition(getRotation2d(),getSwerveModulePosition(),pose);
-        return true;
     }
 
     public PIDController getxController() {
@@ -277,7 +222,6 @@ public class SwerveSubsystem extends SubsystemBase {
         SmartDashboard.putNumber("swerve_BL Motor Temp", backLeft.returnDriveMotorTemp());
         SmartDashboard.putNumber("swerve_BR Motor Temp", backRight.returnDriveMotorTemp());
 
-        //SmartDashboard.putString("Swerve Current Command", this.getCurrentCommand().toString());
         field.setRobotPose(getPose());
         publisher.set(getModuleStates());
         
@@ -316,14 +260,6 @@ public class SwerveSubsystem extends SubsystemBase {
             backRight.getState()
 
         };
-
-
-        // return new SwerveModuleState[] {
-        //     new SwerveModuleState(frontLeft.getDrivePosition(), null),
-        //     new SwerveModuleState(frontRight.getDrivePosition(), new Rotation2d(frontRight.getTurningPosition())),
-        //     new SwerveModuleState(backLeft.getDrivePosition(), new Rotation2d(backLeft.getTurningPosition())),
-        //     new SwerveModuleState(backRight.getDrivePosition(), new Rotation2d(backRight.getTurningPosition())),
-        // };
     }    
 
 
@@ -364,7 +300,7 @@ public class SwerveSubsystem extends SubsystemBase {
     }
 
 
-    /* ------------- */
+    /* ------ Note Tracking Functions ------- */
 
     public double noteTrackTranslationSpeed(double modifier) {
         SmartDashboard.putNumber("LL_TY", LimelightHelpers.getTY(Constants.VisionConstants.NoteCamera));
@@ -374,9 +310,8 @@ public class SwerveSubsystem extends SubsystemBase {
     public double noteTrackRotSpeed(double modifier) {
         return LimelightHelpers.getTX(Constants.VisionConstants.NoteCamera) / modifier;
     }
-
   
-    /* ------------- */
+    /* ------------------------------------- */
 }
     
     

@@ -81,22 +81,24 @@ public final class Constants {
 
 
     public static final class AutoConstants {
-        public static final double kMaxModuleSpeed = 0;
+        public static final double kMaxModuleSpeed = 4.5;
 
-        public static final double kTranslationP = 0;
+        public static final double kTranslationP = 9;
         public static final double kTranslationI = 0;
-        public static final double kTranslationD = 0;
+        public static final double kTranslationD = 0.5;
 
-        public static final double kRotationP = 0;
+        public static final double kRotationP = 6;
         public static final double kRotationI = 0;
-        public static final double kRotationD = 0;
+        public static final double kRotationD = 0.5;
 
-        public static final double kDriveBaseRadius = 0;
+        public static final double kDriveBaseRadius = Units.inchesToMeters(15.909905);
 
         public static final double kPXController = 0.75; //multiplier for controller PID control
         public static final double kPYController = 0.75; //multiplier for controller PID control
         public static final double kPThetaController = 1.75; //multiplier for controller PID control
 
+
+        public static final String middleGenName = "Middle Generator";
     }
 
     public static final class OIConstants {
@@ -192,8 +194,12 @@ public final class Constants {
     public static final class IDConstants {
 
         // once everything finalzises put it into these cus it keeps changinh
-        public final class CAN_ID_CONSTANTS {}
-        public final class PWM_ID_CONSTANTS {}
+        public final class CAN_ID_CONSTANTS {
+
+        }
+        public final class PWM_ID_CONSTANTS {
+
+        }
         public final class OTHER_ID_CONSTANTS {
             // DIO Port
             // USB
