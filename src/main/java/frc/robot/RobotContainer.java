@@ -38,8 +38,6 @@ import frc.robot.subsystems.KrakenShooterSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PivotIntakeSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystemStatus;
-import frc.robot.subsystems.KrakenShooterSubsystem.KrakenShooterSubsystemStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 import frc.robot.subsystems.PivotIntakeSubsystem.PivotSubsystemStatus;
 import frc.robot.subsystems.Vision.LimelightHelpers;
@@ -138,11 +136,9 @@ public class RobotContainer {
       () -> driverController.getRawButton(OIConstants.aButton),
       () -> driverController.getRawButton(OIConstants.bButton),
       () -> driverController.getRawButton(OIConstants.xButton),
-      () -> driverController.getRawButton(OIConstants.yButton),
+      () -> driverController.getRawButton(OIConstants.yButton)
 
 
-      () -> driverController.getRawButton(OIConstants.kAlignWithTargetButton),
-      () -> driverController.getRawButton(OIConstants.kResetDirectionButton)
     ));
 
     krakenShooterSubsystem.setDefaultCommand(

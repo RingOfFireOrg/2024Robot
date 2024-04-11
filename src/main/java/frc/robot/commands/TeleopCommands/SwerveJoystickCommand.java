@@ -2,11 +2,9 @@ package frc.robot.commands.TeleopCommands;
 
 import java.util.function.Supplier;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
@@ -18,10 +16,10 @@ public class SwerveJoystickCommand extends Command {
     private final SwerveSubsystem swerveSubsystem;
 
     private final Supplier<Double> xSpdFunctionField, ySpdFunctionField, xSpdFunctionRobot, ySpdFunctionRobot, turningSpdFunctionLeft, turningSpdFunctionRight;
-    private final Supplier<Boolean> fieldOrientedFunction, alignFunction, resetDirection, aButton, bButton, xButton, yButton;
+    private final Supplier<Boolean> aButton, bButton, xButton, yButton;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private final XboxController driveController = new XboxController(0);
-    double speedDivide = 2;
+    private double speedDivide = 2;
     
 
     public SwerveJoystickCommand(SwerveSubsystem swerveSubsystem, 
@@ -38,10 +36,8 @@ public class SwerveJoystickCommand extends Command {
             Supplier<Boolean> aButton,
             Supplier<Boolean> bButton,
             Supplier<Boolean> xButton,
-            Supplier<Boolean> yButton,
-
-            Supplier<Boolean> alignButton, 
-            Supplier<Boolean> resetDirectionButton) {
+            Supplier<Boolean> yButton
+            ) {
 
         this.swerveSubsystem = swerveSubsystem;
 
@@ -58,10 +54,6 @@ public class SwerveJoystickCommand extends Command {
         this.bButton = bButton;
         this.xButton = xButton;
         this.yButton = yButton;
-
-        this.fieldOrientedFunction = fieldOrientedFunction;
-        this.alignFunction = alignButton;
-        this.resetDirection = resetDirectionButton;
 
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);

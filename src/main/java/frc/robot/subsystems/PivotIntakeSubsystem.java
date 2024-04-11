@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.Constants;
 
 public class PivotIntakeSubsystem extends SubsystemBase {
   
@@ -57,7 +58,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
   }
 
   public PivotIntakeSubsystem() {
-    intakePivot = new CANSparkMax(34, MotorType.kBrushless);
+    intakePivot = new CANSparkMax(Constants.IDConstants.intakePivot, MotorType.kBrushless);
     intakePivot.setIdleMode(IdleMode.kCoast);
     intakePivot.burnFlash();
     // intakePivotPidController = intakePivot.getPIDController();
@@ -86,14 +87,14 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     intakePivotPIDController_ABS.setTolerance(0.05,0.01);
 
     intakePivotPPIDController = new ProfiledPIDController
-    (3.5, 0, 0.2,
-    new TrapezoidProfile.Constraints(20,20));
-    intakePivotPPIDController.setTolerance(0.009, 0.07);
+    (Constants.IntakeConstants.intakeP, Constants.IntakeConstants.intakeI, Constants.IntakeConstants.intakeD,
+    new TrapezoidProfile.Constraints(Constants.IntakeConstants.MaxVel,Constants.IntakeConstants.MaxAccel));
+    intakePivotPPIDController.setTolerance(Constants.IntakeConstants.PosTolerance, Constants.IntakeConstants.VelTolerance);
 
-    intakFeedforward = new SimpleMotorFeedforward(0.175, 0.2, 1.0);
+    intakFeedforward = new SimpleMotorFeedforward(Constants.IntakeConstants.intakeKs, Constants.IntakeConstants.intakeKv, Constants.IntakeConstants.intakeKa);
 
 
-    noteSensor = new AnalogInput(0); //TODO: move to constants
+    noteSensor = new AnalogInput(0); 
     noteSensor.setAverageBits(4);
 
     noteSensorDIO = new DigitalInput(4);

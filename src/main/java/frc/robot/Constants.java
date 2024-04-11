@@ -142,21 +142,7 @@ public final class Constants {
         public static final int dPadUpLeft = 315;
 
 
-
-
-        
-
-        // ------Above are new for this season-----
-        //delete
-
-        public static final int kDriverControllerPort = 0;
-        public static final int kOperatorControllerPort = 1;
-
-        public static final int kDriverYAxis = 1;
-        public static final int kDriverXAxis = 0;
-        public static final int kDriverRotAxis = 4;
         public static final int kDriverFieldOrientedButtonIdx = 6;
-        public static final int kAlignWithTargetButton = 5;
         public static final int kResetDirectionButton = 4;
 
         public static final double kDeadband = 0.05;
@@ -196,6 +182,25 @@ public final class Constants {
         // once everything finalzises put it into these cus it keeps changinh
         public final class CAN_ID_CONSTANTS {
 
+            public static final int frontLeftDriveMotor = 1;
+            public static final int frontLeftTurnMotor = 2;
+            public static final int frontLeftCANcoder = 9;
+
+            public static final int frontRightDriveMotor = 3;
+            public static final int frontRightTurnMotor = 4;
+            public static final int frontRightCANcoder = 10;
+
+            public static final int backLeftDriveMotor = 5;
+            public static final int backLeftTurnMotor = 6;
+            public static final int backLeftCANcoder = 11;
+
+            public static final int backRightDriveMotor = 7;
+            public static final int backRightTurnMotor = 8;
+            public static final int backRightCANcoder = 12;
+
+
+
+
         }
         public final class PWM_ID_CONSTANTS {
 
@@ -225,6 +230,8 @@ public final class Constants {
         public static final int backRightTurnMotor = 8;
         public static final int backRightCANcoder = 12;
 
+        public static final int intakePivot = 34;
+
         // Attachment IDs
         public static final int intakeWheelMotorID = 21;  // Neo
         public static final int intakePivotMotorID = 22;  // ?
@@ -251,4 +258,26 @@ public final class Constants {
         public static final double translationModifier = 30;
         public static final double roatationModifier= 35;
     }
+
+    public static final class IntakeConstants {
+        public static final String NoteCamera = "limelight-notecam";
+
+        public static final double intakeP = 3.5;
+        public static final double intakeI = 0;
+        public static final double intakeD = 0.2;
+
+        public static final double MaxVel = 20;
+        public static final double MaxAccel = 20;
+
+        public static final double PosTolerance = 0.009;
+        public static final double VelTolerance = 0.07;
+
+
+        public static final double intakeKs = 0.175;
+        public static final double intakeKv = 0.2;
+        public static final double intakeKa = 1.0;
+
+    
+    }
+
 }

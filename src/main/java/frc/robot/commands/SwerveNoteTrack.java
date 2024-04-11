@@ -36,47 +36,44 @@ public class SwerveNoteTrack extends Command {
     @Override
     public void execute() {
 
-        SmartDashboard.putBoolean("LL_backCam Has Note", LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera));
+        SmartDashboard.putBoolean("LL_backCam Has Note", LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera));    
+        double ySpeed = 0;
 
-        //if (LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera) == true) {
-    
-            double ySpeed = 0;
+        double turningSpeed = swerveSubsystem.noteTrackRotSpeed(Constants.VisionConstants.roatationModifier);
+        //double turningSpeed = 0;
+        
+        double xSpeed = swerveSubsystem.noteTrackTranslationSpeed(Constants.VisionConstants.translationModifier) - ((turningSpeed)/4);
+        // //turningSpeed > 0.5 ? xSpeed = 0 : xSpeed;
+        if (turningSpeed > 0.3) {
+            xSpeed = 0;
+        }
+        //double xSpeed = 0;
 
-            double turningSpeed = swerveSubsystem.noteTrackRotSpeed(Constants.VisionConstants.roatationModifier);
-            //double turningSpeed = 0;
-            
-            double xSpeed = swerveSubsystem.noteTrackTranslationSpeed(Constants.VisionConstants.translationModifier) - ((turningSpeed)/4);
-            // //turningSpeed > 0.5 ? xSpeed = 0 : xSpeed;
-            if (turningSpeed > 0.3) {
-                xSpeed = 0;
-            }
-            //double xSpeed = 0;
-
-            SmartDashboard.putNumber("LL_xSpeed", xSpeed);
-            SmartDashboard.putNumber("LL_turnSpeed", turningSpeed);
-            MathUtil.applyDeadband(turningSpeed, xSpeed);
+        SmartDashboard.putNumber("LL_xSpeed", xSpeed);
+        SmartDashboard.putNumber("LL_turnSpeed", turningSpeed);
+        MathUtil.applyDeadband(turningSpeed, xSpeed);
 
 
-            xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
-            ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-            turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+        xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
+        ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
+        turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
 
-            xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-            ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-            turningSpeed = turningLimiter.calculate(turningSpeed)
-                    * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
+        turningSpeed = turningLimiter.calculate(turningSpeed)
+                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
 
-            ChassisSpeeds chassisSpeeds;
-            chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); //robot centric
+        ChassisSpeeds chassisSpeeds;
+        chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); //robot centric
 
-            SmartDashboard.putNumber("LL_xSpeed post calc", xSpeed);
-            SmartDashboard.putNumber("LL_turnSpeed post calc", turningSpeed);
-            // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
-            //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());  //Field Centric
-            
-            SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-            swerveSubsystem.setModuleStates(moduleStates);
-       // }
+        SmartDashboard.putNumber("LL_xSpeed post calc", xSpeed);
+        SmartDashboard.putNumber("LL_turnSpeed post calc", turningSpeed);
+        // chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+        //     xSpeed, ySpeed, turningSpeed, swerveSubsystem.getRotation2d());  //Field Centric
+        
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        swerveSubsystem.setModuleStates(moduleStates);
+       
 
     }
 

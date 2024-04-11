@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.KrakenShooterSubsystem;
 
 public class KrakenShooterTeleop extends Command {
-  KrakenShooterSubsystem krakenShooterSubsystem;
-  Supplier<Double> speed;
+  private KrakenShooterSubsystem krakenShooterSubsystem;
+  private Supplier<Double> speed;
   public KrakenShooterTeleop(KrakenShooterSubsystem krakenShooterSubsystem, Supplier<Double> speed) {
     addRequirements(krakenShooterSubsystem);
     this.krakenShooterSubsystem = krakenShooterSubsystem;
