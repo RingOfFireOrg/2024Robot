@@ -14,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.IDConstants;
+import frc.robot.Constants.ShooterConstants;
 
 
 public class KrakenShooterSubsystem extends SubsystemBase {
@@ -55,24 +57,24 @@ public class KrakenShooterSubsystem extends SubsystemBase {
 
 
   public KrakenShooterSubsystem() {
-    shooterMotorTop = new TalonFX(30);
-    shooterMotorBottom = new TalonFX(31);
+    shooterMotorTop = new TalonFX(IDConstants.krakenShooterMotorTopID);
+    shooterMotorBottom = new TalonFX(IDConstants.krakenShooterMotorBottomID);
 
 
     var shooterConfig = new TalonFXConfiguration();
     shooterConfig.MotorOutput.NeutralMode = NeutralModeValue.Coast;
 
     var slot0Configs = shooterConfig.Slot0;
-    slot0Configs.kS = 0.2;
-    slot0Configs.kV = 0.12; 
-    slot0Configs.kA = 0.01; 
-    slot0Configs.kP = 0.3; 
-    slot0Configs.kI = 0; 
-    slot0Configs.kD = 0.0001; 
+    slot0Configs.kS = ShooterConstants.kS;
+    slot0Configs.kV = ShooterConstants.kV;
+    slot0Configs.kA = ShooterConstants.kA;
+    slot0Configs.kP = ShooterConstants.kP; 
+    slot0Configs.kI = ShooterConstants.kI; 
+    slot0Configs.kD = ShooterConstants.kD; 
 
     var MotionMagicConfig = shooterConfig.MotionMagic;
-    MotionMagicConfig.MotionMagicAcceleration = 200; 
-    MotionMagicConfig.MotionMagicJerk = 4000; 
+    MotionMagicConfig.MotionMagicAcceleration = ShooterConstants.mmAccel; 
+    MotionMagicConfig.MotionMagicJerk = ShooterConstants.mmJerk; 
 
     shooterMotorTop.getConfigurator().apply(shooterConfig);
     shooterMotorBottom.getConfigurator().apply(shooterConfig);

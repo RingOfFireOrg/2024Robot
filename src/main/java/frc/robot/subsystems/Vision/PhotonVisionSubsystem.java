@@ -1,9 +1,7 @@
 package frc.robot.subsystems.Vision;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -85,9 +83,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
     SmartDashboard.putString("LED Mode",TomatoSoup.getLEDMode().name());
 
     if (hasTargets) {
-      List<PhotonTrackedTarget> targets = latestResult.getTargets();
-      PhotonTrackedTarget target = latestResult.getBestTarget();
-
       SmartDashboard.putNumber("AprilTag ID", latestResult.getBestTarget().getFiducialId());
       SmartDashboard.putBoolean("Speaker Tag", latestResult.getBestTarget().getFiducialId() == 7);
       SmartDashboard.putNumber("Pose Ambguiguity ( 0 to 1) ", latestResult.getBestTarget().getPoseAmbiguity());

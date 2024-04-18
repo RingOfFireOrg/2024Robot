@@ -149,69 +149,26 @@ public final class Constants {
     }
 
     public static final class LEDConstants {
-        //TODO: Update all
-        //Put any colors that are relevant
 
-        public int ledLengthBar = 16+15+15;
-        public int ledSegment1Start = 0; // Left bar
-        public int ledSegment2Start = 16; // top Bar
-        public int ledSegment3Start = 16+15; // Right Bar
+        public static int ledSegment1Length = 15;
+        public static int ledSegment2Length = 20;
+        public static int ledSegment3Length = 15;
+
+
+        public static int[] noteColor = {}; 
         
-        public int ledLegnthBoard = 0;
-
-
-
-        public static int[] noteColor = {}; //Find a suitable orange
-        
-        public static int[] PyroTechRed = {105, 3, 12}; //Find a suitable color
+        public static int[] PyroTechRed = {105, 3, 12};
         public static int[] PyroTechOrange = {250, 64, 2}; 
 
         public static int[] CryoTechBlue = {44, 2, 186}; 
         public static int[] CryoTechPurple = {115, 76, 245}; 
 
-        int[] loadingRed = {}; 
-        int[] readyGreen = {}; 
-
-        int[] boardColors = {};
-
-
     }
 
     public static final class IDConstants {
 
-        // once everything finalzises put it into these cus it keeps changinh
-        public final class CAN_ID_CONSTANTS {
-
-            public static final int frontLeftDriveMotor = 1;
-            public static final int frontLeftTurnMotor = 2;
-            public static final int frontLeftCANcoder = 9;
-
-            public static final int frontRightDriveMotor = 3;
-            public static final int frontRightTurnMotor = 4;
-            public static final int frontRightCANcoder = 10;
-
-            public static final int backLeftDriveMotor = 5;
-            public static final int backLeftTurnMotor = 6;
-            public static final int backLeftCANcoder = 11;
-
-            public static final int backRightDriveMotor = 7;
-            public static final int backRightTurnMotor = 8;
-            public static final int backRightCANcoder = 12;
 
 
-
-
-        }
-        public final class PWM_ID_CONSTANTS {
-
-        }
-        public final class OTHER_ID_CONSTANTS {
-            // DIO Port
-            // USB
-            // Analog port
-        }
-
-        //TODO: Update all with new numbers
 
         //Swerve IDs
         public static final int frontLeftDriveMotor = 1;
@@ -233,23 +190,24 @@ public final class Constants {
         public static final int intakePivot = 34;
 
         // Attachment IDs
-        public static final int intakeWheelMotorID = 21;  // Neo
-        public static final int intakePivotMotorID = 22;  // ?
+        public static final int shooterMotorTopID = 24;  
+        public static final int shooterMotorBottomID = 25;
+        
+        public static final int krakenShooterMotorTopID = 30;  
+        public static final int krakenShooterMotorBottomID = 31;
         public static final int shooterPivotMotorID = 23; // Talon
         public static final int shooterTopMotorID = 24;   // Neo
         public static final int shooterBottomMotorID = 25; // Neo
         public static final int leftClimberMotorID = 26; // Neo
         public static final int rightClimberMotorID = 27; //Neo
+
+
+
+        public static final int LEDPort = 8;
         
 
 
-        // 21 - Intake Wheels
-        // 22 - Intake Pivot
-        // 23 - Shooter Pivot 
-        // 24 - Shooter Wheel 1
-        // 25 - Shooter Wheel 2
-        // 26 - Left Climber
-        // 27 - Right Climber
+
     }
 
     public static final class VisionConstants {
@@ -260,7 +218,6 @@ public final class Constants {
     }
 
     public static final class IntakeConstants {
-        public static final String NoteCamera = "limelight-notecam";
 
         public static final double intakeP = 3.5;
         public static final double intakeI = 0;
@@ -278,6 +235,21 @@ public final class Constants {
         public static final double intakeKa = 1.0;
 
     
+    }
+
+    public static final class ShooterConstants {
+        
+        public static final double kS = 0.2;
+        public static final double kV = 0.12; 
+        public static final double kA = 0.01;
+        public static final double kP = 0.3;
+        public static final double kI = 0;
+        public static final double kD = 0.0001; 
+
+        public static final double mmAccel = 200;
+        public static final double mmJerk = 4000;
+
+
     }
 
 }

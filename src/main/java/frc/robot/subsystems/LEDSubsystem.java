@@ -6,27 +6,22 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.IDConstants;
 
 public class LEDSubsystem extends SubsystemBase {
 
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
-  // Store what the last hue of the first pixel is
   private int m_rainbowFirstPixelHue;
-  private int variable1 = 0;
-  private boolean variable2 = true;  
-  private int variable3 = 0;
-  private int hue;
-  private int hue2;
 
 
-  // All of these numbers are wrong now the we only have the top strip 😭
-  private int ledSegment1 = 15;
-  private int ledSegment2 = 20;
-  private int ledSegment3 = 15;
+
+  private int ledSegment1 = Constants.LEDConstants.ledSegment1Length;
+  private int ledSegment2 = Constants.LEDConstants.ledSegment2Length;
+  private int ledSegment3 = Constants.LEDConstants.ledSegment3Length;
 
   int ledLengthBar = ledSegment1 + ledSegment2 +ledSegment3;
   int ledSegment1Start = 0; // Left bar
@@ -36,7 +31,7 @@ public class LEDSubsystem extends SubsystemBase {
 
 
   public LEDSubsystem() {
-    m_led = new AddressableLED(8); // Move to constants
+    m_led = new AddressableLED(IDConstants.LEDPort); 
 
     m_ledBuffer = new AddressableLEDBuffer(ledLengthBar);
     m_led.setLength(m_ledBuffer.getLength());

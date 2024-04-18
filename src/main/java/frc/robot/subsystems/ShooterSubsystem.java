@@ -8,6 +8,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IDConstants;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -73,8 +74,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
     // shooterMotorTop    = new CANSparkMax(Constants.IDConstants.shooterTopMotorID,MotorType.kBrushless);
     // shooterMotorBottom = new CANSparkMax(Constants.IDConstants.shooterBottomMotorID,MotorType.kBrushless);
-    shooterMotorTop    = new CANSparkMax(24,MotorType.kBrushless);
-    shooterMotorBottom = new CANSparkMax(25,MotorType.kBrushless);
+    shooterMotorTop    = new CANSparkMax(IDConstants.shooterMotorTopID,MotorType.kBrushless);
+    shooterMotorBottom = new CANSparkMax(IDConstants.shooterMotorBottomID,MotorType.kBrushless);
 
     shooterMotorTopPIDController = shooterMotorTop.getPIDController();
     shooterTopEncoder = shooterMotorTop.getEncoder();
