@@ -67,7 +67,8 @@ public class RobotContainer {
   HashMap<String, Supplier<Command>> middleHashMap = new HashMap<>();
   ShuffleboardTab codeTestTab = Shuffleboard.getTab("Code Testing");
   ShuffleboardTab generateAutoTab = Shuffleboard.getTab("Generate Auto");
-  
+  ShuffleboardTab visionTab = Shuffleboard.getTab("Vision Tab");
+
 
   GenericEntry amp_topShooter = codeTestTab
     .add("(A)Top Shooter", -200)

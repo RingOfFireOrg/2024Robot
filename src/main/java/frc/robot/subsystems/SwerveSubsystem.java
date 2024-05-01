@@ -310,6 +310,15 @@ public class SwerveSubsystem extends SubsystemBase {
     public double noteTrackRotSpeed(double modifier) {
         return LimelightHelpers.getTX(Constants.VisionConstants.NoteCamera) / modifier;
     }
+
+    public double tagStrafeLockTranslation(double modifier) {
+        //SmartDashboard.putNumber("LL_TY", LimelightHelpers.getTY(Constants.VisionConstants.NoteCamera));
+        return LimelightHelpers.getTY(Constants.VisionConstants.AprilTagCamera) / modifier;
+    }
+
+    public double tagStrafeLockRotation(double modifier) {
+        return LimelightHelpers.getTX(Constants.VisionConstants.AprilTagCamera) / modifier;
+    }
   
     /* ------------------------------------- */
 }

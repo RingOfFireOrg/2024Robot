@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -39,10 +37,10 @@ public class SwerveNoteTrack extends Command {
         SmartDashboard.putBoolean("LL_backCam Has Note", LimelightHelpers.getTV(Constants.VisionConstants.NoteCamera));    
         double ySpeed = 0;
 
-        double turningSpeed = swerveSubsystem.noteTrackRotSpeed(Constants.VisionConstants.roatationModifier);
+        double turningSpeed = swerveSubsystem.noteTrackRotSpeed(Constants.VisionConstants.NoteRotationModifeier);
         //double turningSpeed = 0;
         
-        double xSpeed = swerveSubsystem.noteTrackTranslationSpeed(Constants.VisionConstants.translationModifier) - ((turningSpeed)/4);
+        double xSpeed = swerveSubsystem.noteTrackTranslationSpeed(Constants.VisionConstants.NoteTranslationModifier) - ((turningSpeed)/4);
         // //turningSpeed > 0.5 ? xSpeed = 0 : xSpeed;
         if (turningSpeed > 0.3) {
             xSpeed = 0;
