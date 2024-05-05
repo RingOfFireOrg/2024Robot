@@ -212,7 +212,7 @@ public final class Constants {
 
     public static final class VisionConstants {
         public static final String NoteCamera = "limelight-notecam";
-        public static final String AprilTagCamera = "limelight-tagcam";
+        public static final String AprilTagCamera = "limelight-tag";
 
 
         public static final double NoteTranslationModifier = 30;

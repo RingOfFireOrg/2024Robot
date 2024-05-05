@@ -10,19 +10,25 @@ import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.SwerveSubsystem;
+import frc.robot.subsystems.PivotIntakeSubsystem.NoteSesnorStatus;
 import frc.robot.subsystems.Vision.LimelightHelpers;
 
 public class SwerveNoteTrack extends Command {
 
     private final SwerveSubsystem swerveSubsystem;
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
+    private NoteSesnorStatus noteStatus;
+    private boolean foundNote = false;
     
 
-    public SwerveNoteTrack(SwerveSubsystem swerveSubsystem){
+    public SwerveNoteTrack(SwerveSubsystem swerveSubsystem, NoteSesnorStatus noteStatus){
         this.swerveSubsystem = swerveSubsystem;
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
         this.turningLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAngularAccelerationUnitsPerSecond);
+
+
+        this.noteStatus = noteStatus;
         addRequirements(swerveSubsystem);
     }
 
@@ -45,6 +51,13 @@ public class SwerveNoteTrack extends Command {
         if (turningSpeed > 0.3) {
             xSpeed = 0;
         }
+        if (Math.abs(xSpeed) > 0.01) {
+            foundNote = true;
+        }
+        // if (foundNote == true && noteStatus != NoteSesnorStatus.NOTE_DECTECTED && xSpeed < 0.01) {
+        //     xSpeed = 0.2;
+        // }
+        // else 
         //double xSpeed = 0;
 
         SmartDashboard.putNumber("LL_xSpeed", xSpeed);

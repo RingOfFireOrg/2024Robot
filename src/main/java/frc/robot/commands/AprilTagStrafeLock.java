@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -18,10 +20,10 @@ public class AprilTagStrafeLock extends Command {
 
   private final SwerveSubsystem swerveSubsystem;
   private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
-  private final double leftAxis, rightAxis;
+  private final Supplier<Double> leftAxis, rightAxis;
   ShuffleboardTab visionTab = Shuffleboard.getTab("Vision Tab");
 
-  public AprilTagStrafeLock(SwerveSubsystem swerveSubsystem, double leftAxis, double rightAxis) {
+  public AprilTagStrafeLock(SwerveSubsystem swerveSubsystem, Supplier<Double> leftAxis, Supplier<Double> rightAxis) {
     this.swerveSubsystem = swerveSubsystem;
     this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
     this.yLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -38,10 +40,16 @@ public class AprilTagStrafeLock extends Command {
   @Override
   public void execute() {
 
-    double xSpeed =  leftAxis + rightAxis;  // Based on Controller //TODO: put a deadband
-    double ySpeed = swerveSubsystem.tagStrafeLockTranslation(xSpeed);  // Strafe to Center
-    double turningSpeed = swerveSubsystem.tagStrafeLockTranslation(xSpeed); //Rotate to Center
-
+    double xSpeed =  leftAxis.get() + rightAxis.get();  // Based on Controller //TODO: put a deadband
+    double ySpeed = -swerveSubsystem.tagStrafeLockTranslation(30);  // Strafe to Center
+    double turningSpeed = -swerveSubsystem.tagStrafeLockRotation(1); //Rotate to Center
+    if (turningSpeed > 1) {
+      turningSpeed = 0.5;
+    }
+    else if(turningSpeed > 0.01 && turningSpeed < 0.2) {
+      turningSpeed = 0.3;
+    }
+    turningSpeed = 0;
 
 
     xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
@@ -56,9 +64,9 @@ public class AprilTagStrafeLock extends Command {
     ChassisSpeeds chassisSpeeds;
     chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed); //robot centric
 
-    visionTab.addNumber(getName(), null);
+    //visionTab.addNumber(getName(), null);
     SmartDashboard.putNumber("Tag Strafe Lock (YSpeed)", ySpeed);
-    SmartDashboard.putNumber("Tag Strafe Lock (YSpeed)", turningSpeed);
+    SmartDashboard.putNumber("Tag Strafe Lock (Rot Speed)", turningSpeed);
 
     SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
     swerveSubsystem.setModuleStates(moduleStates);

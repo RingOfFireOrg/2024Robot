@@ -95,7 +95,6 @@ public class PhotonVisionSubsystem extends SubsystemBase {
       SmartDashboard.putNumber("X meters", bestCameraToTarget.getX());
       SmartDashboard.putNumber("Y meters", bestCameraToTarget.getY());
       SmartDashboard.putNumber("Z meters", bestCameraToTarget.getZ());
-
     }  
   }
 

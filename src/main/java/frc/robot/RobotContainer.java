@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.OIConstants;
+import frc.robot.commands.AprilTagStrafeLock;
 import frc.robot.commands.LEDAutoStatus;
 import frc.robot.commands.LEDTeleOpStatus;
 import frc.robot.commands.SwerveNoteTrack;
@@ -195,7 +196,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IntakeDown", pivotIntakeSubsystem.intakeDownPPID());
 
     NamedCommands.registerCommand("Auto Pickup Note", 
-      new SwerveNoteTrack(swerveSubsystem)
+      new SwerveNoteTrack(swerveSubsystem, pivotIntakeSubsystem.getNoteSesnorStatus())
       .alongWith(intakeSubsystem.setMotorSpeeds(0.7))
       .until(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
       .withTimeout(1)
@@ -318,9 +319,13 @@ public class RobotContainer {
 
     /* Auto Pickup */
     new JoystickButton(driverController, Constants.OIConstants.leftBumper)
-      .whileTrue(new SwerveNoteTrack(swerveSubsystem)
+      .whileTrue(new SwerveNoteTrack(swerveSubsystem, pivotIntakeSubsystem.getNoteSesnorStatus())
       .alongWith(intakeSubsystem.setMotorSpeeds(0.8))
       .unless(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
+    );
+
+    new JoystickButton(driverController, Constants.OIConstants.rightBumper)
+      .whileTrue(new AprilTagStrafeLock(swerveSubsystem, () -> driverController.getLeftY(), () -> driverController.getRightY())
     );
     
     /* Runs the Shooter at a speed desirable for Amping */

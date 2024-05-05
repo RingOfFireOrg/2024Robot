@@ -8,7 +8,9 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -16,6 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -79,6 +82,8 @@ public class SwerveSubsystem extends SubsystemBase {
     private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
     ShuffleboardTab generateAutoTab = Shuffleboard.getTab("Generate Auto");
     private Field2d field = new Field2d();
+    private Field2d field2 = new Field2d();
+
     StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault().getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
 
     private final SwerveDriveOdometry odometer = new SwerveDriveOdometry(
@@ -88,6 +93,25 @@ public class SwerveSubsystem extends SubsystemBase {
     private final PIDController yController = new PIDController(AutoConstants.kPYController, 0.0, 0.0);
     private final PIDController xController = new PIDController(AutoConstants.kPXController, 0.0, 0.0);
     private final PIDController thetaController = new PIDController(AutoConstants.kPThetaController,0.0, 0.0);
+
+    private final SwerveDrivePoseEstimator m_poseEstimator = new SwerveDrivePoseEstimator(
+        DriveConstants.kDriveKinematics,
+        gyro.getRotation2d(),
+        new SwerveModulePosition[] {
+            frontLeft.getPosition(),
+            frontRight.getPosition(),
+            backLeft.getPosition(),
+            backRight.getPosition()
+        },
+        new Pose2d(),
+        VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(5)),
+        VecBuilder.fill(0.5, 0.5, Units.degreesToRadians(30))
+    );
+
+    private boolean rejectVisionUpdate = false;
+    private boolean rejectSwerveUpdate = false;
+
+
 
     public SwerveSubsystem() {
 
@@ -224,6 +248,30 @@ public class SwerveSubsystem extends SubsystemBase {
 
         field.setRobotPose(getPose());
         publisher.set(getModuleStates());
+
+        LimelightHelpers.SetRobotOrientation("limelight-tag", m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
+        
+        field2.setRobotPose(mt2.pose);
+        SmartDashboard.putData("Limelight PoseEst", field2);
+
+
+
+        if(Math.abs(gyro.getRate()) > 720) 
+        {
+            rejectVisionUpdate = true;
+        }
+        if(mt2.tagCount == 0)
+        {
+            rejectVisionUpdate = true;
+        }
+        if(!rejectVisionUpdate)
+        {
+            m_poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            m_poseEstimator.addVisionMeasurement(
+                mt2.pose,
+                mt2.timestampSeconds);
+        }
         
     }
 
@@ -313,11 +361,11 @@ public class SwerveSubsystem extends SubsystemBase {
 
     public double tagStrafeLockTranslation(double modifier) {
         //SmartDashboard.putNumber("LL_TY", LimelightHelpers.getTY(Constants.VisionConstants.NoteCamera));
-        return LimelightHelpers.getTY(Constants.VisionConstants.AprilTagCamera) / modifier;
+        return LimelightHelpers.getTX(Constants.VisionConstants.AprilTagCamera) / modifier;
     }
 
     public double tagStrafeLockRotation(double modifier) {
-        return LimelightHelpers.getTX(Constants.VisionConstants.AprilTagCamera) / modifier;
+        return LimelightHelpers.getTY(Constants.VisionConstants.AprilTagCamera) / modifier;
     }
   
     /* ------------------------------------- */
