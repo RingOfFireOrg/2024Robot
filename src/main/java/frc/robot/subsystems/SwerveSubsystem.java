@@ -290,6 +290,13 @@ public class SwerveSubsystem extends SubsystemBase {
         backRight.setDesiredState(desiredStates[3]);
     }
 
+    public void runModuleState(SwerveModuleState[] desiredStates) {
+        frontLeft.runDesiredState(desiredStates[0]);
+        frontRight.runDesiredState(desiredStates[1]);
+        backLeft.runDesiredState(desiredStates[2]);
+        backRight.runDesiredState(desiredStates[3]);
+    }
+
     public SwerveModulePosition[] getSwerveModulePosition() {
         return new SwerveModulePosition[] {
             new SwerveModulePosition(frontLeft.getDrivePosition(), new Rotation2d(frontLeft.getTurningPosition())),

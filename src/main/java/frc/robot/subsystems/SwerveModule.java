@@ -160,6 +160,40 @@ public class SwerveModule {
 
     }
 
+    public void runDesiredState(SwerveModuleState state) {
+
+        SmartDashboard.putNumber("Swerve[" + encId + "] state", getAbsoluteEncoderRad());
+        SmartDashboard.putNumber("degrees_Swerve[" + encId + "] state", Units.radiansToDegrees(getAbsoluteEncoderRad()));
+        SmartDashboard.putNumber("Module[" + encId + "]", state.angle.getDegrees());
+        SmartDashboard.putNumber("swerve_[" + encId + "] Velocity", driveMotor.getEncoder().getVelocity());
+   
+
+        if (Math.abs(state.speedMetersPerSecond) < 0.001) {
+            stop();
+            return;
+        }
+
+        state = SwerveModuleState.optimize(state, getState().angle);
+
+    
+
+        // driveMotor.set(state.speedMetersPerSecond / DriveConstants.kPhysicalMaxSpeedMetersPerSecond);
+        // turningMotor.set(turningPidController.calculate(getTurningPosition(), state.angle.getRadians()));
+        double velocityRadPerSec = (state.speedMetersPerSecond * Math.cos(turnPPIDController.getPositionError())) / Units.inchesToMeters(4.0);;
+        final double driveVoltage =
+            drivePIDController.calculate(Units.rotationsPerMinuteToRadiansPerSecond(driveEncoder.getVelocity()) / 0.14814814814, velocityRadPerSec)
+                 + driveFeedforward.calculate(state.speedMetersPerSecond);
+
+        final double turningVoltage =
+            turnPPIDController.calculate(getState().angle.getRadians(), state.angle.getRadians())
+                + azimuthFeedForward.calculate(turnPPIDController.getSetpoint().velocity);
+
+        SmartDashboard.putNumber("swerve_["+encId+"] driving voltage", driveVoltage);
+        SmartDashboard.putNumber("swerve_["+encId+"] turning voltage", turningVoltage);
+        driveMotor.setVoltage(driveVoltage);
+        turningMotor.setVoltage(turningVoltage);
+    }
+
     public void setDesiredStatePID(SwerveModuleState state) {
         //double angle = absoluteEncoder.getAbsolutePosition();
         double driveVelocity = getDriveVelocity();
@@ -216,5 +250,16 @@ public class SwerveModule {
 
     public double returnDriveMotorTemp() {
         return driveMotor.getMotorTemperature();
+    }
+
+
+
+
+    public void setDriveVoltage(double volts) {
+        driveMotor.setVoltage(volts);
+    }
+
+    public void setTurnVoltage(double volts) {
+        turningMotor.setVoltage(volts);
     }
 }

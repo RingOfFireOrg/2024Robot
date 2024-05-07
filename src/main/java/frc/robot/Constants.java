@@ -79,6 +79,25 @@ public final class Constants {
         public static final double kTeleDriveMaxAngularAccelerationUnitsPerSecond = 4;
     }
 
+    public static final class SwerveConstants {
+
+        /* Distance between right and left wheels */
+        public static final double kTrackWidth =  Units.inchesToMeters(22.75); 
+        /* Distance between front and back wheels */
+        public static final double kWheelBase = Units.inchesToMeters(22.75); 
+        public static final double kDriveBaseRadius = Math.hypot(kTrackWidth / 2.0, kWheelBase / 2.0);
+       
+        public static final double kMaxSpeed = Units.feetToMeters(15.1);
+        public static final double kMaxAngularSpeed = kMaxSpeed / kDriveBaseRadius;
+       
+        public static final double kSlewRateTranslation = 7;    
+        public static final double kSlewRateRotation = 4;
+        public static final double kDeadband = 0.01;
+
+        public static final double kDriveMotorGearRatio = 1 / 6.75; //L2
+        public static final double kTurningMotorGearRatio = 1 / (150/7);
+    }
+
 
     public static final class AutoConstants {
         public static final double kMaxModuleSpeed = 4.5;
