@@ -249,7 +249,8 @@ public class SwerveSubsystem extends SubsystemBase {
         field.setRobotPose(getPose());
         publisher.set(getModuleStates());
 
-        LimelightHelpers.SetRobotOrientation("limelight-tag", m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+//        LimelightHelpers.SetRobotOrientation("limelight-tag", m_poseEstimator.getEstimatedPosition().getRotation().getDegrees(), 0, 0, 0, 0, 0);
+        LimelightHelpers.SetRobotOrientation("limelight-tag", gyro.getYaw(), 0, 0, 0, 0, 0);
         LimelightHelpers.PoseEstimate mt2 = LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight-tag");
         
         field2.setRobotPose(mt2.pose);
@@ -371,8 +372,14 @@ public class SwerveSubsystem extends SubsystemBase {
         return LimelightHelpers.getTX(Constants.VisionConstants.AprilTagCamera) / modifier;
     }
 
-    public double tagStrafeLockRotation(double modifier) {
-        return LimelightHelpers.getTY(Constants.VisionConstants.AprilTagCamera) / modifier;
+    public double tagStrafeLockRotation() {
+        double tagID = LimelightHelpers.getFiducialID(Constants.VisionConstants.AprilTagCamera);
+        double rotateTo = 360;
+        if (tagID == 7); {
+            rotateTo = 0;
+        }
+        return rotateTo;
+        //LimelightHelpers.getTY(Constants.VisionConstants.AprilTagCamera) / modifier;
     }
   
     /* ------------------------------------- */

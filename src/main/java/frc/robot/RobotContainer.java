@@ -33,6 +33,7 @@ import frc.robot.commands.TeleopCommands.IntakePivotTeleop;
 import frc.robot.commands.TeleopCommands.IntakeTeleop;
 import frc.robot.commands.TeleopCommands.KrakenShooterTeleop;
 import frc.robot.commands.TeleopCommands.SwerveJoystickCommand;
+import frc.robot.commands.TeleopCommands.SwerveNewJoystick;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.KrakenShooterSubsystem;
@@ -116,7 +117,7 @@ public class RobotContainer {
       () -> pivotIntakeSubsystem.getNoteSesnorStatus() //Supplier for InfaredSensor
     ));
 
-    swerveSubsystem.setDefaultCommand(new SwerveJoystickCommand(
+    swerveSubsystem.setDefaultCommand(new SwerveNewJoystick(
       swerveSubsystem,
 
       // Left Joystick Field Oriented
@@ -131,15 +132,14 @@ public class RobotContainer {
       () -> driverController.getRawAxis(OIConstants.rightTrigger),
       () -> driverController.getRawAxis(OIConstants.leftTrigger),
 
-      //Varied Assortment of Buttons to click
-      () -> !driverController.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
+      // //Varied Assortment of Buttons to click
+      () -> !driverController.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
 
-      // Speed Buttons
-      () -> driverController.getRawButton(OIConstants.aButton),
-      () -> driverController.getRawButton(OIConstants.bButton),
-      () -> driverController.getRawButton(OIConstants.xButton),
-      () -> driverController.getRawButton(OIConstants.yButton)
-
+      // // Speed Buttons
+      // () -> driverController.getRawButton(OIConstants.aButton),
+      // () -> driverController.getRawButton(OIConstants.bButton),
+      // () -> driverController.getRawButton(OIConstants.xButton),
+      // () -> driverController.getRawButton(OIConstants.yButton)
 
     ));
 
