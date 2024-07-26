@@ -14,7 +14,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -23,9 +22,12 @@ public class SwerveNewJoystick extends Command {
     private final SwerveSubsystem swerveSubsystem;
 
     private final Supplier<Double> xSpdFunctionField, ySpdFunctionField, xSpdFunctionRobot, ySpdFunctionRobot, turningSpdFunctionLeft, turningSpdFunctionRight;
+    private final Supplier<Boolean> aButton, bButton, xButton, yButton;
+
     private final SlewRateLimiter xLimiter, yLimiter, turningLimiter;
     private final SlewRateLimiter xLimiterOLD, yLimiterOLD, turningLimiterOLD;
     private final XboxController driveController = new XboxController(0);
+    private double speedDivide = 2;
 
 
     public SwerveNewJoystick(SwerveSubsystem swerveSubsystem, 
@@ -37,7 +39,11 @@ public class SwerveNewJoystick extends Command {
 
       Supplier<Double> turningSpdFunctionLeft,
       Supplier<Double> turningSpdFunctionRight,
-      Supplier<Boolean> fieldOrientedFunction
+      Supplier<Boolean> fieldOrientedFunction,
+      Supplier<Boolean> aButton,
+      Supplier<Boolean> bButton,
+      Supplier<Boolean> xButton,
+      Supplier<Boolean> yButton
 
       ) 
       {
@@ -52,6 +58,11 @@ public class SwerveNewJoystick extends Command {
 
         this.turningSpdFunctionLeft = turningSpdFunctionLeft;
         this.turningSpdFunctionRight = turningSpdFunctionRight;
+
+        this.aButton = aButton;
+        this.bButton = bButton;
+        this.xButton = xButton;
+        this.yButton = yButton;
 
 
         this.xLimiter = new SlewRateLimiter(DriveConstants.kTeleDriveMaxAccelerationUnitsPerSecond);
@@ -80,13 +91,87 @@ public class SwerveNewJoystick extends Command {
     public void execute() {
       if(driveController.getRawButton(7) == true) {
         swerveSubsystem.fieldCentricReset();
-    }
+      }
+
+      if(aButton.get() == true) {
+        /* 50% Speed */
+        speedDivide = 2;
+      }
+      if(xButton.get() == true) {
+        /* 25% Speed */
+        speedDivide = 4;
+      }
+      if(bButton.get() == true) {
+        /* 75% Speed */
+        speedDivide = 1.3333;
+      }
+      if(yButton.get() == true) {
+        /* 100% Speed */
+        speedDivide = 1; 
+      }
 
       if (Math.abs(xSpdFunctionField.get()) >= 0.05  || Math.abs(ySpdFunctionField.get()) >= 0.05) 
       {
-        double xSpeed = xSpdFunctionField.get(); 
+        if(aButton.get() == true) {
+          /* 50% Speed */
+          speedDivide = 2;
+        }
+        if(xButton.get() == true) {
+            /* 25% Speed */
+            speedDivide = 4;
+        }
+        if(bButton.get() == true) {
+            /* 75% Speed */
+            speedDivide = 1.3333;
+        }
+        if(yButton.get() == true) {
+            /* 100% Speed */
+            speedDivide = 1; 
+        }
+        double xSpeed = xSpdFunctionField.get() / speedDivide; 
         xSpeed = (1 / (1 - SwerveConstants.kDeadband)) * (xSpeed + ( -Math.signum(xSpeed) * SwerveConstants.kDeadband));
-        double ySpeed = ySpdFunctionField.get();
+        double ySpeed = ySpdFunctionField.get()/ speedDivide;
+        double thetaSpeed = turningSpdFunctionLeft.get() - turningSpdFunctionRight.get();
+
+        xSpeed = xLimiter.calculate(xSpeed);
+        ySpeed = yLimiter.calculate(ySpeed);
+        thetaSpeed = turningLimiter.calculate(thetaSpeed);
+
+        double linearMagnitude = Math.pow(MathUtil.applyDeadband(Math.hypot(xSpeed, ySpeed), SwerveConstants.kDeadband),2);
+        //linearMagnitude = linearMagnitude * linearMagnitude;
+        Rotation2d linearDirection = new Rotation2d(xSpeed, ySpeed);
+        thetaSpeed = Math.abs(thetaSpeed) > SwerveConstants.kDeadband ? thetaSpeed : 0.0;
+        thetaSpeed = Math.copySign(thetaSpeed * thetaSpeed, thetaSpeed);
+
+        Translation2d linearVelocity = new Pose2d(new Translation2d(), linearDirection)
+          .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+          .getTranslation();
+
+        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+          linearVelocity.getX() * SwerveConstants.kMaxSpeed, 
+          linearVelocity.getY() * SwerveConstants.kMaxSpeed,
+          thetaSpeed * SwerveConstants.kMaxAngularSpeed, 
+          swerveSubsystem.getRotation2d()
+        );
+
+
+        // ChassisSpeeds chassisSpeeds = new ChassisSpeeds(
+        //   linearVelocity.getX() * SwerveConstants.kMaxSpeed, 
+        //   linearVelocity.getY() * SwerveConstants.kMaxSpeed, 
+        //   thetaSpeed * SwerveConstants.kMaxAngularSpeed);
+
+        ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(discreteSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstants.kMaxSpeed);
+
+        swerveSubsystem.setModuleStates(moduleStates);
+        //swerveSubsystem.setModuleStates(moduleStates);
+      }
+      else if (Math.abs(xSpdFunctionRobot.get()) >= 0.05  || Math.abs(ySpdFunctionRobot.get()) >= 0.05) 
+      {
+        double xSpeed = xSpdFunctionRobot.get() / speedDivide; 
+        xSpeed = (1 / (1 - SwerveConstants.kDeadband)) * (xSpeed + ( -Math.signum(xSpeed) * SwerveConstants.kDeadband));
+        double ySpeed = ySpdFunctionRobot.get() / speedDivide;
         double thetaSpeed = turningSpdFunctionLeft.get() - turningSpdFunctionRight.get();
 
         xSpeed = xLimiter.calculate(xSpeed);
@@ -121,67 +206,47 @@ public class SwerveNewJoystick extends Command {
         SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstants.kMaxSpeed);
 
         swerveSubsystem.setModuleStates(moduleStates);
-        //swerveSubsystem.setModuleStates(moduleStates);
-      }
-      else if (xSpdFunctionRobot.get() >= 0.1 || xSpdFunctionRobot.get() <= -0.1 || ySpdFunctionRobot.get() >= 0.1 || ySpdFunctionRobot.get() <= -0.1)
-      {
-
-        // 1. Get real-time joystick inputs
-        double xSpeed = xSpdFunctionRobot.get();
-        double ySpeed = ySpdFunctionRobot.get();
-        //double ySpeed = 0;
-
-        double turningSpeed = turningSpdFunctionLeft.get() - turningSpdFunctionRight.get();
-
-        // 2. Apply deadband
-        xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
-
-        // 3. Make the driving smoother
-        xSpeed = xLimiterOLD.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiterOLD.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed)
-                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
-
-        // 4. Construct desired chassis speeds
-        ChassisSpeeds chassisSpeeds;
-
-        chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-
-        // 5. Convert chassis speeds to individual module states
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
-
-        // 6. Output each module states to wheels
-        swerveSubsystem.setModuleStates(moduleStates);
 
       }
     else {
         /* Joystick Input */
-        //double xSpeed = xSpdFunctionRobot.get()/speedDivide;
-        //double ySpeed = ySpdFunctionRobot.get()/speedDivide;
         double xSpeed = 0;
+        xSpeed = (1 / (1 - SwerveConstants.kDeadband)) * (xSpeed + ( -Math.signum(xSpeed) * SwerveConstants.kDeadband));
         double ySpeed = 0;
-        double turningSpeed = turningSpdFunctionLeft.get() - turningSpdFunctionRight.get();
+        double thetaSpeed = (turningSpdFunctionLeft.get() - turningSpdFunctionRight.get())*0.85;
 
-        /* Deadband */
-        xSpeed = Math.abs(xSpeed) > OIConstants.kDeadband ? xSpeed : 0.0;
-        ySpeed = Math.abs(ySpeed) > OIConstants.kDeadband ? ySpeed : 0.0;
-        turningSpeed = Math.abs(turningSpeed) > OIConstants.kDeadband ? turningSpeed : 0.0;
+        xSpeed = xLimiter.calculate(xSpeed);
+        ySpeed = yLimiter.calculate(ySpeed);
+        thetaSpeed = turningLimiter.calculate(thetaSpeed);
 
-        /* Ratelimiter/Acceleration Limit */
-        xSpeed = xLimiter.calculate(xSpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        ySpeed = yLimiter.calculate(ySpeed) * DriveConstants.kTeleDriveMaxSpeedMetersPerSecond;
-        turningSpeed = turningLimiter.calculate(turningSpeed)
-                * DriveConstants.kTeleDriveMaxAngularSpeedRadiansPerSecond;
+        double linearMagnitude = Math.pow(MathUtil.applyDeadband(Math.hypot(xSpeed, ySpeed), SwerveConstants.kDeadband),2);
+        //linearMagnitude = linearMagnitude * linearMagnitude;
+        Rotation2d linearDirection = new Rotation2d(xSpeed, ySpeed);
+        thetaSpeed = Math.abs(thetaSpeed) > SwerveConstants.kDeadband ? thetaSpeed : 0.0;
+        thetaSpeed = Math.copySign(thetaSpeed * thetaSpeed, thetaSpeed);
 
-        /* Create Chassis speeds for each module */
-        ChassisSpeeds chassisSpeeds;
-        chassisSpeeds = new ChassisSpeeds(xSpeed, ySpeed, turningSpeed);
-        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(chassisSpeeds);
+        Translation2d linearVelocity = new Pose2d(new Translation2d(), linearDirection)
+          .transformBy(new Transform2d(linearMagnitude, 0.0, new Rotation2d()))
+          .getTranslation();
 
-        /* Output Chassis Speeds */
-        swerveSubsystem.setModuleStates(moduleStates); 
+        ChassisSpeeds chassisSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(
+          linearVelocity.getX() * SwerveConstants.kMaxSpeed, 
+          linearVelocity.getY() * SwerveConstants.kMaxSpeed,
+          thetaSpeed * SwerveConstants.kMaxAngularSpeed, 
+          swerveSubsystem.getRotation2d()
+        );
+
+
+        // ChassisSpeeds chassisSpeeds = new ChassisSpeeds(
+        //   linearVelocity.getX() * SwerveConstants.kMaxSpeed, 
+        //   linearVelocity.getY() * SwerveConstants.kMaxSpeed, 
+        //   thetaSpeed * SwerveConstants.kMaxAngularSpeed);
+
+        ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(chassisSpeeds, 0.02);
+        SwerveModuleState[] moduleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(discreteSpeeds);
+        SwerveDriveKinematics.desaturateWheelSpeeds(moduleStates, SwerveConstants.kMaxSpeed);
+
+        swerveSubsystem.setModuleStates(moduleStates);
       }
 
   }

@@ -133,13 +133,13 @@ public class RobotContainer {
       () -> driverController.getRawAxis(OIConstants.leftTrigger),
 
       // //Varied Assortment of Buttons to click
-      () -> !driverController.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx)
+      () -> !driverController.getRawButton(OIConstants.kDriverFieldOrientedButtonIdx),
 
       // // Speed Buttons
-      // () -> driverController.getRawButton(OIConstants.aButton),
-      // () -> driverController.getRawButton(OIConstants.bButton),
-      // () -> driverController.getRawButton(OIConstants.xButton),
-      // () -> driverController.getRawButton(OIConstants.yButton)
+      () -> driverController.getRawButton(OIConstants.aButton),
+      () -> driverController.getRawButton(OIConstants.bButton),
+      () -> driverController.getRawButton(OIConstants.xButton),
+      () -> driverController.getRawButton(OIConstants.yButton)
 
     ));
 
@@ -324,9 +324,9 @@ public class RobotContainer {
       .unless(() -> pivotIntakeSubsystem.getNoteSesnorStatus() == NoteSesnorStatus.NOTE_DECTECTED)
     );
 
-    new JoystickButton(driverController, Constants.OIConstants.rightBumper)
-      .whileTrue(new AprilTagStrafeLock(swerveSubsystem, () -> driverController.getLeftY(), () -> driverController.getRightY())
-    );
+    // new JoystickButton(driverController, Constants.OIConstants.rightBumper)
+    //   .whileTrue(new AprilTagStrafeLock(swerveSubsystem, () -> driverController.getLeftY(), () -> driverController.getRightY())
+    // );
     
     /* Runs the Shooter at a speed desirable for Amping */
     new JoystickButton(operatorController.getHID(), Constants.OIConstants.xButton)

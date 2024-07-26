@@ -37,7 +37,7 @@ public class SwerveJoystickCommand extends Command {
             Supplier<Boolean> bButton,
             Supplier<Boolean> xButton,
             Supplier<Boolean> yButton
-            ) {
+            ){
 
         this.swerveSubsystem = swerveSubsystem;
 
