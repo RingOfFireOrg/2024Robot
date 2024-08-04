@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import java.sql.Driver;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -51,7 +52,14 @@ public class LEDTeleOpStatus extends Command {
       allianceRed = (alliance.get() == DriverStation.Alliance.Red);
     }
 
-    if (shooterStatus.get() == KrakenShooterSubsystemStatus.READY) {
+    if (DriverStation.isAutonomousEnabled()) {
+      ledSubsystem.rainbow();
+    }
+    else if (DriverStation.isAutonomous()) {
+      ledSubsystem.redMoveSplit();
+      ledSubsystem.setLEDRGB_TOP(0, 0, 0);
+    }
+    else if (shooterStatus.get() == KrakenShooterSubsystemStatus.READY) {
       ledSubsystem.setLEDRGB(0, 255, 0);
     }
     else if (shooterStatus.get() == KrakenShooterSubsystemStatus.REVING) {

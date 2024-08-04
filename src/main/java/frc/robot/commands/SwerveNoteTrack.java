@@ -51,9 +51,7 @@ public class SwerveNoteTrack extends Command {
         if (turningSpeed > 0.3) {
             xSpeed = 0;
         }
-        if (Math.abs(xSpeed) > 0.01) {
-            foundNote = true;
-        }
+ 
         // if (foundNote == true && noteStatus != NoteSesnorStatus.NOTE_DECTECTED && xSpeed < 0.01) {
         //     xSpeed = 0.2;
         // }

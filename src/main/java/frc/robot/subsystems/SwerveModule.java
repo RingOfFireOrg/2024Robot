@@ -76,8 +76,8 @@ public class SwerveModule {
 
         //testMotor = new CANSparkMax(absoluteEncoderId, null);
 
-        driveMotor.setSmartCurrentLimit(60);
-        turningMotor.setSmartCurrentLimit(60);
+        driveMotor.setSmartCurrentLimit(40);
+        turningMotor.setSmartCurrentLimit(40);
 
         driveMotor.burnFlash();
         turningMotor.burnFlash();

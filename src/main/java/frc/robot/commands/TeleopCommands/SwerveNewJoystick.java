@@ -99,7 +99,7 @@ public class SwerveNewJoystick extends Command {
       }
       if(xButton.get() == true) {
         /* 25% Speed */
-        speedDivide = 4;
+        speedDivide = 2.7;
       }
       if(bButton.get() == true) {
         /* 75% Speed */

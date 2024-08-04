@@ -169,9 +169,9 @@ public final class Constants {
 
     public static final class LEDConstants {
 
-        public static int ledSegment1Length = 15;
-        public static int ledSegment2Length = 20;
-        public static int ledSegment3Length = 15;
+        public static int ledSegment1Length = 30;
+        public static int ledSegment2Length = 40;
+        public static int ledSegment3Length = 30;
 
 
         public static int[] noteColor = {}; 
