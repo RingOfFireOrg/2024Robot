@@ -96,6 +96,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
     noteSensor = new AnalogInput(0); 
     noteSensor.setAverageBits(4);
+    pivotEncoder.reset();
 
     noteSensorDIO = new DigitalInput(4);
 
@@ -106,7 +107,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    pivotEncoder.reset();
     /* Sending Intake Position Data */
     double pivotEncoderPos = pivotEncoder.getAbsolutePosition();
     SmartDashboard.putNumber("piIntake Position", pivotEncoderPos);
@@ -114,10 +115,10 @@ public class PivotIntakeSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("pi_ Intake Pivot Get Applied output", intakePivot.getAppliedOutput());
     SmartDashboard.putNumber("pi Intake Motor Controller encoder", intakePivotEncoder.getPosition());
     if ((pivotEncoderPos <= 0.4 && pivotEncoderPos >= 0) ) {
-      pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
-    }
-    else if (pivotEncoderPos <= 1 && pivotEncoderPos >= 0.82) {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_DOWN;
+    }
+    else if (pivotEncoderPos <= 1 && pivotEncoderPos >= 0.52) {
+      pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_UP;
     }
     else {
       pivotSubsystemStatus = PivotSubsystemStatus.INTAKE_MIDAIR;
@@ -199,7 +200,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
   public Command intakeUpPID_ABS() {
     return this
-    .run(() -> {toPositionABS(0.4);})//TODO: move to constants
+    .run(() -> {toPositionABS(0.8);})//TODO: move to constants
     .until(() -> (pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP))
     .finallyDo(() -> stopMotor());
   }
@@ -231,7 +232,7 @@ public class PivotIntakeSubsystem extends SubsystemBase {
 
   public Command intakeUpPPID() {
     return this
-    .run(() -> toPositionPPID(0.4))
+    .run(() -> toPositionPPID(-0.8))
    // .until(() -> intakePivotPIDController.atSetpoint())
 
     .until(() -> pivotSubsystemStatus == PivotSubsystemStatus.INTAKE_UP)

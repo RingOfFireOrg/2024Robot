@@ -79,7 +79,7 @@ public class SwerveSubsystem extends SubsystemBase {
         DriveConstants.kBackRightDriveAbsoluteEncoderReversed
     );
     
-    private final AHRS gyro = new AHRS(SerialPort.Port.kUSB);
+    private final AHRS gyro = new AHRS(SerialPort.Port.kOnboard);
     ShuffleboardTab generateAutoTab = Shuffleboard.getTab("Generate Auto");
     private Field2d field = new Field2d();
     private Field2d field2 = new Field2d();

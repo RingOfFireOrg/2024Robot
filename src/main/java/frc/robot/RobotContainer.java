@@ -57,7 +57,7 @@ public class RobotContainer {
 
   private XboxController driverController = new XboxController(OIConstants.driverControllerPort);
   private CommandXboxController operatorController = new CommandXboxController(OIConstants.operatorControllerPort);
-  private XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
+  //private XboxController climberController = new XboxController(OIConstants.climberControllerPort); 
 
   private SendableChooser<Command> autoChooser = new SendableChooser<>();
 
@@ -158,11 +158,11 @@ public class RobotContainer {
     ));
 
 
-    climberSubsystem.setDefaultCommand(new ClimberTeleop(
-      climberSubsystem, 
-      () -> climberController.getLeftY(),
-      () -> climberController.getRightY()
-    ));
+    // climberSubsystem.setDefaultCommand(new ClimberTeleop(
+    //   climberSubsystem, 
+    //   () -> climberController.getLeftY(),
+    //   () -> climberController.getRightY()
+    // ));
   }
 
   /* Registers Named Commands used in Paths */
@@ -399,13 +399,13 @@ public class RobotContainer {
       .onTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
     );
 
-    new POVButton(climberController, Constants.OIConstants.dPadUp) 
-      .whileTrue(new IntakeUp(pivotIntakeSubsystem, 0.4)
-    );
+    // new POVButton(climberController, Constants.OIConstants.dPadUp) 
+    //   .whileTrue(new IntakeUp(pivotIntakeSubsystem, 0.4)
+    // );
 
-    new POVButton(climberController, Constants.OIConstants.dPadDown) 
-      .whileTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
-    );
+    // new POVButton(climberController, Constants.OIConstants.dPadDown) 
+    //   .whileTrue(new IntakeDown(pivotIntakeSubsystem, 0.4)
+    // );
     
     /* PID Closed Loop Control (Motor Encoder) */
     // new POVButton(operatorController.getHID(), Constants.OIConstants.dPadLeft)
